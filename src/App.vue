@@ -3,6 +3,7 @@
     <!-- <router-view /> -->
     <router-view v-if="isRouterAlive" />
   </div>
+
 </template>
 
 <script>

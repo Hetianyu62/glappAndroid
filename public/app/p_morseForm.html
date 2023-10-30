@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>样本登记</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/plugins/verification/validate.js"></script>
+    <style>
+        .table tbody tr td {
+            font-size: 12px;
+            border: none;
+            white-space: normal;
+        }
+        
+        .table tbody tr td h4 {
+            color: #000;
+        }
+        
+        .morseItems {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .morseItems .item {
+            margin-right: 35px;
+        }
+        
+        .morseItems .item label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .morseItems .item label input {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-fff">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12" style="margin-top: 0px;">
+                <form id="health-form" style="padding: 15px 0px;">
+                    <div class="health-form">
+                        <table class="table">
+                            <caption class="text-center">
+                                <h3>Morse跌倒风险评估量表</h3>
+                            </caption>
+                            <tbody>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="四处走动选择一项" data-class="h1_1">
+                                        <!-- <h4 class="text-left"></h3> -->
+
+                                        <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">四处走动</div> -->
+                                        <!-- <div id='h1_1' class="h1_1">
+                                            <div class="clearfix h_div_box"><label>我四处走动没有困难 <input type="radio" class="pull-right" name="h1_1" value="1"></label></div>
+                                            <div class="clearfix h_div_box"><label>我四处走动有一点困难 <input type="radio" class="pull-right" name="h1_1" value="2"></label></div>
+                                            <div class="clearfix h_div_box"><label>我四处走动有中度的困难 <input type="radio"class="pull-right" name="h1_1" value="3"></label></div>
+                                            <div class="clearfix h_div_box"><label>我四处走动有严重的困难 <input type="radio" class="pull-right"name="h1_1" value="4"></label></div>
+                                            <div class="clearfix h_div_box"><label>我无法四处走动  <input type="radio" class="pull-right"name="h1_1" value="5"></label></div>
+                                        </div> -->
+                                        <h4><strong>1.跌倒史</strong></h4>
+                                        <div class="morseItems" id="morse1">
+                                            <div class="item"><label> <input type="radio" name="m_item1" value="0">近3个月内无跌倒史</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item1" value="25">近3个月内有跌倒史</label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="自我照顾选择一项" data-class="h1_2">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">自我照顾</div> -->
+                                        <h4><strong>2.超过1个疾病医学诊断</strong></h4>
+                                        <div class="morseItems" id="morse2">
+                                            <div class="item"><label> <input type="radio" name="m_item2" value="0">没有</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item2" value="15">有</label></div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="日常活动选择一项" data-class="h1_3">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">日常活动</div> -->
+                                        <h4><strong>3.行走辅助</strong></h4>
+                                        <div class="morseItems" id="morse3">
+                                            <div class="item"><label> <input type="radio" name="m_item3" value="0">不需要/完全卧床/有专人协助</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item3" value="15">拐杖/手杖/助行器</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item3" value="30">依扶家具行走</label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="疼痛或不舒服选择一项" data-class="h1_4">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">疼痛或不舒服</div> -->
+                                        <h4><strong>4.静脉输液/置管/使用药物治疗</strong></h4>
+                                        <div class="morseItems" id="morse4">
+                                            <div class="item"><label> <input type="radio" name="m_item4" value="0">没有</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item4" value="20">有</label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="焦虑或抑郁选择一项" data-class="h1_5">
+
+                                        <h4><strong>5.步态</strong></h4>
+                                        <div class="morseItems" id="morse5">
+                                            <div class="item"><label> <input type="radio" name="m_item5" value="0">正常/卧床/轮椅代步</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item5" value="10">虚弱乏力</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item5" value="20">平衡失调/不平衡</label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="焦虑或抑郁选择一项" data-class="h1_5">
+
+                                        <h4><strong>6. 认知状态</strong></h4>
+                                        <div class="morseItems" id="morse6">
+                                            <div class="item"><label> <input type="radio" name="m_item6" value="0">了解自己能力，量力而行</label></div>
+                                            <div class="item"><label> <input type="radio" name="m_item6" value="10">高估自己能力/忘记自己受限制/意识障碍/躁动不安/沟通障碍/睡眠障碍</label></div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- <tr>
+                      <td>
+                        <button type="button" class="btn btn-default" onclick="submitHealth()">提交</button>
+                      </td>
+                    </tr> -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    // 提交健康量表数据
+    function getFormData() {
+        var m1 = $("#morse1").find("input[type='radio']:checked").val();
+        var m2 = $("#morse2").find("input[type='radio']:checked").val()
+        var m3 = $("#morse3").find("input[type='radio']:checked").val()
+        var m4 = $("#morse4").find("input[type='radio']:checked").val()
+        var m5 = $("#morse5").find("input[type='radio']:checked").val();
+        var m6 = $("#morse6").find("input[type='radio']:checked").val();
+        var data; 
+        if (m1 && m2 && m3 && m4 && m5 && m6) {
+            var stateVal = m1 * 1 + m2 * 1 + m3 * 1 + m4 * 1 + m5 * 1 + m6 * 1;
+            console.log(stateVal, "5656665")
+            var morseRes;
+            if (stateVal < 25) {
+                morseRes = "得分为" + stateVal + "分,低危人群（得分<25分）"
+            }
+
+            if (45 >= stateVal && stateVal >= 25) {
+                morseRes = "得分为" + stateVal + "分,中危人群（得分25~45分）"
+            }
+            if (stateVal > 45) {
+                morseRes = "得分为" + stateVal + "分,高危人群（得分>45分）"
+            }
+            data = {
+                "fallRiskAssessment": morseRes
+            };
+        } else {
+            top.layer.msg("请认真勾选Morse跌倒风险评估量表", {
+                icon: 5,
+                anim: 3
+            });
+            return false;
+        }
+        return data;
+
+    }
+</script>

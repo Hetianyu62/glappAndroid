@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+ <script  type="text/javascript"  src="./static/js/common/Common.js"></script>
+  <script type="text/javascript"  src="./static/js/common/commonJS.js"  charset="utf-8"></script>
+  <script type="text/javascript" src="./static/js/common/plugin.js"></script>
+
+  <script>
+   var tag = decodeURI(getUrlParams("tag"));
+
+  // localStorage.setItem("uuid",tag)
+   $(function () {
+     //alert('初始化加载...');
+     $.ajax({
+       url: apiUrl2 + 'patient/selectzlImgPath',
+       type: 'post',
+       data: { "sessionId": sessionStorage.getItem("token"),"pid":tag },
+       dataType: 'json',
+       success: function(data) {
+       //  for (let i = 0; i < data.data.length; i++) {
+           let content = "";
+           let datas = data.data;
+		   let arr= new Array();
+		   arr=datas[datas.length-1]
+		   debugger
+           console.log(datas)
+         for (let i = 0; i < (datas.length-1); i++) {
+			  let delval=arr[i].path;
+			 console.log(data.data[i])
+           content += '<li style="float: left;list-style-type: decimal;"><div  width: 50%;">'+
+                   ' <img id="img1" style="width: 50%;" src= '+data.data[i]+"?sessionId="+ localStorage.getItem("token") +' alt="">'+
+                   ' <input  value="'+delval+'"  id="'+i+'" style="display: none;"/>  <input  type="button" value="删除" onclick="delcheck('+i+')"></li> '+
+				  
+				   /*' <img id="img1" style="width: 50%;" src= "http://192.168.216.131:8080/wjwgl/zqtys/20210419/1618836920764_561.jpg" alt="">'+*/
+             
+				   ' </li></div>'
+         }
+          /* if(datas.length<2){
+             content = '<div style="float: left ; width: 50%;">'+
+                     ' <img id="img1" style="width: 50%;" src= '+data.data[0]+"?sessionId="+ localStorage.getItem("token") +' alt="">'+
+                     /!*' <img id="img1" style="width: 50%;" src= "http://192.168.216.131:8080/wjwgl/zqtys/20210419/1618836920764_561.jpg" alt="">'+*!/
+                     ' </div>'
+           }else{
+             content = '<div style="float: left ; width: 50%;">'+
+                     ' <img id="img1" style="width: 50%;" src= '+data.data[0]+"?sessionId="+ localStorage.getItem("token") +' alt="">'+
+                     ' </div>' +
+                     '<div style="float: left ;  width: 50%;">' +
+                     '<img id="img2"  style="width: 50%;" src= '+data.data[1]+"?sessionId="+ localStorage.getItem("token") +' alt="">' +
+                     '</div>'
+           }*/
+
+     //    }
+         $("#content").html(content)
+       },
+       error:function () {
+        alert(45);
+       }
+     });
+   })
+   
+   function ajaxCommon(url, data, callback, el, id) {
+       $("#addPatientFrom").publicAjax({
+           url: apiUrl2 + url,
+           type: "get",
+           data: data,
+           //dataType: "json",
+           successFn: function(data) {
+               if (data.code == "0") {
+                   if (id) {
+                       parent.layer.close(id);
+                   }
+                  
+               } else {
+                   layer.alert(data.msg);
+               }
+           }
+       });
+   }
+   
+    function delcheck(val){
+   	var path=document.getElementById(val)
+   	// alert(path.value)
+   	 url='patient/delchenckinfo',
+   	// type: 'get',
+   	 data= {"path": path.value},
+   	// $.ajax({
+   	// 	 url: globalUrl + 'patient/delchenckinfo',
+   	// 	 type: 'get',
+   	// 	 data: {"path": path.value},
+   	 
+   
+   	// }) 
+   	this.ajaxCommon(url,data,"","","")
+   	     document.location.reload();
+   		
+    }
+	function fhbtn(){
+    window.history.go(-1)
+	}
+   
+  </script>
+</head>
+<body>
+	<div style="width: 150px;height: 6.25rem; float: right;margin-top: 30px;"> 
+	
+	<button class="btn btn-primary pull-right flag_btn" type="button" style=" width: 65px;height: 40px; " onclick="fhbtn()">返回</button>
+	
+	</div>
+  <div id = "content">
+     <div style="float: left ; width: 50%;">
+       <img  style="width: 50%;"  alt="">
+     </div>
+   <!-- <div style="float: left ;  width: 50%;">
+      <img style="width: 50%;" src="https://img1.baidu.com/it/u=121148621,1437695918&fm=26&fmt=auto&gp=0.jpg" alt="">
+    </div>-->
+  </div>
+</body>
+</html>

@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+<!--
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-->
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>诊疗记录-检查项目</title>
+  <!-- 引入公共的css和js文件 -->
+  <script src="static/js/common/Common.js"></script>
+  <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+  <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+  <!-- 引入时间插件 -->
+  <script src="static/js/common/commonBD.js" type="text/javascript" charset="utf-8"></script>
+  <script src="static/js/plugins/verification/validate.js"></script>
+  <style>
+    .p_nav_tabs {
+      border-bottom: 0px solid #ddd;
+    }
+
+    .p_nav_tabs>li.active>a,
+    .p_nav_tabs>li.active>a:focus,
+    .p_nav_tabs>li.active>a:hover {
+      background-color: #ffffff !important;
+      color: #000;
+    }
+
+    .p_nav_tabs>li>a {
+      background-color: #ccc !important;
+      border-radius: 0px !important;
+      margin-right: 0px !important;
+      border: 1px solid #ccc;
+      border-bottom-color: #ccc !important;
+    }
+
+    .table tbody tr td {
+      line-height: 34px;
+      width: auto;
+      word-wrap: break-word;
+      word-break: break-all;
+      white-space: normal;
+      border: none;
+      text-align: left;
+    }
+    .table thead tr th {
+    line-height: 34px;
+    width: auto;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    padding: 0px !important;
+    }
+    .table tbody tr td input.form-control {
+      display: inline-block;
+      /* width: auto; */
+    }
+
+    .table tbody tr td input[type='number'] {
+      display: inline-block;
+      width: 100px;
+      margin-right: 20px;
+    }
+
+    .table tbody tr td select.form-control {
+      display: inline-block;
+      /* width: auto; */
+    }
+
+    .table tbody tr td .form-group {
+      margin-bottom: 0px;
+    }
+    .table tbody tr td:first-child{
+      width: 130px !important;
+    }
+    .table tbody tr td label {
+      margin-top: 0px;
+    }
+
+    #p_genetic_2 .table tbody tr td label {
+      width: 120px;
+    }
+
+    #p_title {
+      margin-top: 0px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .btn-submit-group {
+      text-align: center;
+    }
+
+    .btn-submit-group .btn {
+      display: inline-block;
+      padding: 6px 18px;
+      background-color: #009688;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .table tbody tr td div.form-inline {
+      padding: 0px 0px 5px 0px;
+    }
+
+    .table tbody tr td div.form-inline div.form-group,
+    .table tbody tr td div.form-inline div.form-group label {
+      padding: 0px 5px 0px 0px;
+    }
+
+    .p_hide {
+      display: none;
+    }
+
+    .form-group>label {
+      margin-top: 20px;
+    }
+
+    .form-inline {
+      margin-bottom: 5px;
+    }
+    .w100{
+      width: 100px !important;
+    }
+  </style>
+</head>
+
+<body class="bg-fff">
+  <nav class="p_nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="javascript:history.back();">
+          <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
+        <h3 class="nav_title" id="nav_title">检查项目</h3>
+      </div>
+    </div>
+  </nav>
+  <div class="container top46">
+    <div class="row">
+      <div class="clearfix" style="position: fixed;right: 13px;z-index:999999999999999999999999;top:6px;">
+        <button class="btn btn-primary  pull-right flag_btn" type="button" id="update"
+          style="display: none;">操作</button>
+      </div>
+
+      <div class="col-xs-12" style="margin-top: 0px;">
+        <h3 class="text-center" id="p_title"></h3>
+            <div class="" id="page7">
+              <button class="btn btn-primary  pull-right flag_btn" type="button" id="update"
+                style="display: none;">操作</button>
+              <div class="currentDate ">
+                <div class="form-inline">
+                  <!--<div class="form-group">
+                    <label>检查日期</label>
+                    <div class="input-group date p_stopTime">
+                      <input type="text" name="currentDate" check="" id="p_currentDate"
+                        class="form-control  p_disabled  p_required" data-date-format="yyyy-mm-dd">
+                      <span class="input-group-addon" style="line-height:18px!important;">
+                        <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                      </span>
+                    </div>
+                  </div>-->
+                </div>
+              </div>
+              <!-- 检查日期 -->
+              <!-- 基本生化指标 -->
+              <div id="exam_1">
+                <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">基本生化指标</div>
+                <div class="panel-heading">
+
+                  <div class="currentDate ">
+                    <div class="form-inline">
+                      <div class="form-group" style="margin-left: -10px">
+                        <label style=" width: 126px;">基本生化指标</label>
+                        <div class="input-group date p_stopTime">
+                          <input type="text" name="currentDate1"  readonly="readonly"  id="p_currentDate1" onblur="dateBlur(this)"
+                                 class="form-control  p_disabled  p_required" data-date-format="yyyy-mm-dd">
+                          <span class="input-group-addon" style="line-height:18px!important;">
+                        <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                      </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="">
+                  <table class="table ">
+                    <tr>
+                      <td>血总Ca</td>
+                      <td><input type="number" onblur="p_e1_1()" class="form-control" name="e1_1" id="p_e1_1"><span
+                          id="p_d_e1_1">mmol/L</span></td>
+                    </tr>
+                    <tr>
+                      <td>血总Ca备注</td>
+                      <td><input type="text"  class="form-control" name="p_1" id="p_1" style="width: 100%"></td>
+                    </tr>
+                    <tr>
+                      <td>P</td>
+                      <td><input type="number" onblur="p_e1_2()" class="form-control" name="e1_2" id="p_e1_2"><span
+                          id="p_d_e2_1">mmol/L</span></td>
+                    </tr>
+                    <tr>
+                      <td>P备注</td>
+                      <td><input type="text"  class="form-control" name="p_2" id="p_2" style="width: 100%"></td>
+                    </tr>
+                    <tr>
+                      <td>PTH</td>
+                      <td><input type="number" onblur="p_e1_3()" class="form-control" name="e1_3" id="p_e1_3"><span
+                          id="p_d_e3_1">pg/ml</span></td>
+                    </tr>
+                    <tr>
+                      <td>24小时尿Ca</td>
+                      <td><input type="number" onblur="p_e1_4()" class="form-control" name="e1_4" id="p_e1_4"><span
+                          id="p_d_e4_1">mmol/24h</span></td>
+                    </tr>
+                    <tr>
+                      <td>尿P</td>
+                      <td><input type="number" onblur="p_e1_5()" class="form-control" name="e1_5" id="p_e1_5"><span
+                          id="p_d_e5_1">mmol/24h</span></td>
+                    </tr>
+                    <tr>
+                      <td>总25(OH)VitD</td>
+                      <td><input type="number" onblur="p_e1_6()" class="form-control" name="e1_6" id="p_e1_6"><span
+                          id="p_d_e6_1">ng/ml</span></td>
+                    </tr>
+                    <tr>
+                      <td>总25(OH)VitD备注</td>
+                      <td><input type="text"  class="form-control" name="p_3" id="p_3" style="width: 100%"></td>
+                    </tr>
+                    <tr>
+                      <td>1,25(OH)<sub>2</sub>VitD<sub>3</sub></td>
+                      <td><input type="number" onblur="p_e1_7()" class="form-control" name="e1_7" id="p_e1_7"><span
+                          id="p_d_e7_1">ng/ml</span></td>
+                    </tr>
+                  </table>
+                  <div role="separator" class="van-divider van-divider--hairline van-divider--content-center ">肝功</div>
+                  <form id="p_e1_8_form">
+                    <table class="table ">
+                      <tr>
+                        <td>ALT</td>
+                        <td><input type="number" onblur="pe181()" class="form-control" name="e1_8_1"
+                            id="p_e1_8_1"><span id="p_d_e1_8_1">U/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>AST</td>
+                        <td><input type="number" onblur="pe182()" class="form-control" name="e1_8_2"
+                            id="p_e1_8_2"><span id="p_d_e1_8_2">U/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>GGT</td>
+                        <td><input type="number" onblur="pe183()" class="form-control" name="e1_8_3"
+                            id="p_e1_8_3"><span id="p_d_e1_8_3">U/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>Alb</td>
+                        <td><input type="number" onblur="pe184()" class="form-control" name="e1_8_4"
+                            id="p_e1_8_4"><span id="p_d_e1_8_4">g/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>Alb备注</td>
+                        <td><input type="text"  class="form-control" name="p_4" id="p_4" style="width: 100%"></td>
+                      </tr>
+                      <tr>
+                        <td>TBil</td>
+                        <td><input type="number" onblur="pe185()" class="form-control" name="e1_8_5"
+                            id="p_e1_8_5"><span id="p_d_e1_8_5">umol/L</span></td>
+                      </tr>
+                    </table>
+                  </form>
+                  <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">肾功+电解质</div>
+                  <form id="p_e1_9_form">
+                    <table class="table ">
+                      <tr>
+                        <td>Cr</td>
+                        <td><input type="number" onblur="pe191()" class="form-control" name="e1_9_1"
+                            id="p_e1_9_1"><span id="p_d_e1_9_1">umol/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>Cr备注</td>
+                        <td><input type="text"  class="form-control" name="p_5" id="p_5" style="width: 100%"></td>
+                      </tr>
+                      <tr>
+                        <td>K</td>
+                        <td><input type="number" onblur="pe192()" class="form-control" name="e1_9_2"
+                            id="p_e1_9_2"><span id="p_d_e1_9_2">mmol/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>Na</td>
+                        <td><input type="number" onblur="pe193()" class="form-control" name="e1_9_3"
+                            id="p_e1_9_3"><span id="p_d_e1_9_3">mmol/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>TCO<sub>2</sub></td>
+                        <td><input type="number" onblur="pe194()" class="form-control" name="e1_9_4"
+                            id="p_e1_9_4"><span id="p_d_e1_9_4">mmol/L</span></td>
+                      </tr>
+                    </table>
+                  </form>
+                  <div role="separator" class="van-divider van-divider--hairline van-divider--content-center ">血气分析</div>
+                  <form id="p_e1_10_form">
+                    <table class="table ">
+                      <tr>
+                        <td>pH</td>
+                        <td><input type="number" onblur="pe1101()" class="form-control" name="e1_10_1"
+                            id="p_e1_10_1"><span id="p_d_e1_10_1"></span></td>
+                      </tr>
+                      <tr>
+                        <td>pCO<sub>2</sub></td>
+                        <td><input type="number" onblur="pe1102()" class="form-control" name="e1_10_2"
+                            id="p_e1_10_2"><span id="p_d_e1_10_2">mmHg</span></td>
+                      </tr>
+                      <tr>
+                        <td>pO<sub>2</sub></td>
+                        <td><input type="number" onblur="pe1103()" class="form-control" name="e1_10_3"
+                            id="p_e1_10_3"><span id="p_d_e1_10_3">mmHg</span></td>
+                      </tr>
+                      <tr>
+                        <td>HCO<sub>3</sub><sup>-</sup></td>
+                        <td><input type="number" onblur="pe1104()" class="form-control" name="e1_10_4"
+                            id="p_e1_10_4"><span id="p_d_e1_10_4">mmHg</span></td>
+                      </tr>
+                      <tr>
+                        <td>ABE</td>
+                        <td><input type="number" onblur="pe1105()" class="form-control" name="e1_10_5"
+                            id="p_e1_10_5"><span id="p_d_e1_10_5">mmol/L</span></td>
+                      </tr>
+                      <tr>
+                        <td>ESR</td>
+                        <td><input type="number" onblur="pe1106()" class="form-control" name="e1_10_6"
+                            id="p_e1_10_6"><span id="p_d_e1_10_6">mm/h</span></td>
+                      </tr>
+                    </table>
+                  </form>
+                </div>
+
+
+              </div>
+              <!-- 基本生化指标 -->
+              <!-- 骨形成指标 -->
+              <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center ">骨形成指标</div>
+              <div class="">
+                <div class="form-group" style="margin-left: 6px">
+                  <label>骨形成指标</label>
+                  <div class="input-group date p_stopTime pull-right">
+                    <input type="text" name="currentDate2" check="" id="p_currentDate2" readonly="readonly"
+                           class="form-control  p_disabled  p_required" data-date-format="yyyy-mm-dd">
+                    <span class="input-group-addon" style="line-height:18px!important;">
+                        <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                      </span>
+                  </div>
+                </div>
+                <form id="p_exam_2">
+                  <table class="table">
+                    <tr>
+                      <td style="width: 100px;">ALP</td>
+                      <td><input type="number" onblur="pe21()" class="form-control" name="e2_1"
+                          id="p_e2_1"><span id="p_d_e2_1">U/L</span></td>
+                    </tr>
+                    <tr>
+                      <td>ALP备注</td>
+                      <td><input type="text"  class="form-control" name="p_6" id="p_6" style="width: 100%"></td>
+                    </tr>
+                    <tr>
+                      <td>骨源性ALP</td>
+                      <td><input type="number" onblur="pe22()" class="form-control" name="e2_2"
+                          id="p_e2_2"><span id="p_d_e2_2">U/L</span></td>
+                    </tr>
+                    <tr>
+                      <td>骨钙素（BGP）</td>
+                      <td><input type="number" onblur="pe23()" class="form-control" name="e2_3"
+                          id="p_e2_3"><span id="p_d_e2_3">ng/ml</span></td>
+                    </tr>
+                    <tr>
+                      <td>P1NP（1型原胶原N-端前肽）</td>
+                      <td><input type="number" onblur="pe24()" class="form-control" name="e2_4"
+                          id="p_e2_4"><span id="p_d_e2_4">ng/ml</span></td>
+                    </tr>
+                    <tr>
+                      <td>P1NP（1型原胶原N-端前肽）备注</td>
+                      <td><input type="text"  class="form-control" name="p_7" id="p_7" style="width: 100%"></td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+              <!-- 骨形成指标 -->
+              <!-- 骨吸收指标 -->
+              <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center ">骨吸收指标</div>
+              <div class="">
+                <div class="form-group" style="margin-left: 6px">
+                  <label>骨吸收指标</label>
+                  <div class="input-group date p_stopTime pull-right">
+                    <input type="text" name="currentDate3" check="" id="p_currentDate3" readonly="readonly"
+                           class="form-control  p_disabled  p_required" data-date-format="yyyy-mm-dd">
+                    <span class="input-group-addon" style="line-height:18px!important;">
+                        <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                      </span>
+                  </div>
+                </div>
+                <form id="p_exam_3">
+                  <table class="table">
+                    <tr>
+                      <td style="width: 100px;">β-CTX（β胶原降解产物）</td>
+                      <td><input type="number" onblur="pe31()" class="form-control" name="e3_1"
+                          id="p_e3_1"><span id="p_d_e3_1">ng/ml</span></td>
+                    </tr>
+                    <tr>
+                      <td>β-CTX（β胶原降解产物）备注</td>
+                      <td><input type="text"  class="form-control" name="p_8" id="p_8" style="width: 100%"></td>
+                    </tr>
+                    <td>人抗酒石酸酸性磷酸酶5b（TRAP-5b）</td>
+                    <td><input type="number" onblur="pe32()" class="form-control" name="e3_2"
+                        id="p_e3_2"><span id="p_d_e3_2">U/L</span></td>
+                  </table>
+                </form>
+              </div>
+              <!-- 骨形成指标 -->
+              <!-- 性激素水平 -->
+              <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center ">性激素水平</div>
+              
+                <div class="form-group" style="margin-left: 6px">
+                  <label>性激素水平</label>
+                  <div class="input-group date p_stopTime pull-right">
+                    <input type="text" name="currentDate4" check="" id="p_currentDate4" readonly="readonly"
+                           class="form-control  p_disabled  p_required" data-date-format="yyyy-mm-dd">
+                    <span class="input-group-addon" style="line-height:18px!important;">
+                        <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                      </span>
+                  </div>
+                <form id="p_exam_4">
+                  <table class="table">
+                    <tr>
+                      <td style="width:100px;">LH</td>
+                      <td><input type="number" onblur="pe41()" class="form-control" name="e4_1"
+                          id="p_e4_1"><span id="p_d_e4_1">IU/L</span></td>
+                    </tr>
+                    <tr>
+                      <td>FSH</td>
+                      <td><input type="number" onblur="pe42()" class="form-control" name="e4_2"
+                          id="p_e4_2"><span id="p_d_e4_2">IU/L</span></td>
+                    </tr>
+                    <tr>
+                      <td>E2</td>
+                      <td><input type="number" onblur="pe43()" class="form-control" name="e4_3"
+                          id="p_e4_3"><span id="p_d_e4_3">pg/ml</span></td>
+                    </tr>
+                    <tr>
+                      <td>T</td>
+                      <td><input type="number" onblur="pe41()" class="form-control" name="e4_4"
+                          id="p_e4_4"><span id="p_d_e4_4">ng/ml</span></td>
+                    </tr>
+                  </table>
+                </form>
+
+
+                
+
+              <!-- 王英海2022年3月14日新增 --> 
+              <div id = "appendPart0"> 
+                <!-- 胸腰椎侧位X线片    --> 
+               <div class="aaa">
+                   <div class="panel-heading">
+                       <div class="form-inline check p-tag-0" check="radio"  tip-msg="请勾选胸腰椎侧位X线片"  data-class="p-tag-0"> 
+                           <label><strong>胸腰椎侧位X线片</strong></label> 
+                           <input type="radio" name = "otherCheck"   onclick="onwerObj.clk001(this)" value="1">是
+                           <input type="radio" name = "otherCheck"   onclick="onwerObj.clk001(this)" value="0">否
+                           <input type="radio" name = "otherCheck"   onclick="onwerObj.clk001(this)" value="-1">不详
+                          
+                       </div>
+                   </div>
+                   <div class="panel-body part-contro-1 otherCheck-by-name" style="display: none;">
+                       <form id="">
+                           <table class="table table-bordered ">
+                               <tr>
+                                 <td>检查日期</td>
+                                 <td colspan="2">
+                                  <div class="input-group date p_stopTime pull-right">
+                                    <input type="text" name="currentDate5" disabled id="p_currentDate5" readonly="readonly" tip-msg="请填写胸腰椎侧位X线片检查时间" check="required" class="pc-x-yx form-control  p_disabled  p_required" data-date-format="yyyy-mm-dd">
+                                    <span class="input-group-addon" style="line-height:16px!important;">
+                                    <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                                    </span>
+                                </div>
+                                 </td>
+                               </tr>
+                               <tr>
+                                   <td>仪器型号</td>
+                                   <td colspan="2"><input type="text" id = "d5p1ID" name="d5p1" tip-msg="请填写胸腰椎侧位X线片仪器型号" 
+                                        check="required" class="form-control pc-x-yx"></td>
+                               </tr> 
+                               <tr>
+                                   <td>胸椎</td>
+                                   <td colspan="2"  class="p-tag-xz check pc-x-yx" check="radio"  tip-msg="请勾选胸椎是否检查" 
+                                   data-class="p-tag-xz">  
+                                       <input type="radio" name = "d5p2"  onclick="onwerObj.clk112(this)"  value="0">未检查
+                                       <input type="radio" name = "d5p2"  onclick="onwerObj.clk112(this)"  value="1">已检查
+                                   </td>
+                               </tr>
+                               <tr class="d5p2-by-name" style="display: none;">
+                                   <td>检查结果</td>
+                                   <td colspan="2" ><input type="text" name = "d5p3" check="required" tip-msg="请填写检查结果" 
+                                       class="form-control pc-x-yx-01"></input></td>
+                               </tr> 
+                               <tr>
+                                   <td >腰椎</td> 
+                                   <td colspan="2"  class="p-tag-yz check pc-x-yx" check="radio"  tip-msg="请勾选腰椎是否检查" 
+                                   data-class="p-tag-yz">  
+                                       <input type="radio" name = "d5p4"  value="0"  onclick="onwerObj.clk112(this)">未检查
+                                       <input type="radio" name = "d5p4"  value="1"  onclick="onwerObj.clk112(this)">已检查 
+                                   </td>
+                               </tr>
+                               <tr class="d5p4-by-name" style="display: none;">
+                                   <td>检查结果</td>
+                                   <td  colspan="2" ><input type="text" tip-msg="请填写腰椎检查结果" check="required" name = "d5p5" 
+                                       class="form-control  pc-x-yx-02" ></input></td>
+                               </tr>
+                           </table> 
+                       </form>
+                      
+                   </div>
+               </div>  
+
+               <div class="aaa p-ctr-disable">
+                   <div class="panel-heading"> 
+                       <label><strong>其它相关检查及结果</strong></label> 
+                   </div>
+                   <div class="panel-body">
+                       <textarea name="exam_5" id="p_exam_5" class="form-control"></textarea>
+                   </div>
+               </div> 
+               <div class=" p-ctr-disable">
+                   <div class="panel-heading"> 
+                       <label><strong>其它相关检查及结果</strong></label> 
+                   </div>
+                   
+                   <div class="panel-heading p-tag-ck5 check" tip-msg="请勾选其它相关检查及结果" 
+                               check="radio" data-class="p-tag-ck5" > 其它相关检查及结果
+                               <img src="./static/images/tip.png" width="15px" class="tips1" />
+                               <input type="radio" name = "d5pp" value="1"   onclick="onwerObj.otherCheck(this)">是
+                               <input type="radio" name = "d5pp" value="0"   onclick="onwerObj.otherCheck(this)">否
+                               <input type="radio" name = "d5pp" value="-1"  onclick="onwerObj.otherCheck(this)">不详
+                   </div>
+               </div> 
+
+          </div> 
+
+         
+
+           <div id = "appendPart1" class="appendPart1 d5pp-by-name" style="display:none"> 
+            <!-- 数字X线前臂骨密度    -->
+           <div class="aaa p-ctr-disable">
+               <div class="panel-heading">
+                   <div class="form-inline check p-tag-1 pc-other-res" check="radio"  tip-msg="请勾选治数字X线前臂骨密度" 
+                   data-class="p-tag-1"> 
+                       <label><strong>数字X线前臂骨密度</strong></label> 
+                       <input   type="radio" name = "d6p1" value="1" onclick="onwerObj.clk002(this)">是
+                       <input   type="radio" name = "d6p1" value="0" onclick="onwerObj.clk002(this)">否
+                       
+                       
+                   </div>
+               </div>
+               <div class="panel-body">
+                   <form id="p_exam_6" class="d6p1-by-name" style="display: none;">
+                       <table class="table table-bordered  ctr-btn-clazz2">
+                          <tr>
+                            <td>检查日期</td>
+                            <td colspan="2">
+                              <div class="input-group date p_stopTime pull-right">
+                                <input type="text" name="currentDate6"  tip-msg="请填写数字X线前臂骨密度检查时间" check="required"  readonly="readonly"
+                                id="p_currentDate6" class="form-control  p_disabled  p_required pc-other-res-x-qb" data-date-format="yyyy-mm-dd">
+                                <span class="input-group-addon" style="line-height:16px!important;">
+                                <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                           <tr>
+                               <td>仪器型号</td>
+                               <td colspan="2"><input type="text"   name = "d6p2" tip-msg="请填写数字X线前臂骨密度仪器型号" check="required" class="form-control pc-other-res-x-qb"></td>
+                           </tr> 
+                           <tr>
+                               <td>检查部位</td>
+                               <td colspan="2" ><input type="text"  name = "d6p3" tip-msg="请填写数字X线前臂骨密度检查部位" check="required" class="form-control pc-other-res-x-qb"></td>
+                           </tr>
+                           <tr>
+                               <td>检查结果</td>
+                               <td  colspan="2" ><input type="text" name = "d6p4" tip-msg="请填写数字X线前臂骨密度检查结果" check="required" class="form-control pc-other-res-x-qb"></td>
+                           </tr>
+                       </table>
+                   </form>
+               </div>
+           </div>
+           <!--数字X线前臂骨密度   -->
+
+           
+
+           <!-- HR-pQCT -->
+           <div class="aaa p-ctr-disable">
+               <div class="panel-heading">
+                   <div class="form-inline check p-tag-qqct pc-other-res" check="radio"   tip-msg="请勾选HR-pQCT" 
+                   data-class="p-tag-qqct"> 
+                       <label><strong>HR-pQCT</strong></label> 
+                       <input type="radio" name = "d7p1" value="1"  onclick="onwerObj.clk003(this)">是
+                       <input type="radio" name = "d7p1" value="0"  onclick="onwerObj.clk003(this)">否
+                       
+                      
+                   </div>
+               </div>
+               <div class="panel-body">
+                   <form id="p_exam_7" class="d7p1-by-name" style="display: none;">
+                       <table class="table table-bordered ctr-btn-clazz3">
+                          <tr>
+                            <td>检查日期</td>
+                            <td colspan="2">
+                              <div class="input-group date p_stopTime pull-right">
+                                <input type="text" name="currentDate7" tip-msg="请填写HR-pQCT检查时间" check="required"   id="p_currentDate7" readonly="readonly"
+                                 class="form-control  p_disabled  p_required pc-other-res-hrpqct" data-date-format="yyyy-mm-dd">
+                                <span class="input-group-addon" style="line-height:16px!important;">
+                                <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                           <tr>
+                               <td>仪器型号</td>
+                               <td colspan="2"><input type="text"  name = "d7p2" tip-msg="请填HR-pQCT写仪器型号" check="required" class="form-control pc-other-res-hrpqct"></td>
+                           </tr> 
+                           <tr>
+                               <td>检查部位</td> 
+                               <td colspan="2"  class=" check p-tag-ck0 pc-other-res-hrpqct" check="checkbox"   tip-msg="请勾选HR-pQCT检查部位" 
+                               data-class="p-tag-ck0">  
+                                  <input type="checkbox" name = "d7p1l1"  value="1" >左侧桡骨远端
+                                  <input type="checkbox" name = "d7p1r1"  value="2" >右侧桡骨远端
+                                  <input type="checkbox" name = "d7p2l1"  value="3" >左侧胫骨
+                                  <input type="checkbox" name = "d7p2r1"  value="4" >右侧胫骨 
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>检查结果</td>
+                               <td colspan="2" ><input type="text"  name = "d7p3" tip-msg="请填写HR-pQCT检查结果" check="required" class="form-control pc-other-res-hrpqct" ></input></td>
+                           </tr> 
+                       </table>
+                   </form> 
+               </div>
+           </div>
+           <!-- HR-pQCT   -->
+           
+
+         
+
+           <!-- CT -->
+           <div class="aaa p-ctr-disable">
+               <div class="panel-heading">
+                   <div class="form-inline check p-tag-2 pc-other-res" check="radio"   tip-msg="请勾选CT" 
+                   data-class="p-tag-2"> 
+                       <label><strong>CT</strong></label> 
+                       <input type="radio" name = "d8p1" value="1" onclick="onwerObj.clk004(this)">是
+                       <input type="radio" name = "d8p1" value="0" onclick="onwerObj.clk004(this)">否 
+                   </div>
+               </div>
+               <div class="panel-body">
+                   <form id="p_exam_8" class="d8p1-by-name" style="display: none;">
+                       <table class="table table-bordered ctr-btn-clazz4">
+                          <tr>
+                            <td>检查日期</td>
+                            <td colspan="2">
+                              <div class="input-group date p_stopTime pull-right">
+                                <input type="text" name="currentDate8"   id="p_currentDate8" class="form-control  p_disabled  p_required  pc-other-res-ct" 
+                                data-date-format="yyyy-mm-dd" tip-msg="请填写CT检查日期" check="required"  readonly="readonly" >
+                                <span class="input-group-addon" style="line-height:16px!important;">
+                                <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                                </span>
+                            </div>
+                            </td>
+                          </tr>
+                           <tr>
+                               <td>仪器型号</td>
+                               <td colspan="2"><input type="text" name = "d8p2" tip-msg="请填写CT仪器型号" check="required"  class="form-control pc-other-res-ct"  ></td>
+                           </tr> 
+                            
+                           <tr>
+                               <td>检查部位</td>
+                               <td colspan="2" >
+                                   <input type="text"  name = "d8p3"   tip-msg="请填写CT检查部位" check="required" class="form-control pc-other-res-ct" ></input>
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>检查结果</td>
+                               <td  colspan="2"><input type="text"  name = "d8p4" tip-msg="请填写CT检查结果" check="required" class="form-control pc-other-res-ct" ></input></td>
+                           </tr>
+                       </table>
+                   </form> 
+               </div>
+           </div>
+           <!-- QCT   -->
+
+          
+
+           <!-- MRI -->
+           <div class="aaa p-ctr-disable">
+               <div class="panel-heading">
+                   <div class="form-inline check p-tag-3 pc-other-res" check="radio"   tip-msg="请勾选MRI" 
+                    data-class="p-tag-3"> 
+                       <label><strong>MRI</strong></label> 
+                       <input type="radio" name = "d9p1" value="1" onclick="onwerObj.clk005(this)">是
+                       <input type="radio" name = "d9p1" value="0" onclick="onwerObj.clk005(this)">否
+                       
+                       
+                   </div>
+               </div>
+               <div class="panel-body">
+                   <form id="p_exam_9" class="d9p1-by-name" style="display: none;">
+                       <table class="table table-bordered">
+                          <tr>
+                            <td>检查日期</td>
+                            <td colspan="2">
+                              <div class="input-group date p_stopTime pull-right">
+                                <input type="text" name="currentDate9"  tip-msg="请填写MRI检查日期" check="required"  id="p_currentDate9" readonly="readonly"
+                                 class="form-control  p_disabled  p_required pc-other-res-mri" data-date-format="yyyy-mm-dd"> 
+                                <span class="input-group-addon" style="line-height:16px!important;">
+                                <span class="glyphicon glyphicon-calendar" style="line-height:0px!important;"></span>
+                                </span>
+                               </div>
+                            </td>
+                          </tr>
+                           <tr>
+                               <td>仪器型号</td>
+                               <td colspan="2"><input type="text" name = "d9p2" tip-msg="请填写MRI仪器型号" check="required"  class="form-control pc-other-res-mri"  ></td>
+                           </tr>
+                           <tr>
+                               <td>检查部位</td>
+                               <td colspan="2" >
+                                   <input type="text"  name = "d9p3" tip-msg="请填写MRI仪器型号" check="required"  class="form-control pc-other-res-mri"  >
+                               </td>
+                           </tr>
+                           <tr>
+                               <td>检查结果</td>
+                               <td colspan="2" ><input type="text" name = "d9p4" tip-msg="请填写MRI检查结果" check="required"  class="form-control pc-other-res-mri" /></td>
+                           </tr>
+                       </table>
+                   </form> 
+               </div>
+           </div>
+           <!-- MRI   -->
+              <!-- 王英海2022年3月14日新增 -->
+              
+              </div>
+              <!-- 性激素水平 -->
+             
+
+
+              
+              <div class="btn-submit-group">
+                <button class="btn btn-success flag_btn" type="button" id="submitUpdate"
+                  onclick="submitUpdate()">立即提交</button>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  var onwerObj = new Object();
+
+</script>
+<script src="static/js/controller/Patient/p_sampleForm.js"></script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>
+<script>
+
+  // $(function() {
+  //       var tips;
+  //       $('.tips1').on({
+  //           mouseenter: function() {
+  //               var that = this;
+  //               tips = layer.tips("填写要求：请填写患者具体检查项目名称、检测方法以及检查项目中各指标的名称、结果和单位；检查项目如有备注，请填写备注内容。注：填写时请按以上顺序进行填写。", that, {
+  //                   time: 0,
+  //                   tips: [1, '#3595CC'],
+  //                   // area: 'auto',
+  //                   // maxWidth: 500
+  //               });
+  //           },
+  //           mouseleave: function() {
+  //               layer.close(tips);
+  //           }
+  //       });
+  //   })
+
+
+
+    function dateBlur(e) {
+        var reg = /^(\d+)-(\d{1,2})-(\d{1,2})$/;
+        var r = (e.value).match(reg);
+        if(r==null)
+          e.value = "";
+    }
+
+
+
+//王英海-----------------------
+ 
+    //根据胸腰椎侧位X线片的勾选情况排除部分输入框的表单验证
+    onwerObj.excludeClass1 = function(){
+        // 如果 胸腰椎侧位X线片 勾选的不是1 排除样式1 pc-x-yx
+        // 如果 胸腰椎侧位X线片 胸椎  不是1 排除样式2 pc-x-yx-01
+        // 如果 胸腰椎侧位X线片 腰椎  不是1 排除样式2 pc-x-yx-02 
+        var executeClass = "";
+        var a1 = $("input[type=radio][name=otherCheck]:checked").val();
+        if(a1 == "1"){
+            if($("input[type=radio][name=d5p2]:checked").val() != "1"){ 
+                executeClass+="pc-x-yx-01,";
+            }
+            if($("input[type=radio][name=d5p4]:checked").val() != "1"){ 
+                executeClass+="pc-x-yx-02,";
+            }
+        }else{
+            executeClass+="pc-x-yx,"; 
+        }
+        return executeClass+excludeClass2();
+    }
+
+
+    //根据其它相关检查及结果的勾选情况排除部分输入框的表单验证
+    function excludeClass2(){
+        // 如果 其它相关检查及结果 勾选的不是1 排除样式1 pc-other-res
+        // 如果 胸腰椎侧位X线片 胸椎  不是1 排除样式2 pc-x-yx-01
+        // 如果 胸腰椎侧位X线片 腰椎  不是1 排除样式2 pc-x-yx-02 
+        var executeClass = "";
+        var a1 = $("input[type=radio][name=d5pp]:checked").val();
+        if(a1 == "1"){
+            if($("input[type=radio][name=d6p1]:checked").val() != "1"){ //数字X线前臂骨密度 勾选否排除
+                executeClass+="pc-other-res-x-qb,";
+            }
+            if($("input[type=radio][name=d7p1]:checked").val() != "1"){ //HR-pQC 勾选否排除
+                executeClass+="pc-other-res-hrpqct,";
+            }
+            if($("input[type=radio][name=d8p1]:checked").val() != "1"){ //ct 勾选否排除
+                executeClass+="pc-other-res-ct,";
+            }
+            if($("input[type=radio][name=d9p1]:checked").val() != "1"){ //mri 勾选否排除
+                executeClass+="pc-other-res-mri,";
+            }
+        }else{
+            executeClass+="pc-other-res,"; 
+        }
+        return executeClass;
+    }
+
+    //根据方法名称动态调用函数
+    onwerObj.callback = {
+        //勾选 胸腰椎侧位X线片 （实际的方法）
+        "onwerObj.clk001(this)": function (e) { 
+            onOffByName(e); 
+        }, 
+        "onwerObj.clk112(this)": function (e) { 
+            onOffByName(e); 
+        },  
+        // 其它相关检查及结果
+        "onwerObj.otherCheck(this)": function (e) {
+            onOffByName(e);
+        },
+         //勾选 胸腰椎侧位X线片 （实际的方法）
+        "onwerObj.clk002(this)": function (e) {
+            onOffByName(e);
+        },
+         //勾选 HR-pQCT
+         "onwerObj.clk003(this)": function (e) {
+            onOffByName(e);
+        },
+         //勾选 CT
+         "onwerObj.clk004(this)": function (e) {
+            onOffByName(e);
+        },
+         //勾选 MRI
+         "onwerObj.clk005(this)": function (e) {
+            onOffByName(e);
+        }
+        
+    }
+
+
+    //根据当前表单中的值来显示其他的输入框
+    onwerObj.initByInDomVal = function(){
+       var obj1s = $("#appendPart0").find("input[type=radio]:checked");
+       for(var a =0; a<obj1s.length; a++){onwerObj.execute(obj1s[a]);} 
+       var obj2s = $("#appendPart1").find("input[type=radio]:checked");
+       for(var b =0; b<obj2s.length; b++){onwerObj.execute(obj2s[b]);  } 
+    }
+
+    //代理方式执行onclick方法
+    onwerObj.execute = function(dom){
+        if($(dom).attr('onclick')){
+            onwerObj.callback[$(dom).attr('onclick')](dom);
+        }
+    }
+
+
+    //勾选 胸腰椎侧位X线片 
+    onwerObj.clk001 = function(e){ 
+        onwerObj.execute (e); 
+        clearData($("."+$(e).attr('name') +"-by-name" ));
+    }
+
+    //胸腰椎侧位X线片 胸椎 \ 腰椎
+    onwerObj.clk112 = function(e){
+        onwerObj.execute (e); 
+        clearData($("."+$(e).attr('name') +"-by-name" ));
+    }
+
+    //勾选 胸腰椎侧位X线片 是 否 不详 (代理方法)
+    onwerObj.clk002 = function(e){
+        onwerObj.execute (e); 
+        clearData($("."+$(e).attr('name') +"-by-name" ));
+    }
+ 
+     //HR-pQCT
+     onwerObj.clk003 = function(e){ 
+        onwerObj.execute (e); 
+        clearData($("."+$(e).attr('name') +"-by-name" ));
+    }
+
+     //CT
+     onwerObj.clk004 = function(e){ 
+        onwerObj.execute (e); 
+        clearData($("."+$(e).attr('name') +"-by-name" ));
+    }
+
+     //MRI
+     onwerObj.clk005 = function(e){ 
+        onwerObj.execute (e); 
+        clearData($("."+$(e).attr('name') +"-by-name" ));
+    }
+
+     
+
+    //其它相关检查及结果
+    onwerObj.otherCheck = function(e){  
+        onwerObj.execute (e); 
+        clearData($("."+$(e).attr('name') +"-by-name" )); 
+        onwerObj.execute ($("input[type = radio][name = d6p1][value = 0]")); //数字X线前臂骨密度
+        onwerObj.execute ($("input[type = radio][name = d7p1][value = 0]")); //HR-pQCT
+        onwerObj.execute ($("input[type = radio][name = d8p1][value = 0]")); //ct
+        onwerObj.execute ($("input[type = radio][name = d9p1][value = 0]")); //mri
+    }
+ 
+
+    //清楚数据
+    function clearData(clezzs){
+        clearRadioCheck(clezzs);
+        clearCheckCheck(clezzs);
+        clearTextCheck(clezzs);
+    }
+
+
+
+    function clearRadioCheck(clazzs){
+       var radios = $(clazzs).find("input[type='radio']")
+        $.each(radios , function(index , radio){
+           $(radio).prop("checked", false);
+        })
+    }
+
+    function clearCheckCheck(clazzs){
+        var checkboxs = $(clazzs).find("input[type='checkbox']")
+            $.each(checkboxs , function(index , checkbox){
+            $(checkbox).prop("checked", false);
+            })
+    }
+
+    function clearTextCheck(clazzs){
+        var texts = $(clazzs).find("input[type='text']")
+            $.each(texts , function(index , text){
+            $(text).val("");
+            })
+    }
+
+
+
+     //根据名称隐藏显示
+     function onOffByName(e){
+        if( $(e).val() == "1"){
+            $("."+$(e).attr('name') +"-by-name" ).show(); 
+               
+        }else{
+           $("."+$(e).attr('name') +"-by-name").hide();
+        } 
+    }
+//王英海-----------------------  
+
+   
+</script>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Cache" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+    <title>诊疗记录-用药记录详情</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        #p_title {
+            margin-top: 0px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        #p_page1_v1 span,
+        #p_page1_s1 span {
+            display: inline-block;
+            padding: 10px;
+            width: 33.33%;
+        }
+        
+        #p_lastTime_tb {
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .table tbody tr td {
+            line-height: 34px;
+            width: auto;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
+            padding: 3px 0px!important;
+        }
+        
+        .btn-sm {
+            padding: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="bg-fff">
+    <nav class="p_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" onclick="backLeft()">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </a>
+                <h3 class="nav_title" id="nav_title">用药记录</h3>
+            </div>
+        </div>
+    </nav>
+    <div class="container top46">
+        <form action="" id="p_form">
+            <div class="row">
+
+                <div class="col-xs-12" style="margin-top: 0px;">
+                    <!-- <h3 class="text-center" id="p_title"></h3> -->
+
+                    <div class="clearfix" style="position: fixed;right: 13px;z-index:999999999999999999999999;top:6px;">
+                        <div class="pull-right">
+                            <!-- <button class="btn btn-success flag_btn" type="button" id="addMrdicine" onclick="tabsParentSrc('1')">新增</button>   -->
+                            <button type="button" class="btn btn-primary flag_btn" id="updateMrdicine" onclick="tabsParentSrc('2')" style='display: none;'>新增</button>&nbsp;&nbsp;
+                        </div>
+
+                    </div>
+                    <div>
+                        <p id=p_medicine_none></p>
+                        <div id="p_lastTime_tb">
+                            <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">上次用药</div>
+                            <table class="table table-bordered text-left" id="p_page7_tb2">
+                                <thead>
+                                    <tr>
+                                        <th>药品名称</th>
+                                        <th>单次用量</th>
+                                        <th>使用频率</th>
+                                        <th>给药方式</th>
+                                        <th>预计疗程</th>
+                                        <th>操作/状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <p><span id="m_preNote"></span></p>
+                            <p><span id="m_preDoc"></span> &nbsp;&nbsp;&nbsp;&nbsp;<span id="m_preDate"></span></p>
+
+                        </div>
+                        <div id="p_current_tb">
+                            <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">本次用药</div>
+                            <table class="table table-bordered text-left" id="p_page7_tb2">
+                                <thead>
+                                    <tr>
+                                        <th>药品名称</th>
+                                        <th>单次用量</th>
+                                        <th>使用频率</th>
+                                        <th>给药方式</th>
+                                        <th>预计疗程</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><span id="m_note"></span></p>
+                        <p><span id="m_currentDoc"></span> &nbsp;&nbsp;&nbsp;&nbsp;<span id="m_currentDate"></span></p>
+                    </div>
+                </div>
+        </form>
+        </div>
+</body>
+
+</html>
+<script src="static/js/controller/Patient/p_medicineInfo.js?v=1.1"></script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>

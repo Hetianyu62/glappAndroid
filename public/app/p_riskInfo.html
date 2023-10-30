@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>风险筛查</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script
+      src="static/js/common/commonCss.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="static/js/common/commonJS.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>   
+  </head>
+  <body class="bg-fff">
+    <nav class="p_nav">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="javascript:history.back();">
+            <span class="glyphicon glyphicon-menu-left"></span>
+          </a>
+          <h3 class="nav_title">风险筛查</h3>
+        </div>
+      </div>
+    </nav>
+    <div class="container top46">
+      <div class="row">
+        <div class="col-xs-12 top10" id="p_risk_result" >
+          <div class="">
+            <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">一分钟风险测试</div>
+            <div class="" aria-expanded="false"><span id="p_examine1Val"></span></div>
+            <div class="p_result" id="p_riskTest_result">
+              <input type="hidden" name="charCode" id="p_charCode">
+              <input type="hidden" id="p_oneResult">
+              <form id="oneForm">
+                <input type="hidden" name="examine1" id="p_form_examine1">
+                <input type="hidden" name="examine1Value" id="p_form_examine1_value">
+              </form>
+              <div id="p_riskTest_Tip0" style="display:none;"><font color="red">您好！测试结果显示，您存在以下情况：</font></div>
+              <ul id="p_riskTest_result_list">
+                
+              </ul>
+              <div id="p_riskTest_Tip1" style="display:none;"><font color="red">以上情况表明您具有经临床研究实证的风险因子，而它们可能导致骨质疏松症及骨折，但这并不代表您已罹患骨质疏松症，请把这个风险评估的结果告知您的医师，以明确是否需要进一步测试、检查或治疗</font></div>
+              <p></p>
+            </div>
+          </div>
+          <div class="">
+            <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">超声骨测量（QUS）</div>
+            <div class=""><span id="p_examine2Val"></span></div>
+            <div class="p_result" id="p_boneTest_result">
+              <input type="hidden" id="p_qusResult">
+              <form id="qusForm">
+                <input type="hidden" name="examine2" id="p_form_examine2">
+                <input type="hidden" name="examine2Val" id="p_form_examine2Val">
+                <input type="hidden" name="examine2Check"   id="p_form_examine2_check">
+                <input type="hidden" name="examine2Region"  id="p_form_examine2_region">
+                <input type="hidden" name="examine2ValueL1" id="p_form_examine2_value_l1">
+                <input type="hidden" name="examine2ValueL2" id="p_form_examine2_value_l2">
+                <input type="hidden" name="examine2ValueL3" id="p_form_examine2_value_l3">
+                <input type="hidden" name="examine2ValueR1" id="p_form_examine2_value_r1">
+                <input type="hidden" name="examine2ValueR2" id="p_form_examine2_value_r2">
+                <input type="hidden" name="examine2ValueR3" id="p_form_examine2_value_r3">
+              </form>
+              <table class="table table-bordered" style="display: none;">
+                <tbody>
+              <!-- <tr>
+                <td>是否已查</td>
+                <td colspan="3">是</td>
+              </tr> -->
+              <tr>
+                <td>测量部位</td>
+                <td id="p_examine2_check" class="p_tdVal"></td>
+                <td>检查部位</td>
+                <td id="p_examine2_region" class="p_tdVal"></td>
+              </tr>
+              <tr>
+                <td>Region</td>
+                <td>SOS(m/sec)</td>
+                <td>T-score</td>
+                <td>Z-score</td>
+              </tr>
+              <tr class="left">
+                <td>Left</td>
+                <td class="p_tdVal" id="p_examine2_value_l1"></td>
+                <td class="p_tdVal" id="p_examine2_value_l2"></td>
+                <td class="p_tdVal" id="p_examine2_value_l3"></td>
+              </tr>
+              <tr class="right">
+                  <td>right</td>
+                  <td class="p_tdVal" id="p_examine2_value_r1"></td>
+                  <td class="p_tdVal" id="p_examine2_value_r2"></td>
+                  <td class="p_tdVal" id="p_examine2_value_r3"></td>
+                </tr>
+            </tbody>
+          </table>
+          <p></p>
+            </div>
+          </div>
+          <div class="" id="p_ostaBox">
+            <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">亚洲人骨质疏松自我筛查（OSTA）</div>
+            <!-- <div class=""><span id="p_examine3_result"></span> </div> -->
+            <div class="p_result" id="p_selfTest_result">
+                <input type="hidden" id="p_oataResult">
+                <form id="ostaForm">
+                  <input type="hidden" name="examine3Age" id="p_form_examine3_age">
+                  <input type="hidden" name="examine3Weight" id="p_form_examine3_weight">
+                  <input type="hidden" name="examine3" id="p_form_examine3">
+                </form>
+                <table class="table table-bordered" style="display:none;">
+                  <tbody>
+                    <tr>
+                      <td>年龄（岁）</td>
+                      <td class="p_tdVal" id="p_age"></td>
+                      <td>体重（公斤）</td>
+                      <td class="p_tdVal" id="p_examine3_weight"></td>
+                    </tr>
+                    <tr>
+                      <td>筛查结果</td>
+                      <td colspan="3" class="p_tdVal" id="p_examine3"></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p></p>
+              <div>
+              </div>
+            </div>
+          </div>
+          <div id="p_doctor_box">
+            <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">其他信息</div>
+            <div class="p_result" id="p_doctor_result">
+               <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td>筛查医生</td>
+                        <td class="p_tdVal" id="p_hrealname"></td>
+                        <td>筛查日期</td>
+                        <td class="p_tdVal" id="p_createTime"></td>
+                      </tr>
+                    </tbody>
+                  </table>                    
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
+<script src="static/js/controller/p_riskInfo.js"></script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>
+
+

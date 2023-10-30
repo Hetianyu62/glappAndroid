@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>样本登记</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/plugins/verification/validate.js"></script>
+    <style>
+        .table tbody tr td {
+            font-size: 12px;
+            border: none;
+        }
+    </style>
+</head>
+
+<body class="bg-fff">
+    <nav class="p_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" onclick="backLeft()">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </a>
+                <h3 class="nav_title" id="nav_title">健康量表</h3>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12" style="margin-top:46px;">
+                <form id="health-form" style="padding: 15px 0px;">
+                    <div class="health-form">
+                        <table class="table">
+                            <caption class="text-center;" style="font-size: 16px;text-align: center;">欧洲五维健康量表EQ-5D-5L</caption>
+                            <tbody>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="四处走动选择一项" data-class="h1_1">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">四处走动</div>
+                                        <div id='h1_1' class="h1_1">
+                                            <div class="clearfix h_div_box"><label>我四处走动没有困难 <input type="radio" class="pull-right" name="h1_1" value="1"></label></div>
+                                            <div class="clearfix h_div_box"><label>我四处走动有一点困难 <input type="radio" class="pull-right" name="h1_1" value="2"></label></div>
+                                            <div class="clearfix h_div_box"><label>我四处走动有中度的困难 <input type="radio"class="pull-right" name="h1_1" value="3"></label></div>
+                                            <div class="clearfix h_div_box"><label>我四处走动有严重的困难 <input type="radio" class="pull-right"name="h1_1" value="4"></label></div>
+                                            <div class="clearfix h_div_box"><label>我无法四处走动  <input type="radio" class="pull-right"name="h1_1" value="5"></label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="自我照顾选择一项" data-class="h1_2">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">自我照顾</div>
+                                        <div id='h1_2' class="h1_2">
+                                            <div class="clearfix h_div_box"><label>我自己洗澡或穿衣没有困难 <input type="radio" class="pull-right" name="h2_1" value="1"></label></div>
+                                            <div class="clearfix h_div_box"><label>我自己洗澡或穿衣有一点困难    <input type="radio" class="pull-right" name="h2_1" value="2"></label></div>
+                                            <div class="clearfix h_div_box"><label>我自己洗澡或穿衣有中度的困难 <input type="radio"class="pull-right" name="h2_1" value="3"></label></div>
+                                            <div class="clearfix h_div_box"><label>我自己洗澡或穿衣有严重的困难  <input type="radio" class="pull-right"name="h2_1" value="4"></label></div>
+                                            <div class="clearfix h_div_box"><label>我无法自己洗澡或穿衣  <input type="radio" class="pull-right"name="h2_1" value="5"></label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="日常活动选择一项" data-class="h1_3">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">日常活动</div>
+                                        <div id='h1_3' class="h1_3">
+                                            <div class="clearfix h_div_box"><label>我进行日常活动没有困难<input type="radio" class="pull-right" name="h3_1" value="1"></label></div>
+                                            <div class="clearfix h_div_box"><label>我进行日常活动有一点困难    <input type="radio" class="pull-right" name="h3_1" value="2"></label></div>
+                                            <div class="clearfix h_div_box"><label>我进行日常活动有中度的困难 <input type="radio"class="pull-right" name="h3_1" value="3"></label></div>
+                                            <div class="clearfix h_div_box"><label>我进行日常活动有严重的困难  <input type="radio" class="pull-right"name="h3_1" value="4"></label></div>
+                                            <div class="clearfix h_div_box"><label>我无法进行日常活动  <input type="radio" class="pull-right"name="h3_1" value="5"></label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="疼痛或不舒服选择一项" data-class="h1_4">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">疼痛或不舒服</div>
+                                        <div id='h1_4' class="h1_4">
+                                            <div class="clearfix h_div_box"><label>我没有疼痛或不舒服<input type="radio" class="pull-right" name="h4_1" value="1"></label></div>
+                                            <div class="clearfix h_div_box"><label>我有一点疼痛或不舒服    <input type="radio" class="pull-right" name="h4_1" value="2"></label></div>
+                                            <div class="clearfix h_div_box"><label>我有中度的疼痛或不舒服 <input type="radio"class="pull-right" name="h4_1" value="3"></label></div>
+                                            <div class="clearfix h_div_box"><label>我有严重的疼痛或不舒服  <input type="radio" class="pull-right"name="h4_1" value="4"></label></div>
+                                            <div class="clearfix h_div_box"><label>我有非常严重的疼痛或不舒服  <input type="radio" class="pull-right"name="h4_1" value="5"></label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left checkRadio" tip-msg="焦虑或抑郁选择一项" data-class="h1_5">
+                                        <!-- <h4 class="text-left"></h3> -->
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">焦虑或抑郁</div>
+
+                                        <div id='h1_5' class="h1_5">
+                                            <div class="clearfix h_div_box"><label>我没有焦虑或抑郁 <input type="radio" class="pull-right" name="h5_1" value="1"></label></div>
+                                            <div class="clearfix h_div_box"><label>我觉得有一点焦虑或抑郁    <input type="radio" class="pull-right" name="h5_1" value="2"></label></div>
+                                            <div class="clearfix h_div_box"><label>我觉得中度焦虑或抑郁 <input type="radio"class="pull-right" name="h5_1" value="3"></label></div>
+                                            <div class="clearfix h_div_box"><label>我觉得严重焦虑或抑郁  <input type="radio" class="pull-right"name="h5_1" value="4"></label></div>
+                                            <div class="clearfix h_div_box"><label>我觉得非常严重的焦虑或抑郁  <input type="radio" class="pull-right"name="h5_1" value="5"></label></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-left" tip-msg="参考文献" data-class="h1_6">
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">参考文献</div>
+                                        <!-- <h5></h5> -->
+                                        <div>
+                                            <p>[1] Luo N, Li M, Liu GG, Lloyd A, de Charro F, Herdman M. Developing the Chinese version of the new 5-level EQ-5D descriptive system: the response scaling approach. Qual Life Res 2013;22(4):885–890.</p>
+                                            <p>[2] Luo N, Liu G, Li M, Guan H, Jin X, Rand-Hendriksen K. Estimating an EQ-5D-5L Value Set for China. Value Health 2017;20(4):662–669.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                      <td>
+                        <button type="button" class="btn btn-default" onclick="submitHealth()">提交</button>
+                      </td>
+                    </tr> -->
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="btn-submit-group">
+                <button class="btn btn-success" type="button"
+                  onclick="submitUpdate()">立即提交</button>
+              </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    $(function() {
+        sessionStorage.removeItem("healthResult");
+    })
+
+    function submitUpdate() {
+        var data = getFormData();
+        ajaxCommon("healthResult/result", data, healthResultCallback, '', "");
+    }
+    // 数据提交回调
+    // 回显健康量表的得分
+    function healthResultCallback(el, data) {
+        sessionStorage.setItem("healthResult", data);
+        // var json=JSON.stringify({"pid":userJson.pid,"dgId":userJson.dgId});
+        // var updateUrl=src+"/p_heathForm.html?pid="+json;
+        // window.open(updateUrl,"_self");
+        window.history.back(-1);
+    }
+
+    function backLeft() {
+        window.history.back(-1);
+    }
+    // 提交健康量表数据
+    function getFormData() {
+        var h1 = $("#h1_1").find("input[type='radio']:checked").val();
+        var h2 = $("#h1_2").find("input[type='radio']:checked").val()
+        var h3 = $("#h1_3").find("input[type='radio']:checked").val()
+        var h4 = $("#h1_4").find("input[type='radio']:checked").val()
+        var h5 = $("#h1_5").find("input[type='radio']:checked").val();
+        var data;
+        if (h1 && h2 && h3 && h4 && h5) {
+            var stateVal = h1 + h2 + h3 + h4 + h5;
+            data = {
+                "state": stateVal
+            };
+        } else {
+            top.layer.msg("请认真勾选健康量表", {
+                icon: 5,
+                anim: 3
+            });
+            return false;
+        }
+        return data;
+
+    }
+
+    function ajaxCommon(url, data, callback, el, id) {
+        $("#addPatientFrom").publicAjax({
+            url: globalUrl + url,
+            type: "post",
+            data: data,
+            dataType: "json",
+            successFn: function(data) {
+                if (data.code == "0") {
+                    callback(el, data.data, id);
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        });
+    }
+</script>

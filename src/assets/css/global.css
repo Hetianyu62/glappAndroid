@@ -1,0 +1,9 @@
+
+.van-nav-bar__title {
+  max-width: 76%;
+  margin: 0 auto;
+  color: #323233;
+  font-size:30px ;
+  height:35px;
+  line-height: 35px;
+}

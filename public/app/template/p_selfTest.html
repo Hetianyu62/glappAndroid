@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>亚洲人骨质疏松自我筛查（OSTA）</title>
+  <!-- 引入公共的css和js文件 -->
+  <script src="../static/js/common/Common.js"></script>
+  <script src="../static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+  <!-- 引入表单检验插件 -->
+  <script src="../static/js/plugins/verification/validate.js"></script>
+</head>
+
+<body class="bg-fff">
+  <nav class="p_nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" onclick="backLeft()">
+          <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
+        <h3 class="nav_title">亚洲人骨质疏松自我筛查（OSTA）</h3>
+      </div>
+    </div>
+  </nav>
+  <div class="container top46">
+    <div id="addLayer">
+      <div class="top10">
+        <form id="addFrom" class="form-horizontal">
+          <div class="form-group">
+            <label class="col-xs-5 control-label">请选择是否绝经</label>
+            <div class="col-xs-7">
+              <select name="menopauseStatus" id="p_menopauseStatus" tip-msg="请选择是否绝经" onchange="mStatusChange(this)"
+                class="form-control" check='required'>
+                <option value="">请选择</option>
+                <option value="1">是</option>
+                <option value="2">否</option>
+              </select>
+            </div>
+          </div>
+          <input type="hidden" id="p_pid" name="pid" />
+          <input type="hidden" id="p_examine3Age" name="examine3Age" />
+          <div class="form-group" id="p_examine3Box" style="display:none;" tip-msg="请输入患者体重">
+            <label class="col-xs-5 control-label">患者体重</label>
+            <div class="col-xs-7">
+              <input type="number" class="form-control" min="0" name="examine3Weight" id="p_examine3Weight"
+                placeholder="请输入患者体重">
+            </div>
+          </div>
+          <div class="btn-submit-group">
+            <button class="btn btn-success" type="button" onclick="submitUpdate('page1','home')">立即提交</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  var userJson,
+    pId = "0";
+  $(function () {
+    var dataName = decodeURI(getUrlParams("pid")).replace(/\'/g, '"');
+    if (dataName != "") {
+      userJson = JSON.parse(dataName);
+      console.log(userJson);
+      initRoleForm(userJson);
+      pId = userJson.id;
+    }
+    //var form = new CybVerification.FirstVisitForm("addFrom"); 
+  });
+  // 提交
+  function submitUpdate() {
+    var form = new CybVerification.FirstVisitForm("addFrom");
+    var state = form.submit();
+    if (state) {
+      var data = getFormData();
+      if (data.menopauseStatus == 1) {
+        var ostaJson = osta(data.examine3Weight, data.examine3Age);
+        $("#p_form_examine3_age").val(data.examine3Age);
+        $("#p_form_examine3_weight").val(data.examine3Weight);
+        $("#p_form_examine3").val(ostaJson.examine3);
+        json = {
+          pid: userJson.pid,
+          ckId: "",
+          "examine3": ostaJson.examine3
+        };
+        $.extend(data, json);
+        ajaxCommon("examine/optExamineThree", data, ostaCallbak, "", "");
+      } else {
+        $("#p_examine3_result").text("");
+        $("#p_form_examine3_age").val("");
+        $("#p_form_examine3_weight").val("");
+        $("#p_form_examine3").val("");
+        $("#p_selfTest_result table").hide();
+        $("#p_selfTest_result p").html("患者未绝经。无需测试。");
+        var data={"examine3":"","examine3_age":"","examine3_weight":"","examine3Val":"无"}
+        sessionStorage.setItem('r3', JSON.stringify(data));
+        var json = JSON.stringify({
+          "pid": userJson.pid
+        })
+        var src = "../p_riskForm.html?pid=" + json;
+        window.open(src, "_self");
+      }
+    }
+  }
+
+  function ostaCallbak(el, data) {
+    sessionStorage.setItem('r3', JSON.stringify(data));
+    var json = JSON.stringify({
+      "pid": userJson.pid
+    })
+    var src = "../p_riskForm.html?pid=" + json;
+    window.open(src, "_self");
+  }
+
+
+  // form  表单数据回调
+
+  function getFormData() {
+    var arr;
+    var form = new CybVerification.FirstVisitForm("addFrom");
+    var state = form.submit();
+    if (state) {
+      arr = $("#addFrom").serializeObject();
+    } else {
+      arr = "";
+    }
+    return arr;
+  }
+
+  // 修改界面初始化
+  function initRoleForm(data) {
+    for (var key in data) {
+      $("#p_" + key).val(data[key]);
+      $("#p_" + key)
+        .find("option[value='" + data[key] + "']")
+        .attr("selected", true);
+    }
+  }
+  // 是否绝经
+  function mStatusChange(th) {
+    // menopauseStatus=$(th).val();
+    if ($(th).val() == 2) {
+      $("#p_examine3Box").hide();
+      $("#p_examine3Weight").val("");
+      $("#p_examine3Weight").removeAttr("check");
+    } else {
+      $("#p_examine3Box").show();
+      $("#p_examine3Weight").val("");
+      $("#p_examine3Weight").attr("check", "required");
+    }
+  }
+  // OSTA 计算
+  function osta(weight, age) {
+    $("#p_examine3_result").val();
+    //获得输入的体重和年龄
+    var weight = weight;
+    var age = age;
+    //判断是否有空值
+    if (weight == "" || age == "") {
+      alert("请输入完整的数据");
+      return;
+    }
+    //验证两个框的值是否是数字
+    var reg = /^\d+$/;
+    var re1 = weight.match(reg);
+    var re2 = age.match(reg);
+
+    if (re1 == null || re2 == null) {
+      alert("请输入整数");
+      return;
+    }
+    if (weight < 40 || weight > 94 || age < 40 || age > 99) {
+      alert("数据超出范围：年龄(40~99) 体重(40~94)");
+      return;
+    }
+
+    var result = (weight - age) * 0.2;
+    result = result.toFixed(2);
+
+    var ost = 'OSTA评分为：' + result + '，患骨质疏松症的风险级别为：';
+    var rel;
+    var key;
+    if (result > -1) {
+      ost += '低';
+      rel = '低';
+      key = 1;
+    } else if (result < -4) {
+      ost += '高';
+      rel = '高';
+      key = 3;
+    } else {
+      ost += '中';
+      rel = '中';
+      key = 2;
+    }
+    return {
+      "ost": ost,
+      "examine3": key,
+      "result": result
+    };
+  }
+  function backLeft() {
+    var json = JSON.stringify({
+      "pid": userJson.pid
+    })
+    var src = "../p_riskForm.html?pid=" + json;
+    window.open(src, "_self");
+  }
+</script>
+
+</html>

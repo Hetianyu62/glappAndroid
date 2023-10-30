@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>诊疗记录-随诊</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonBD.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/plugins/verification/validate.js"></script>
+    <style>
+        .table tbody tr td {
+            line-height: 34px;
+            width: auto;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
+            border: none;
+            padding: 3px 0px !important;
+        }
+        
+        .table tbody tr td input.form-control {
+            display: inline-block;
+            /* width: auto; */
+        }
+        
+        .table tbody tr td input[type='number'] {
+            display: inline-block;
+            /* width: 100px; */
+        }
+        
+        .table tbody tr td select.form-control {
+            display: inline-block;
+            /* width: auto; */
+        }
+        
+        .table tbody tr td .form-group {
+            margin-bottom: 0px;
+        }
+        
+        .table tbody tr td label {
+            margin-top: 0px;
+        }
+        
+        #p_genetic_2 .table tbody tr td label {
+            width: 120px;
+        }
+        
+        #p_title {
+            margin-top: 0px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .btn-submit-group {
+            text-align: center;
+        }
+        
+        .btn-submit-group .btn {
+            display: inline-block;
+            padding: 6px 18px;
+            background-color: #009688;
+            color: #fff;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 14px;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        
+        .table-bordered {
+            border: none;
+        }
+        
+        .border_table {
+            border: 1px solid #ccc;
+        }
+        
+        .border_table tbody tr td {
+            line-height: 34px;
+            width: auto;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
+            border: 1px solid #ccc;
+            padding: 3px 0px !important;
+            vertical-align: middle;
+        }
+        
+        .table>tbody+tbody {
+            border: none;
+        }
+        
+        .table tbody tr td {
+            width: 100%!important;
+            padding: 5px!important;
+        }
+        
+        .badStatus {
+            border: 1px solid #ccc;
+        }
+        
+        .badStatus .btn {
+            position: absolute;
+            right: 0;
+        }
+
+
+        .Ztclass , .Szclass , .Xzclass,
+        .Ztclass1 , .Szclass1 , .Xzclass1{
+            margin-left: 5%;
+            border-bottom: 2px dashed;
+            border-color: #705a5a87;
+        }
+        
+    </style>
+</head>
+
+<body class="bg-fff">
+    <nav class="p_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" onclick="backLeft()">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </a>
+                <h3 class="nav_title" id="nav_title">随诊</h3>
+            </div>
+        </div>
+    </nav>
+    <div class="container top46">
+        <div class="row">
+            <div class="col-xs-12 p0">
+                <div class="clearfix">
+                    <ul id="myTab" class="nav nav-tabs p_nav_tabs pull-left ">
+                        <li class="active"><a href="#page6" data-toggle="tab">随诊信息</a></li>
+                        <li class="p_gender" style="display: none;"><a href="#page7" data-toggle="tab">月经史</a></li>
+                        <li><a href="#page8" data-toggle="tab">诊断</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="margin-top: 0px;">
+                <div id="myTabContent" class="tab-content" style="margin-top:10px;">
+                    <div class="tab-pane fade in active" id="page6">
+                        <form action="" id="p_page6">
+                            <div>
+                                <table class="table table-bordered text-left" id="p_patientFormtb">
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="red">*</span>本次是否填写健康量表：</td>
+                                            <td>
+                                                <select name="h1_check" id="p_h1_check" class="form-control" check="required" onchange="health(this)" tip-msg="请填写本次诊疗的健康量表">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">是</option>
+                                                    <option value="0">否</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>健康指数得分：</td>
+                                            <td>
+                                                <input type="hidden" id="p_h1_a" name="h1_a" readonly class="form-control" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p><strong>mult8re_rescaled:</strong> &nbsp;&nbsp;<span id="p_page1_h1_a_3"></span></p>
+                                                <p><strong>mult8re_SE:</strong>&nbsp;&nbsp;<span id="p_page1_h1_a_4"></span></p>
+                                                <p><strong>mult8re_2.5_percentile:</strong>&nbsp;&nbsp;<span id="p_page1_h1_a_0"></span></p>
+                                                <p><strong>mult8re_97.5_percentile:</strong>&nbsp;&nbsp;<span id="p_page1_h1_a_2"></span></p>
+                                                <p><strong>mult8re_95_percentage_ci_width:</strong>&nbsp;&nbsp;<span id="p_page1_h1_a_1"></span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="red">*</span>本次是否进行FRAX骨折风险测评：</td>
+                                            <td>
+                                                <select name="isFrax" id="p_isFrax" class="form-control" check="required" onchange="frax(this)" tip-msg="请填写本次诊疗的FRAX骨折风险测评">
+                          <option value="">请选择</option>
+                          <option value="1">是</option>
+                          <option value="0">否</option>
+                        </select>
+                                            </td>
+                                        </tr>
+                                        <tbody id="fraxShow">
+                                            <tr>
+                                                <td><span class="must">*</span> 风险评估是否纳入了股骨颈骨密度：
+                                                </td>
+                                                <td>
+                                                    <select name="isDensity" id="p_isDensity" class="form-control" tip-msg="请选择风险评估是否纳入了股骨颈骨密度" style="display: inline-block;width: 100px;">
+                                                        <option value="">请选择</option>
+                                                        <option value="1">是</option>
+                                                        <option value="0">否</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="red">*</span>未来10年髋部骨折概率（%）：
+                                                </td>
+                                                <td>
+                                                    <input min="0" max="100" type="number" class="form-control" name="fractureRate" id="p_fractureRate">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="red">*</span>未来10年主要骨质疏松性骨折概率（%）：
+                                                </td>
+                                                <td>
+                                                    <input min="0" max="100" type="number" class="form-control" name="osteoporticFracture" id="p_osteoporticFracture">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tr>
+                                            <td><span class="red">*</span>本次是否进行Morse跌倒风险评估：
+                                            </td>
+                                            <td>
+                                                <select name="isMorse" id="p_isMorse" class="form-control" check="required" onchange="morse(this)" tip-msg="请填写本次诊疗的Morse跌倒风险评估">
+                          <option value="">请选择</option>
+                          <option value="1">是</option>
+                          <option value="0">否</option>
+                        </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Morse跌倒风险评估结果：
+                                            </td>
+                                            <td style="border-bottom: 1px solid rgb(178, 175, 175);">
+                                                <span id="morseResult"></span>
+                                                <!-- <input type="text" class="form-control" name="fallRiskAssessment" id="p_fallRiskAssessment" style="width: 100%!important;"> -->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold;">
+                                                不良反应/事件
+                                            </td>
+                                        </tr>
+                                        <tr id="thisAdrs" tip-msg="请点击“＋”号按钮添加信息">
+                                            <td> <span class="red">*</span>自上次诊疗后，治疗过程是否有不良反应/事件</td>
+                                            <td>
+                                                <select name="d_2" id="d_2" class="form-control" check="required" onchange="d_2_select(this)" tip-msg="请选择治疗过程是否有不良反应/事件" style="display: inline-block;width: 100px;">
+                            <option value="">请选择</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                          </select>
+                                                <button class="btn btn-danger btn-sm text-center" disabled id="addButton" type="button" onclick="addBadStatus('#adrshow','blfy')"><span class="glyphicon glyphicon-plus"></span></button>
+                                            </td>
+                                        </tr>
+                                        <tbody id="adrshow">
+                                             
+                                        </tbody>
+
+
+                                        <tr id="">
+                                            <td><span class="red">*</span>身高（CM）：</td>
+                                            <td><input type="number" class="form-control" min="0" name="height" id="p_height" class="form-control" check="required height" tip-msg="身高填写范围（100-220）" onpropertychange="countBmi(this)" oninput="countBmi(this)"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="red">*</span>体重（KG）：</td>
+                                            <td><input type="number" class="form-control" min="0" name="weight" id="p_weight" class="form-control" check="required weight" tip-msg="体重填写范围（15-150）" onpropertychange="countBmi(this)" oninput="countBmi(this)"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>BMI<span>(kg/m<sup>2</sup>)</span>：</td>
+                                            <td><input type="number" class="form-control" readonly="readonly" name="BMI" id="p_BMI"></td>
+                                        </tr>
+                                        <!-- <tr>
+                      <td>就诊日期：</td>
+                      <td>
+                        <div class="pull-left">
+                          <div class="input-group date p_diagnosisDate">
+                            <input type="text" name="zddate" tip-msg="请填写就诊日期" check="required" id="p_zddate" class="form-control p_zddate" data-date-format="yyyy-mm-dd" readonly="readonly">
+                            <span class="input-group-addon" style="line-height:22px!important;">
+                              <i class="glyphicon glyphicon-th"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>-->
+                                        <!-- <tr>
+                      <td>就诊次数：</td>
+                      <td><input type="text" readonly name="diagnosisNum" class="form-control" id="p_diagnosisNum">
+                      </td>
+                    </tr>-->
+                                        <tr>
+                                            <td><span class="red">*</span>是否按医嘱使用药物治疗：</td>
+                                            <td>
+                                                <select name="diagnoseDrug" id="p_diagnoseDrug" class="form-control p_other_select" check="required" tip-msg="请选择是否按医嘱使用药物治疗">
+                          <option value="">请选择</option>
+                          <option value="1">是</option>
+                          <option value="0">否</option>
+                        </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>原因：</td>
+                                            <td><input type="text" name="diagnoseDrug_z" id="p_diagnoseDrug_z" class="form-control input-inline"></td>
+                                        </tr>
+
+                                </table>
+                            </div>
+
+                        </form>
+                        <div class="btn-submit-group">
+                            <button class="btn btn-success" type="button" onclick="submitUpdate('page6','page6')">立即提交</button>
+                            <button class="btn btn-success zcBtn" type="button" onclick="submitzc('page6','page6')">暂存</button>
+                        </div>
+                    </div>
+                    <!-- 月经史 -->
+                    <div id="page7" class=" tab-pane fade">
+                        <div class="p_gender" style="display: none;">
+                            <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">月经史</div>
+                            <div>
+                                <form id="p_genetic_2">
+                                    <div class="input-inline">
+                                        <label><span class="red">*</span>是否绝经</label>
+                                        <select name="g2_a" id="p_g2_a" class="form-control input-inline p_other_select" check="required">
+                    <option value="">请选择</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                  </select>
+                                    </div>
+                                    <div class="input-inline jj" style="display: none;">
+                                        <label><span class="red">*</span>绝经年龄（岁）</label>
+                                        <input type="text" name="g2_a_age" id="p_g2_a_age" class="form-control input-inline input-age" onblur="checkg2Age(this)">
+                                    </div>
+                                    <div class="input-inline">
+                                        <label><span class="red">*</span>是否因其它原因停经</label>
+                                        <select name="g2_b" id="p_g2_b" class="form-control input-inline p_other_select" check="required">
+                    <option value="">请选择</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                  </select>
+                                    </div>
+                                    <div class="input-inline tj" style="display: none;">
+                                        <label><span class="red">*</span>停经年龄（岁）</label>
+                                        <input type="text" name="g2_b_age" id="p_g2_b_age" class="form-control input-inline input-age" onblur="checkg2Age(this)">
+                                        <label><span class="red">*</span>其它停经原因</label>
+                                        <input type="text" name="g2_b_note" id="p_g2_b_note" class="form-control input-inline">
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="btn-submit-group">
+                                <button class="btn btn-success" type="button" onclick="submitUpdate('page7','page7')">立即提交</button>
+                                <button class="btn btn-success zcBtn" type="button" onclick="submitzc('page7','page7')">暂存</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- 月经史 -->
+                    <div class="tab-pane fade" id="page8">
+                        <div class="">
+
+                            <table class="table table-bordered text-left">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div role="separator" class="van-divider van-divider--hairline van-divider--content-center  van-divider_active">
+                                                DXA骨密度检查</div> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td colspan="2">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-xs-4 control-label"><span class="red">*</span>DXA骨密度检查</label>
+                                                    <div class="col-xs-8">
+                                                        <select name="d_d_check" id="p_d_d_check" class="form-control input-inline p_check_select" check="required">
+                            <option value="">请选择</option>
+                            <option value="1">是</option>
+                            <option value="0">否</option>
+                          </select>
+                                                    </div>
+                                                </div>
+                                                <div style="display:none;">
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label class="col-xs-4 control-label"><span class="red">*</span>检查日期</label>
+                                                            <div class="col-xs-8">
+                                                                <div class="input-group date p_d_d_date">
+                                                                    <input type="text" name="d_d_date" tip-msg="请填写检查日期" check="required" id="p_d_d_date" class="form-control p_d_d_date p_birthday check1" data-date-format="yyyy-mm-dd" readonly="readonly">
+                                                                    <span class="input-group-addon" style="line-height:20px!important;">
+                                                                        <i class="glyphicon glyphicon-th"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-xs-4 control-label"><span class="red">*</span>仪器型号</label>
+                                                            <div class="col-xs-8">
+                                                                <select name="d_d_1" id="p_d_d_1" class="form-control input-inline check1" tip-msg="请选择仪器型号">
+                                  <option value="">请选择</option>
+                                  <option value="1">GE Lunar</option>
+                                  <option value="2">Hologic</option>
+                                  <option value="3">其他</option>
+                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" style="display: none;">
+                                                            <label class="col-xs-4 control-label"><span class="red">*</span>其他仪器型号</label>
+                                                            <div class="col-xs-8">
+                                                                <input type="text" name="d_d_1_z" id="p_d_d_1_z" class="form-control input-inline">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- Hip -->
+                                                    <form id="p_d_d_2">
+                                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">髋部</div>
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-xs-4 control-label"><span class="red">*</span>是否检查</label>
+                                                                <div class="col-xs-8">
+                                                                    <select name="d_d2_check1" id="p_d_d2_check1" class="form-control p_select_null check1" tip-msg="请选择Hip是否检查">
+                                    <option value="" selected="selected">请选择</option>
+                                    <option value="0">未检查</option>
+                                    <option value="1">已检查</option>
+                                  </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" style="display:none;">
+                                                                <label class="col-xs-4 control-label"><span class="red">*</span>检查部位</label>
+                                                                <div class="col-xs-8">
+                                                                    <select name="d_d2_check2" id="p_d_d2_check2" class="form-control p_select_direction p_required" tip-msg="请选择Hip检查部位">
+                                    <option value="">请选择</option>
+                                    <option value="1">左侧</option>
+                                    <option value="2">右侧</option>
+                                    <option value="3">双侧</option>
+                                  </select>
+                                                                </div>
+                                                                <div style="padding: 20px 10px;">
+                                                                    <table class="table table-bordered d_d2_check2_left border_table" style="display:none;" tip-msg="请至少填写一个T值" data-class="p_e1_3_00" check="inputLeast">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>左侧区域</th>
+                                                                                <th>骨密度（g/cm2）</th>
+                                                                                <th><span class="red">*</span>T值</th>
+                                                                                <th>Z值</th>
+                                                                                <th>LSC</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody class="p_e1_3_00">
+                                                                            <tr>
+                                                                                <td>股骨颈</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d2_1" id="p_d_d2_1">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_2" id="p_d_d2_2">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_3" id="p_d_d2_3">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d2_19" id="p_d_d2_19">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr style="display: none">
+                                                                                <td>大粗隆</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d2_4" id="p_d_d2_4">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_5" id="p_d_d2_5">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_6" id="p_d_d2_6">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d2_20" id="p_d_d2_20">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>全髋部</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d2_7" id="p_d_d2_7">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_8" id="p_d_d2_8">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_9" id="p_d_d2_9">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d2_21" id="p_d_d2_21">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="table table-bordered d_d2_check2_right border_table" style="display:none;" data-class="p_e1_3_01" tip-msg="请至少填写一个T值">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>右侧区域</th>
+                                                                                <th>骨密度（g/cm2）</th>
+                                                                                <th><span class="red">*</span>T值</th>
+                                                                                <th>Z值</th>
+                                                                                <th>LSC</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody class="p_e1_3_01">
+                                                                            <tr>
+                                                                                <td>股骨颈</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d2_10" id="p_d_d2_10">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_11" id="p_d_d2_11">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_12" id="p_d_d2_12">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d2_22" id="p_d_d2_22">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr style="display: none;">
+                                                                                <td>大粗隆</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d2_13" id="p_d_d2_13">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_14" id="p_d_d2_14">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_15" id="p_d_d2_15">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d2_23" id="p_d_d2_23">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>全髋部</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d2_16" id="p_d_d2_16">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_17" id="p_d_d2_17">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d2_18" id="p_d_d2_18">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d2_24" id="p_d_d2_24">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- Hip -->
+                                                    <!-- Lumbar Spine -->
+                                                    <form id="p_d_d_3">
+                                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">腰椎</div>
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-xs-4 control-label"><span class="red">*</span>是否检查</label>
+                                                                <div class="col-xs-8">
+                                                                    <select name="d_d3_check1" id="p_d_d3_check1" class="form-control p_select_null check1" tip-msg="请选择Lumbar Spine 是否检查">
+                                  <option value="" selected="selected">请选择</option>
+                                  <option value="0">未检查</option>
+                                  <option value="1">已检查</option>
+                                </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="" style="display: none;">
+                                                                <table class="table table-bordered2  " data-class="DDA"  tip-msg="请至少填写一个T值">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>区域</th>
+                                                                            <th>骨密度（g/cm2）</th>
+                                                                            <th>T值</th>
+                                                                            <th>Z值</th>
+                                                                            <th>LSC</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                   
+                                                                        <tr>
+                                                                            <td>L1</td>
+                                                                            <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d3_1" id="p_d_d3_1">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_2" id="p_d_d3_2">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_3" id="p_d_d3_3">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d3_19" id="p_d_d3_25">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>L2</td>
+                                                                            <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d3_4" id="p_d_d3_4">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_5" id="p_d_d3_5">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_6" id="p_d_d3_6">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d3_20" id="p_d_d3_26">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>L3</td>
+                                                                            <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d3_7" id="p_d_d3_7">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_8" id="p_d_d3_8">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_9" id="p_d_d3_9">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d3_21" id="p_d_d3_27">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>L4</td>
+                                                                            <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d3_10" id="p_d_d3_10">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_11" id="p_d_d3_11">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_12" id="p_d_d3_12">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d3_22" id="p_d_d3_28">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>  L1-L4</td>
+                                                                            <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d3_13" id="p_d_d3_13">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_14" id="p_d_d3_14">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_15" id="p_d_d3_15">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d3_23" id="d_d3_23">
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>L2-L4</td>
+                                                                            <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d3_16" id="p_d_d3_16">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_17" id="p_d_d3_17">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d3_18" id="p_d_d3_18">
+                                                                            </td>
+                                                                            <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d3_24" id="d_d3_24">
+                                                                            </td>
+                                                                        </tr>
+                                                                
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <!-- Lumbar Spine -->
+                                                    <!-- Forearm  -->
+                                                    <form id="p_d_d_4" style="display: none;">
+                                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">前臂</div>
+                                                        <div class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-xs-4 control-label"><span class="red">*</span>是否检查</label>
+                                                                <div class="col-xs-8">
+                                                                    <select name="d_d4_check1" id="p_d_d4_check1" class="form-control p_select_null check111" tip-msg="请选择Forearm  是否检查">
+                                    <option value="" selected="selected">请选择</option>
+                                    <option value="0">未检查</option>
+                                    <option value="1">已检查</option>
+                                  </select>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="form-group" style="display:none;">
+                                                                <div style="overflow: hidden;">
+                                                                    <label class="col-xs-4 control-label"><span class="must">*</span>是否为非优势侧</label>
+                                                                    <div class="col-xs-8">
+                                                                        <select name="d_d4_check0" id="p_d_d4_check0" class="form-control p_select_direction p_required11" tip-msg="请选择是否为非优势侧">
+                                                                        <option value="">请选择</option>
+                                                                        <option value="1">是</option>
+                                                                        <option value="0">否</option>
+                                                                    </select>
+                                                                    </div>
+                                                                </div>
+                                                                <label class="col-xs-4 control-label"><span class="red">*</span>检查部位</label>
+                                                                <div class="col-xs-8">
+                                                                    <select name="d_d4_check2" id="p_d_d4_check2" class="form-control p_select_direction p_required11" tip-msg="请选择Forearm检查部位">
+                                    <option value="">请选择</option>
+                                    <option value="1">左侧</option>
+                                    <option value="2">右侧</option>
+                                    <option value="3">双侧</option>
+                                  </select>
+                                                                </div>
+
+                                                                <div style="padding:20px 10px">
+                                                                    <table class="table table-bordered d_d2_check2_left border_table" style="display:none;" data-class="p_d_d4_check2_0011" tip-msg="请至少填写一项左侧Forearm">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>左侧区域</th>
+                                                                                <th>骨密度（g/cm2）</th>
+                                                                                <th><span class="red">*</span>T值</th>
+                                                                                <th>Z值</th>
+                                                                                <th>LSC</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody class="p_d_d4_check2_00">
+                                                                            <tr>
+                                                                                <td>桡骨远端1/3</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d4_1" id="p_d_d4_1">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d4_2" id="p_d_d4_2">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d4_3" id="p_d_d4_3">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d4_7" id="p_d_d4_7">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="table table-bordered d_d2_check2_right border_table11" style="display:none;" data-class="p_d_d4_check2_01" tip-msg="请至少填写一项右侧Forearm">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>右侧区域</th>
+                                                                                <th>骨密度（g/cm2）</th>
+                                                                                <th><span class="red">*</span>T值</th>
+                                                                                <th>Z值</th>
+                                                                                <th>LSC</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody class="p_d_d4_check2_01">
+                                                                            <tr>
+                                                                                <td>桡骨远端1/3</td>
+                                                                                <td><input type="number" data-check="check3" onblur="check3(this)" class="form-control" name="d_d4_4" id="p_d_d4_4">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d4_5" id="p_d_d4_5">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check4(this)" class="form-control" name="d_d4_6" id="p_d_d4_6">
+                                                                                </td>
+                                                                                <td><input type="number" data-check="check4" onblur="check5(this)" class="form-control" name="d_d4_8" id="p_d_d4_8">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <!-- qct王英海2022年3月15 qct新增开始 -->
+                                            <div class="form-horizontal">
+                                                <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">
+                                                    QCT检查
+                                                </div>
+                                                <div class=" qct-form-data">
+                                                    <div class="form-group"> 
+                                                        <div class="col-xs-4 check" check="radio" id = "qctId" tip-msg="请勾选QCT检查" 
+                                                        data-class="ctl-qct1" ><span class="red">*</span>QCT骨密度检查</div>
+                                                        <div class="col-xs-8 ctl-qct1 ">
+                                                           <label><input type="radio" name="qct1"  onclick='qctClick(this)'  value="1">是 </label>
+                                                           <label><input type="radio" name="qct1"  onclick='qctClick(this)'  value="0">否 </label>  
+                                                        </div>
+                                                    </div> 
+                                                </div> 
+
+
+                                                <div class="in-qct-form-data" style="display: none;">
+                                                    <div class="form-group">
+                                                        <div class="col-xs-4"><span class="red">*</span>检查日期</div>
+                                                        <div class="col-xs-8">
+                                                            <div class="input-group date p_birthday" style="width: 160px;">
+                                                                <input type="text" name="qct2" tip-msg="请填写QCT检查日期" check="required" 
+                                                                 class="in-qct-form-data form-control" data-date-format="yyyy-mm-dd" readonly="readonly">
+                                                                <span class="input-group-addon"  style="line-height: 0px!important" >
+                                                                    <i class="glyphicon glyphicon-th"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="  in-qct-form-data" style="display: none;">
+                                                    <div class="form-group"> 
+                                                        <div class="col-xs-4"><span class="red">*</span>仪器型号</div>
+                                                        <div class="col-xs-8 check ctl-qct3 in-qct-form-data"  id = "ctl-qct3id" check="radio" tip-msg="请勾选仪器型号"   data-class="ctl-qct3">
+                                                            <label><input class="in-qct-form-data" type="radio" name="qct3" onclick="clkOther(this)" value="1">Mindways QCT</label>
+                                                            <label><input class="in-qct-form-data" type="radio" name="qct3" onclick="clkOther(this)" value="0">其他，其他仪器型号</label>
+                                                            <label> 
+                                                                <input type="text" class="in-qct-form-data exclude-qct-other" id = "qct3Id" name="qct3Other"   tip-msg="请填写其他仪器型号" check="required"
+                                                                style="display: none; outline: none;border-radius:0; box-shadow: 0px 0px 0px 0px; border: 0px;
+                                                                 border-bottom: 1px solid rgb(75, 73, 73);">
+                                                            </label>
+                                                           
+                                                         </div>
+                                                    </div>
+                                                </div> 
+
+                                                <div class="row in-qct-form-data" style="display: none;" >
+                                                    <div class="col-md-12">
+                                                    <table class="table table-bordered" style="border: 1px solid #cccccc;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>区域</th>
+                                                                <th>是否检查</th>
+                                                                <th><span class="red">*</span>骨密度 (g/cm3)#</th>
+                                                                <th><span class="red">*</span>T值</th>
+                                                                <th>Z值</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="check in-qct-form-data" check="radio" tip-msg="请勾选髋部 (左侧)是否检查"   data-class="ctl-qct4">髋部 (左侧)</td>
+                                                                <td class="ctl-qct4"  id = "ctl-qct4" >
+                                                                    <label><input type="radio" class="in-qct-form-data" name="qct4" onclick="checkArea(this)" value="1">是</label>
+                                                                    <label><input type="radio" class="in-qct-form-data" name="qct4" onclick="checkArea(this)" value="0">否</label>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" tip-msg="请填写骨密度 (g/cm3)" check="required" data-check="check3" disabled onblur="check3(this)" 
+                                                                    class="form-control in-qct-form-data" name="qct5" id="qct5id"> 
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" tip-msg="请填写T值" check="required" data-check="check4" disabled  onblur="check4(this)" 
+                                                                    class="form-control in-qct-form-data" name="qct6" id="qct6id">
+                                                                </td> 
+                                                                <td>
+                                                                    <input type="number" data-check="check4" disabled onblur="check4(this)"
+                                                                        class="form-control in-qct-form-data" name="qct7" id="qct7id">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="check in-qct-form-data"  check="radio" tip-msg="请勾选髋部 (右侧)是否检查"   data-class="ctl-qct8">髋部 (右侧)</td>
+                                                                <td class="ctl-qct8">
+                                                                    <label><input type="radio" name="qct8" onclick="checkArea(this)" value="1">是</label>
+                                                                    <label><input type="radio" name="qct8" onclick="checkArea(this)" value="0">否</label>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" tip-msg="请填写骨密度 (g/cm3)" check="required" data-check="check3" disabled onblur="check3(this)" 
+                                                                    class="form-control in-qct-form-data" name="qct9" id="qct9id"> 
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" tip-msg="请填写T值" check="required" data-check="check4" disabled onblur="check4(this)" 
+                                                                    class="form-control in-qct-form-data" name="qct10" id="qct10id">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number"   data-check="check4" disabled onblur="check4(this)"
+                                                                        class="form-control in-qct-form-data " name="qct11" id="qct11id">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="check in-qct-form-data"  check="radio" tip-msg="请勾选腰椎（平均值）是否检查"   data-class="ctl-qct12">腰椎（平均值）</td>
+                                                                <td class="ctl-qct12">
+                                                                    <label><input type="radio" name="qct12" onclick="checkArea(this)" value="1">是</label>
+                                                                    <label><input type="radio" name="qct12" onclick="checkArea(this)" value="0">否</label>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" tip-msg="请填写骨密度 (g/cm3)" check="required"  data-check="check3" disabled  onblur="check3(this)" 
+                                                                    class="form-control in-qct-form-data" name="qct13" id="qct13id"> 
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number"  tip-msg="请填写T值"   check="required" data-check="check4" disabled onblur="check4(this)" 
+                                                                    class="form-control in-qct-form-data" name="qct14" id="qct14">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" data-check="check4" disabled onblur="check4(this)"
+                                                                        class="form-control in-qct-form-data" name="qct15" id="qct15">
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    </div> 
+                                                </div>
+                                            </div> 
+                                             <!-- qct王英海2022年3月15 qct新增结束 -->
+
+
+                                            <div role="separator" class="van-divider van-divider--hairline van-divider--content-center  van-divider_active">
+                                                脆性骨折史</div>
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label class="col-xs-8 control-label"><span class="must">*</span>上一次随访到本次随访之间跌倒的次数:</label>
+
+                                                    <div class="col-xs-4">
+                                                        <select name="lastNum_check" id="p_lastNum_check" class="form-control" check="required">
+                                                            <option value="">请选择</option>
+                                                            <option value="0">无</option>
+                                                            <option value="1">1次</option>
+                                                            <option value="2">2次</option>
+                                                            <option value="3">3次</option>
+                                                            <option value="4">4次</option>
+                                                            <option value="5">5次</option>
+                                                            <option value="6">6次</option>
+                                                            <option value="7">7次</option>
+                                                            <option value="8">8次</option>
+                                                            <option value="9">9次</option>
+                                                            <option value="10">≥10次</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-xs-8 control-label"><span class="red">*</span>自上次就诊后是否有新发骨折</label>
+                                                    <div class="col-xs-4">
+                                                        <select name="h3_check" id="p_h3_check" class="form-control input-inline p_check_select" check="required" onchange="h3ch(this)">
+                                                            <option value="">请选择</option>
+                                                            <option value="1">是</option>
+                                                            <option value="0">否</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div style="display:none;">
+                                                    <form>
+                                                        <table class="table table-bordered text-left">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="width: 126px;padding: 0px 0px!important;">
+                                                                        <label class="control-label"><span class="red">*</span>骨折次数</label>
+                                                                    </td>
+                                                                    <td>
+                                                                        <!-- <input type="number" class="form-control" name="h3_lastyear" min="0" value="" id="p_h3_lastyear" check="required check3" tip-msg="请输入骨折次数">次 -->
+                                                                        <select name="h3_lastyear" id="p_h3_lastyear" class="form-control" tip-msg="请输入骨折次数" onchange="fractureNum(this)">
+                                                                        <option value="">请选择</option>
+                                                                        <!-- <option value="0">0</option> -->
+                                                                        <option value="1">1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                        <option value="5">5</option>
+                                                                        <option value="6">6</option>
+                                                                        <option value="7">7</option>
+                                                                        <option value="8">8</option>
+                                                                        <option value="9">9</option>
+                                                                        <option value="10">10</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </form>
+                                                    <div>
+                                                        <table class="table table-bordered text-left" id="p_page2_tb4">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="width: 158px;"><span class="red">*</span>骨折历史：</td>
+                                                                    <!-- <td><button class="btn btn-primary btn-sm pull-right" type="button" id="p_h3_lastyear_btn" onclick="addSpoMedicine('#p_page2_tb4','3')"><span class="glyphicon glyphicon-plus"></span></button></td> -->
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active ">此次诊疗的诊断结论</div>
+
+                                        </td>
+                                    </tr>
+                                    <tr class="check" check="radio" tip-msg="请选择此次诊疗的诊断结论" data-class="p_diagnose_00">
+                                        <td class="p_diagnose_00" colspan="2">
+                                            <table class="table text-left">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="p_bs_bs1">
+                                                            <form id="p_diagnose">
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                        <label>
+                                                                        <input type="radio" class="p_radio_checkbox" name="d_c" id="p_d_c" value="1">原发性骨质疏松
+                                                                    </label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>
+                                                                        <input type="radio" name="d_d" id="p_d_d" class="p_radio_checkbox" id="" value="1">原发性骨质疏松症伴病理性骨折
+                                                                    </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                        <label>
+                                                                        <input type="radio" name="d_e" id="p_d_e" class="p_radio_checkbox" id="" value="1">继发性骨质疏松症
+                                                                    </label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label>
+                                                                        <input type="radio" name="d_f" id="p_d_f" class="p_radio_checkbox" id="" value="1">继发性骨质疏松症伴病理性骨折
+                                                                    </label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label style="display: none;">
+                                                                            <span class="red">*</span>导致骨质疏松的疾病
+                                                                        <input type="text" name="d_e_f_note" id="p_d_e_f_note" class="form-control" placeholder="请描述">
+                                                                    </label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                        <input type="radio" class="p_radio_others p_radio_checkbox">其他
+                                                                        <input type="text" name="d_z" class="form-control" readonly="" id="p_d_z" placeholder="请描述">
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr> 
+                                     
+                                    <!-- 骨折信息王英海2022年3月，追加内容开始-->
+                                    <tr class="p-ctr-b-zlju gz-infor" style="display: none;"> 
+                                        <td style="" nouserinformation="独占一行">
+                                            <strong>此次骨折详细信息</strong>
+                                        </td>
+                                        <td style=""nouserinformation="独占一行"></td>
+                                    </tr>
+                                                                
+                                        
+
+                                    <tr class="p-ctr-b-zlju gz-infor"  style="display: none;">
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                骨折部位
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw0" style=" border: 1px solid #dad6d6;" colspan="4"  
+                                             tip-msg="请选择骨折部位" data-class="exclude-gzbw0"> 
+                                            <div class="form-inline">
+                                                <div class="form-group">
+                                                    <label> <input type="checkbox"   name="d1FraPart5" onclick="owner.ckFrapart(this)" value="-1"> 不详</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="checkbox"   name="d1FraPart1" onclick="owner.ckFrapart(this)" value="1">椎体骨折 </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="checkbox"   name="d1FraPart2" onclick="owner.ckFrapart(this)" value="2"> 髋部骨折</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="checkbox"   name="d1FraPart3" onclick="owner.ckFrapart(this)" value="3"> 其他部位骨折</label>
+                                                </div>
+                                                
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1" style="display: none;"> 
+                                        <td style="" nouserinformation="独占一行">
+                                            <strong>椎体骨折</strong>
+                                        </td>
+                                        <td style=""nouserinformation="独占一行"></td>
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1" style="display: none;" >
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                治疗方式
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-ztgz" style=" border: 1px solid #dad6d6;" colspan="4"
+                                            tip-msg="请勾选治疗方式" data-class="d1_method">
+                                            <div class="form-inline d1_method">
+                                                <div class="form-group">
+                                                    <label><input type="radio"  name="d1Method" onclick="owner.dMethod(this)" value="1">保守</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label><input type="radio"  name="d1Method" onclick="owner.dMethod(this)"  value="2"> 手术</label>
+                                                </div>  
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1-other d1Method-by-name"  style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;"> 
+                                                手术时间
+                                            </font>
+                                        </td> 
+                                        <td  style=" border: 1px solid #dad6d6;"  colspan="2">
+                                            <div class="input-group date p_birthday" style="width: 150px;">
+                                                <!-- <input type="text" name="d1SurgTime" tip-msg="请填写手术时间" check="required"   class="form-control" data-date-format="yyyy-mm-dd" readonly="readonly"> -->
+                                                <input type="text" name="d1SurgTime" tip-msg="请填写椎体骨折手术时间" check="required"  id = "d1SurgTimeId"
+                                                    class="form-control exclude-gzbw-ztgz-01" data-date-format="yyyy-mm-dd" readonly="readonly">
+                                                <span class="input-group-addon" style="line-height:21px!important;">
+                                                    <i class="glyphicon glyphicon-th"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr class="p-ctr-b-zlju gzbw-1-other d1Method-by-name"  style="display: none;"> 
+                                        <td class="d1Method-by-name" style="width:158px;border: 1px solid #dad6d6;" >
+                                            <font style="vertical-align: inherit;">
+                                                术式
+                                            </font>
+                                        </td> 
+                                        <td  style="border: 1px solid #dad6d6;" colspan="" 
+                                                class="check exclude-gzbw-ztgz-01" check="radio"  tip-msg="请勾选椎体骨折术式" data-class="d1_approach">
+                                            <div class="form-inline d1_approach">
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1Approach" value="1">椎体强化术（PVP/PKP）</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1Approach" value="2">开放性手术</label>
+                                                </div>  
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr class="p-ctr-b-zlju gzbw-1-other d1Method-by-name" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                手术时间距骨折发生时间
+                                            </font>
+                                        </td>
+                                        <td style=" border: 1px solid #dad6d6;"  class="check exclude-gzbw-ztgz-01"  check="radio" 
+                                            tip-msg="请勾选手术时间距骨折发生时间" data-class="d1_Surg_Genesic_Time">  
+                                            <div class="form-inline d1_Surg_Genesic_Time">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" class="" name="d1SurgGenesicTime" value="1">24小时以内</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio" class="" name="d1SurgGenesicTime" value="2">1-3天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio" class="" name="d1SurgGenesicTime" value="3">3-7天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio" class="" name="d1SurgGenesicTime" value="4">7天以上</label>
+                                                </div>  
+                                                <!-- <div class="form-group">
+                                                    <label> <input type="radio" class="" name="d1SurgGenesicTime" value="-1">不详</label>
+                                                </div>    -->
+                                            </div>
+                                        </td>  
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1-other d1Method-by-name" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                手术前患者疼痛评分VAS
+                                            </font>
+                                        </td>
+                                        <!-- <td class=" " style=" border: 1px solid #dad6d6;" colspan="2"> --> 
+                                        <td style=" border: 1px solid #dad6d6;"  class="check exclude-gzbw-ztgz-01"  check="radio"  colspan="2"
+                                            tip-msg="请勾选手术前患者疼痛评分VAS" data-class="d1Surg_VAS">      
+                                            <div class="form-inline d1Surg_VAS"> 
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="1">1</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="2">2</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="3">3</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="4">4</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="5">5</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="6">6</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="7">7</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1SurgVAS" value="8">8</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d1SurgVAS" value="9">9</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d1SurgVAS" value="10">10</label>
+                                                </div>   
+                                                <!-- <div class="form-group">
+                                                    <label> <input type="radio" name="d1SurgVAS" value="-1">不详</label>
+                                                </div>    -->
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间是否检测DXA
+                                            </font>
+                                        </td>
+                                        <!-- <td class=" " style=" border: 1px solid #dad6d6;"> -->
+                                        <td style=" border: 1px solid #dad6d6;"  class="check exclude-gzbw-ztgz"  check="radio"  
+                                            tip-msg="请勾选住院期间是否检测DXA" data-class="d1_During_InHosp_DXA">   
+
+                                            <div class="form-inline d1_During_InHosp_DXA">
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d1DuringInHospDXA" value="1">是</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d1DuringInHospDXA" value="0">否</label>
+                                                </div>   
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1" style="display: none;">  
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间是否使用抗骨质疏松药物
+                                            </font>
+                                        </td>
+                                        <td style=" border: 1px solid #dad6d6;"  class="check exclude-gzbw-ztgz"  check="radio"  
+                                        tip-msg="请勾选住院期间是否使用抗骨质疏松药物" data-class="d1_During_InHosp_Drug" colspan="2">   
+                                        <!-- <td class=" " style=" border: 1px solid #dad6d6;"  colspan="2"> -->
+                                            <div class="form-inline d1_During_InHosp_Drug">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d1DuringInHospDrug" value="1">是</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringInHospDrug" value="0">否</label>
+                                                </div>  
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间绝对卧床时间
+                                            </font>
+                                        </td>
+                                        <!-- <td class=" " style=" border: 1px solid #dad6d6;"> -->
+                                        <td style=" border: 1px solid #dad6d6;"  class="check exclude-gzbw-ztgz"  check="radio"  
+                                            tip-msg="请勾选住院期间绝对卧床时间" data-class="d1_During_InHosp_LayUp" >   
+                                            <div class="form-inline d1_During_InHosp_LayUp">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d1DuringInHospLayUp" value="1">24小时以内</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringInHospLayUp" value="2">1天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringInHospLayUp" value="3">2天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringInHospLayUp" value="4">超过3天</label>
+                                                </div>  
+                                                <!-- <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringInHospLayUp" value="-1">不详</label>
+                                                </div>    -->
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-1" style="display: none;">  
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                总住院天数
+                                            </font>
+                                        </td>
+                                        <!-- <td class=" " style=" border: 1px solid #dad6d6;" colspan="2"> -->
+                                        <td style=" border: 1px solid #dad6d6;"  class="check exclude-gzbw-ztgz"  check="radio"  
+                                            tip-msg="请勾选总住院天数" data-class="d1_InHosp_Day" colspan="2">     
+                                            <div class="form-inline d1_InHosp_Day">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d1InHospDay" value="1">1天</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d1InHospDay" value="2">3天以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d1InHospDay" value="3">1周以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d1InHospDay" value="4">2周以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d1InHospDay" value="5">超过2周</label>
+                                                </div>   
+                                                <!-- <div class="form-group">
+                                                    <label> <input type="radio" name="d1InHospDay" value="-1">不详</label>
+                                                </div> -->
+                                            </div>
+                                        </td> 
+                                    </tr>
+                                    
+                                    
+                                    <tr class="p-ctr-b-zlju gzbw-1"  style="display: none;">   
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                出院时患者疼痛评分VAS
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-ztgz" style=" border: 1px solid #dad6d6;" colspan="4"
+                                        check="radio"  tip-msg="请勾选出院时患者疼痛评分VAS" data-class="d1_During_OutHosp_VAS"  >
+                                            <div class="form-inline d1_During_OutHosp_VAS"> 
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="1">1</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="2">2</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="3">3</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="4">4</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="5">5</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="6">6</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="7">7</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="8">8</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="9">9</label>
+                                                </div>   
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d1DuringOutHospVAS" value="10">10</label>
+                                                </div>   
+                                                <!-- <div class="form-group" >
+                                                    <label> <input type="radio" name="d1DuringOutHospVAS" value="-1">不详</label>
+                                                </div>   -->
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+
+
+
+
+
+
+                                    <!-- part2 222222222222222222222222222222222-->
+                                    <tr class="p-ctr-b-zlju gzbw-2" style="display: none;"> 
+                                        <td>
+                                            <font style="vertical-align: inherit;">
+                                                <!-- <span class="red">*</span> -->
+                                                <strong>髋部骨折</strong>
+                                            </font>
+                                        </td>
+                                        <td></td>
+                                    </tr> 
+                                    <tr class="p-ctr-b-zlju gzbw-2" style="display: none;">
+                                        <td style="width:158px;border: 1px solid #dad6d6;" >
+                                            <font style="vertical-align: inherit;"> 
+                                                治疗方式
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-wbgz" style="border: 1px solid #dad6d6;" colspan="4" 
+                                        check="radio"  tip-msg="请勾选髋部骨折治疗方式" data-class="d2Method" >  
+                                            <div class="form-inline d2Method">
+                                                <div class="form-group">
+                                                    <label><input type="radio"  name="d2Method" onclick="owner.dMethod(this)" value="1">保守</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d2Method" onclick="owner.dMethod(this)" value="2">手术</label>
+                                                </div>  
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-2-other d2Method-by-name" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                               手术时间 
+                                            </font>
+                                        </td> 
+                                        <td class=" " style=" border: 1px solid #dad6d6;"  colspan="2">
+                                            <div class="input-group date p_birthday" style="width: 150px;">
+                                                <!-- <input type="text" name="d2SurgTime" tip-msg="请填写手术时间" check="required" class="form-control p_collectDate" data-date-format="yyyy-mm-dd" readonly="readonly"> -->
+                                                <input type="text" name="d2SurgTime"  tip-msg="请填写髋部骨折手术时间" check="required" id = "d2SurgTimeId" 
+                                                class="form-control p_collectDate exclude-gzbw-wbgz-01" data-date-format="yyyy-mm-dd" readonly="readonly">
+                                                <span class="input-group-addon" style="line-height:21px!important;">
+                                                    <i class="glyphicon glyphicon-th"></i>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-2-other d2Method-by-name" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                术式
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-wbgz-01" style=" border: 1px solid #dad6d6;"  
+                                        check="radio"  tip-msg="请勾选术式" data-class="d2Approach">
+                                            <div class="form-inline d2Approach">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d2Approach" value="1">关节置换术</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d2Approach" value="2">内固定手术</label>
+                                                </div>   
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr class="p-ctr-b-zlju gzbw-2-other d2Method-by-name" style="display: none;">  
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                手术时间距骨折发生时间
+                                            </font>
+                                        </td>
+                                        <td style=" border: 1px solid #dad6d6;"  class="check exclude-gzbw-wbgz-01"
+                                            check="radio" tip-msg="请勾选手术时间距骨折发生时间" data-class="d2SurgGenesicTime"   > 
+                                            <div class="form-inline d2SurgGenesicTime">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio"  name="d2SurgGenesicTime" value="1">24小时以内</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"   name="d2SurgGenesicTime" value="2">1-3天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"   name="d2SurgGenesicTime" value="3">3-7天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"   name="d2SurgGenesicTime" value="4">7天以上</label>
+                                                </div>  
+                                                <!-- <div class="form-group">
+                                                    <label> <input type="radio"   name="d2SurgGenesicTime" value="-1">不详</label>
+                                                </div>    -->
+                                            </div>
+                                        </td>
+
+                                        
+                                    </tr>
+
+
+                                    <tr class="p-ctr-b-zlju gzbw-2" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间是否检测DXA
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-wbgz" check="radio"   style=" border: 1px solid #dad6d6;"  
+                                        tip-msg="请勾选住院期间是否检测DXA" data-class="d2DuringInHospDXA"  >   
+                                            <div class="form-inline d2DuringInHospDXA">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d2DuringInHospDXA" value="1">是</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2DuringInHospDXA" value="0">否</label>
+                                                </div>   
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-2" style="display: none;">  
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间是否使用抗骨质疏松药物
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-wbgz" check="radio" style=" border: 1px solid #dad6d6;"  colspan="2"
+                                            tip-msg="请勾选住院期间是否使用抗骨质疏松药物" data-class="d2DuringInHospDrug"  >   
+                                            <div class="form-inline d2DuringInHospDrug">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio"  name="d2DuringInHospDrug" value="1"> 是</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2DuringInHospDrug" value="0">否</label>
+                                                </div>  
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+
+
+                                    <tr class="p-ctr-b-zlju gzbw-2" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间绝对卧床时间
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-wbgz" check="radio" style=" border: 1px solid #dad6d6;"
+                                            tip-msg="请勾选住院期间绝对卧床时间" data-class="d2DuringInHospLayUp"  >   
+                                            <div class="form-inline d2DuringInHospLayUp">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d2DuringInHospLayUp" value="1">1天</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2DuringInHospLayUp" value="2">2天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2DuringInHospLayUp"  value="3">3天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2DuringInHospLayUp"  value="4">3-7天</label>
+                                                </div> 
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2DuringInHospLayUp"  value="5">7-14天</label>
+                                                </div>  
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-2" style="display: none;">  
+
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                总住院天数
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-wbgz" check="radio"  style=" border: 1px solid #dad6d6;" colspan="2"
+                                            tip-msg="请勾选总住院天数" data-class="d2InHospDay"  >   
+                                            <div class="form-inline d2InHospDay">
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2InHospDay" value="1">3天以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2InHospDay" value="2">1周以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2InHospDay" value="3">2周以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d2InHospDay" value="4">超过2周</label>
+                                                </div>   
+                                                <!-- <div class="form-group">
+                                                    <label> <input type="radio"  name="d2InHospDay" value="-1">不详</label>
+                                                </div> -->
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                        
+
+                                
+                                    
+
+                                    <tr class="p-ctr-b-zlju gzbw-3" style="display: none;"> 
+                                        <td style="" nouserinformation="独占一行">
+                                            <font style="vertical-align: inherit;"> 
+                                                <strong>其他部位骨折</strong>   
+                                            </font>
+                                        </td>
+                                            <td></td>
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-3" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                骨折部位
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-qtgz" check="radio"  style=" border: 1px solid #dad6d6;"  
+                                        tip-msg="请选择骨折部位" data-class="d3FraPart1"> 
+                                            <div class="form-inline d3FraPart1"> 
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d3FraPart1" onclick="clkOther(this)" value="1">肋骨</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d3FraPart1" onclick="clkOther(this)" value="2">肩关节</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d3FraPart1" onclick="clkOther(this)" value="3">肘关节</label>
+                                                </div> 
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d3FraPart1" onclick="clkOther(this)" value="4">腕关节</label>
+                                                </div> 
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d3FraPart1" onclick="clkOther(this)" value="5">膝关节</label>
+                                                </div> 
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d3FraPart1" onclick="clkOther(this)" value="6">踝关节</label>
+                                                </div> 
+                                                <div class="form-group">
+                                                    <label><input type="radio" name="d3FraPart1" onclick="clkOther(this)" value="0">其他</label>
+                                                </div> 
+                                                <div class="form-group">
+                                                    <input type="text" class="exclude-gzbw-qtgz-other" id = "d3FraPart1Id" name="d3FraPart1Other"  check="required" tip-msg="请填写其他骨折部位"
+                                                        style="outline: none;border-radius:0; box-shadow: 0px 0px 0px 0px; border: 0px; border-bottom: 1px solid rgb(75, 73, 73);">
+                                                </div> 
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+
+                                    <tr class="p-ctr-b-zlju gzbw-3" style="display: none;">
+
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                治疗方式
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-qtgz" check="radio" style=" border: 1px solid #dad6d6;" colspan="2" 
+                                        tip-msg="请勾选治疗方式" data-class="d3Method"  >   
+                                            <div class="form-inline d3Method">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d3Method" onclick="owner.dMethod(this)" value="1">保守</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3Method" onclick="owner.dMethod(this)" value="2"> 手术</label>
+                                                </div>  
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-3-other d3Method-by-name exclude-gzbw-qtgz-01" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                手术时间
+                                            </font>
+                                        </td> 
+                                        <td class=" " style=" border: 1px solid #dad6d6;"  colspan="2">
+                                            <div class="input-group date p_birthday" style="width: 150px;">
+                                                <input type="text" name="d3SurgTime" check="required" id = "d3SurgTimeId" tip-msg="请填写其他部位骨折日期" 
+                                                    class="form-control exclude-gzbw-qtgz-01" data-date-format="yyyy-mm-dd" readonly="readonly">
+                                                <span class="input-group-addon" style="line-height:21px!important;">
+                                                    <i class="glyphicon glyphicon-th"></i>
+                                                </span>
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-3-other d3Method-by-name exclude-gzbw-qtgz-01" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                手术术式 
+                                            </font>
+                                        </td> 
+                                        <td class="p-ctr-all-check check exclude-gzbw-qtgz-01" style=" border: 1px solid #dad6d6;" 
+                                        tip-msg="请勾选手术术式" data-class="d3Approach"  check="radio"  >   
+                                            <div class="form-inline d3Approach">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d3Approach"   value="1">关节置换术 </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3Approach"   value="2"> 内固定手术</label>
+                                                </div>  
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr class="p-ctr-b-zlju gzbw-3-other d3Method-by-name" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                手术时间距骨折发生时间
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-qtgz-01" check="radio"  style="border: 1px solid #dad6d6;"
+                                        tip-msg="请勾选手术时间距骨折发生时间" data-class="d3_surg_genesic_time"  >   
+                                            <div class="form-inline d3_surg_genesic_time">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d3SurgGenesicTime" value="1">24小时以内</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3SurgGenesicTime" value="2">1-3天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3SurgGenesicTime" value="3">3-7天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3SurgGenesicTime" value="4">7天以上</label>
+                                                </div>  
+                                                <!-- <div class="form-group">
+                                                    <label> <input type="radio" name="d3SurgGenesicTime" value="-1">不详</label>
+                                                </div>    -->
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+
+                                    <tr class="p-ctr-b-zlju gzbw-3" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间是否检测DXA
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-qtgz" check="radio" style=" border: 1px solid #dad6d6;"
+                                            tip-msg="请勾选住院期间是否检测DXA" data-class="d3DuringInHospDXA"  >   
+                                            <div class="form-inline d3DuringInHospDXA">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d3DuringInHospDXA" value="1">是</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3DuringInHospDXA" value="2">否</label>
+                                                </div>   
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+
+                                    <tr class="p-ctr-b-zlju gzbw-3" style="display: none;">  
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间是否使用抗骨质疏松药物
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-qtgz" check="radio" style=" border: 1px solid #dad6d6;"  colspan="2"
+                                        tip-msg="请勾选住院期间是否使用抗骨质疏松药物" data-class="d3DuringInHospDrug"  >  
+                                            <div class="form-inline d3DuringInHospDrug">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d3DuringInHospDrug" value="1">是</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3DuringInHospDrug" value="0">否</label>
+                                                </div>  
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+
+                                    <tr class="p-ctr-b-zlju gzbw-3" style="display: none;"> 
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                住院期间绝对卧床时间
+                                            </font>
+                                        </td>
+                                        <td class="check exclude-gzbw-qtgz" check="radio" style=" border: 1px solid #dad6d6;"
+                                        tip-msg="请勾选住院期间绝对卧床时间" data-class="d3DuringInHospLayUp"  >   
+                                            <div class="form-inline d3DuringInHospLayUp">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio" name="d3DuringInHospLayUp" value="1">24小时以内</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d3DuringInHospLayUp" value="2">1天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d3DuringInHospLayUp" value="3">2天</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio" name="d3DuringInHospLayUp" value="4">超过3天</label>
+                                                </div>
+                                            </div>
+                                        </td> 
+                                    </tr>
+
+                                    <tr class="p-ctr-b-zlju gzbw-3" style="display: none;">  
+                                        <td style="width:158px;border: 1px solid #dad6d6;">
+                                            <font style="vertical-align: inherit;">
+                                                总住院天数
+                                            </font>
+                                        </td>
+                                        <td class="check p-ctr-all-check exclude-gzbw-qtgz" check="radio" style=" border: 1px solid #dad6d6;" colspan="2"
+                                            tip-msg="请勾选总住院天数" data-class="d3InHospDay"  >
+                                            <div class="form-inline d3InHospDay">
+                                                <div class="form-group">
+                                                    <label>  <input type="radio"  name="d3InHospDay" value="1">1天</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3InHospDay" value="2">3天以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3InHospDay" value="3">1周以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3InHospDay" value="4">2周以内</label>
+                                                </div>  
+                                                <div class="form-group">
+                                                    <label> <input type="radio"  name="d3InHospDay" value="5">超过2周</label>
+                                                </div>  
+                                            </div>
+                                        </td> 
+                                    </tr>
+                                    <!-- 骨折信息王英海2022年3月，追加内容结束 --> 
+                                           
+
+                                    <!-- <tr class="check" check="checkbox" tip-msg="请选择此次诊疗的诊断结论" data-class="p_diagnose_00">
+                                        <td class="p_diagnose_00" colspan="2">
+                                            <form id="p_diagnose">
+                                                <div class="form-inline">
+                                                    <div class="form-group">
+                                                        <label>
+                              <input type="checkbox" class="p_radio_checkbox" name="d_c" id="p_d_c" value="1">原发性骨质疏松
+                            </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>
+                              <input type="checkbox" name="d_d" id="p_d_d" class="p_radio_checkbox" id=""
+                                value="1">原发性骨质疏松症伴病理性骨折
+                            </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-inline">
+                                                    <div class="form-group">
+                                                        <label>
+                              <input type="checkbox" name="d_e" id="p_d_e" class="p_radio_checkbox" id=""
+                                value="1">继发性骨质疏松症
+                            </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>
+                              <input type="checkbox" name="d_f" id="p_d_f" class="p_radio_checkbox" id=""
+                                value="1">继发性骨质疏松症伴病理性骨折
+                            </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label style="display: none;">
+                              导致骨质疏松的疾病
+                              <input type="text" name="d_e_f_note" id="p_d_e_f_note" class="form-control">
+                            </label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-inline">
+                                                    <div class="form-group">
+                                                        <input type="checkbox" class="p_radio_others p_radio_checkbox">其他
+                                                        <input type="text" name="d_z" class="form-control" readonly="" id="p_d_z">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr> -->
+
+
+                                    <!-- <tr>
+                        <td colspan="2">诊断备注（请在此处注明患者所有的诊断，包括骨质疏松症的并发症以及其他疾病等）：</td>
+                      </tr>
+                      <tr>
+                          <td colspan="2">
+                            <textarea name="d_note" id="p_d_note" cols="30" rows="10" class="form-control"></textarea>
+                          </td>
+                        </tr> -->
+                                    <tr style="border-top: 2px solid #f2f2f2;">
+                                        <td><span class="red">*</span>诊疗医生：</td>
+                                        <td><input type="text" name="docName" id="p_docName" class="form-control" tip-msg="请填写首诊医生" check="required"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="red">*</span>诊疗时间：</td>
+                                        <td>
+                                            <div class="input-group date">
+                                                <input type="text" name="zddate" tip-msg="请填写就诊日期" check="required" id="p_zddate" class="form-control p_zddate" data-date-format="yyyy-mm-dd" readonly="readonly">
+                                                <span class="input-group-addon" style="line-height:20px!important;">   <i class="glyphicon glyphicon-th"></i></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- <tr>
+                    <td>下次随诊日期：</td>
+                    <td>
+                      <div class="input-group date p_nextDate" >
+                        <input type="text" name="nextDate" tip-msg="请填写下次随诊日期" check="required"
+                          id="p_nextDate" class="form-control p_collectDate" data-date-format="yyyy-mm-dd"
+                          readonly="readonly">
+                        <span class="input-group-addon" style="line-height:22px!important;">
+                          <i class="glyphicon glyphicon-th"></i>
+                        </span>
+                      </div>
+                    </td>
+                  </tr> -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="btn-submit-group">
+                            <button class="btn btn-success" type="button" onclick="submitUpdate('page8','page8')">立即提交</button>
+                            <button class="btn btn-success zcBtn" type="button" onclick="submitzc('page8','page8')">暂存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<!-- 欧洲五维健康量表EQ-5D-5L -->
+<div class="container" id="healBox" style="display: none;width: 300px;">
+    <div class="row">
+        <div class="col-xs-12" style="margin-top:0px;">
+            <form id="health-form" style="padding: 15px 0px;">
+                <div class="health-form">
+                    <table class="table">
+                        <caption class="text-center;" style="font-size: 16px;text-align: center;">欧洲五维健康量表EQ-5D-5L</caption>
+                        <tbody>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="四处走动选择一项" data-class="h1_1">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">四处走动</div>
+                                    <div id='h1_1' class="h1_1">
+                                        <div class="clearfix h_div_box"><label>我四处走动没有困难 <input type="radio" class="pull-right" name="h1_1" value="1"></label></div>
+                                        <div class="clearfix h_div_box"><label>我四处走动有一点困难 <input type="radio" class="pull-right" name="h1_1" value="2"></label></div>
+                                        <div class="clearfix h_div_box"><label>我四处走动有中度的困难 <input type="radio"class="pull-right" name="h1_1" value="3"></label></div>
+                                        <div class="clearfix h_div_box"><label>我四处走动有严重的困难 <input type="radio" class="pull-right"name="h1_1" value="4"></label></div>
+                                        <div class="clearfix h_div_box"><label>我无法四处走动  <input type="radio" class="pull-right"name="h1_1" value="5"></label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="自我照顾选择一项" data-class="h1_2">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">自我照顾</div>
+                                    <div id='h1_2' class="h1_2">
+                                        <div class="clearfix h_div_box"><label>我自己洗澡或穿衣没有困难 <input type="radio" class="pull-right" name="h2_1" value="1"></label></div>
+                                        <div class="clearfix h_div_box"><label>我自己洗澡或穿衣有一点困难    <input type="radio" class="pull-right" name="h2_1" value="2"></label></div>
+                                        <div class="clearfix h_div_box"><label>我自己洗澡或穿衣有中度的困难 <input type="radio"class="pull-right" name="h2_1" value="3"></label></div>
+                                        <div class="clearfix h_div_box"><label>我自己洗澡或穿衣有严重的困难  <input type="radio" class="pull-right"name="h2_1" value="4"></label></div>
+                                        <div class="clearfix h_div_box"><label>我无法自己洗澡或穿衣  <input type="radio" class="pull-right"name="h2_1" value="5"></label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="日常活动选择一项" data-class="h1_3">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">日常活动</div>
+                                    <div id='h1_3' class="h1_3">
+                                        <div class="clearfix h_div_box"><label>我进行日常活动没有困难<input type="radio" class="pull-right" name="h3_1" value="1"></label></div>
+                                        <div class="clearfix h_div_box"><label>我进行日常活动有一点困难    <input type="radio" class="pull-right" name="h3_1" value="2"></label></div>
+                                        <div class="clearfix h_div_box"><label>我进行日常活动有中度的困难 <input type="radio"class="pull-right" name="h3_1" value="3"></label></div>
+                                        <div class="clearfix h_div_box"><label>我进行日常活动有严重的困难  <input type="radio" class="pull-right"name="h3_1" value="4"></label></div>
+                                        <div class="clearfix h_div_box"><label>我无法进行日常活动  <input type="radio" class="pull-right"name="h3_1" value="5"></label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="疼痛或不舒服选择一项" data-class="h1_4">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">疼痛或不舒服</div>
+                                    <div id='h1_4' class="h1_4">
+                                        <div class="clearfix h_div_box"><label>我没有疼痛或不舒服<input type="radio" class="pull-right" name="h4_1" value="1"></label></div>
+                                        <div class="clearfix h_div_box"><label>我有一点疼痛或不舒服    <input type="radio" class="pull-right" name="h4_1" value="2"></label></div>
+                                        <div class="clearfix h_div_box"><label>我有中度的疼痛或不舒服 <input type="radio"class="pull-right" name="h4_1" value="3"></label></div>
+                                        <div class="clearfix h_div_box"><label>我有严重的疼痛或不舒服  <input type="radio" class="pull-right"name="h4_1" value="4"></label></div>
+                                        <div class="clearfix h_div_box"><label>我有非常严重的疼痛或不舒服  <input type="radio" class="pull-right"name="h4_1" value="5"></label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="焦虑或抑郁选择一项" data-class="h1_5">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">焦虑或抑郁</div>
+
+                                    <div id='h1_5' class="h1_5">
+                                        <div class="clearfix h_div_box"><label>我没有焦虑或抑郁 <input type="radio" class="pull-right" name="h5_1" value="1"></label></div>
+                                        <div class="clearfix h_div_box"><label>我觉得有一点焦虑或抑郁    <input type="radio" class="pull-right" name="h5_1" value="2"></label></div>
+                                        <div class="clearfix h_div_box"><label>我觉得中度焦虑或抑郁 <input type="radio"class="pull-right" name="h5_1" value="3"></label></div>
+                                        <div class="clearfix h_div_box"><label>我觉得严重焦虑或抑郁  <input type="radio" class="pull-right"name="h5_1" value="4"></label></div>
+                                        <div class="clearfix h_div_box"><label>我觉得非常严重的焦虑或抑郁  <input type="radio" class="pull-right"name="h5_1" value="5"></label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left" tip-msg="参考文献" data-class="h1_6">
+                                    <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">参考文献</div>
+                                    <!-- <h5></h5> -->
+                                    <div>
+                                        <p>[1] Luo N, Li M, Liu GG, Lloyd A, de Charro F, Herdman M. Developing the Chinese version of the new 5-level EQ-5D descriptive system: the response scaling approach. Qual Life Res 2013;22(4):885–890.</p>
+                                        <p>[2] Luo N, Liu G, Li M, Guan H, Jin X, Rand-Hendriksen K. Estimating an EQ-5D-5L Value Set for China. Value Health 2017;20(4):662–669.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                  <td>
+                    <button type="button" class="btn btn-default" onclick="submitHealth()">提交</button>
+                  </td>
+                </tr> -->
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- <div class="btn-submit-group">
+            <button class="btn btn-success" type="button"
+              onclick="submitUpdate()">立即提交</button>
+          </div> -->
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Morse跌倒风险评估量表 -->
+<div class="container" id="morseBox" style="display: none;width: 300px;">
+    <div class="row">
+        <div class="col-xs-12" style="margin-top: 0px;">
+            <form id="health-form" style="padding: 15px 0px;">
+                <div class="health-form">
+                    <table class="table">
+                        <caption class="text-center">
+                            <h3>Morse跌倒风险评估量表</h3>
+                        </caption>
+                        <tbody>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="" data-class="h1_1">
+                                    <!-- <h4 class="text-left"></h3> -->
+
+                                    <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">四处走动</div> -->
+                                    <!-- <div id='h1_1' class="h1_1">
+                                        <div class="clearfix h_div_box"><label>我四处走动没有困难 <input type="radio" class="pull-right" name="h1_1" value="1"></label></div>
+                                        <div class="clearfix h_div_box"><label>我四处走动有一点困难 <input type="radio" class="pull-right" name="h1_1" value="2"></label></div>
+                                        <div class="clearfix h_div_box"><label>我四处走动有中度的困难 <input type="radio"class="pull-right" name="h1_1" value="3"></label></div>
+                                        <div class="clearfix h_div_box"><label>我四处走动有严重的困难 <input type="radio" class="pull-right"name="h1_1" value="4"></label></div>
+                                        <div class="clearfix h_div_box"><label>我无法四处走动  <input type="radio" class="pull-right"name="h1_1" value="5"></label></div>
+                                    </div> -->
+                                    <h4><strong>1.跌倒史</strong></h4>
+                                    <div class="morseItems" id="morse1">
+                                        <div class="item"><label> <input type="radio" name="m_item1" value="0">近3个月内无跌倒史</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item1" value="25">近3个月内有跌倒史</label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="自我照顾选择一项" data-class="h1_2">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">自我照顾</div> -->
+                                    <h4><strong>2.超过1个疾病医学诊断</strong></h4>
+                                    <div class="morseItems" id="morse2">
+                                        <div class="item"><label> <input type="radio" name="m_item2" value="0">没有</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item2" value="15">有</label></div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="日常活动选择一项" data-class="h1_3">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">日常活动</div> -->
+                                    <h4><strong>3.行走辅助</strong></h4>
+                                    <div class="morseItems" id="morse3">
+                                        <div class="item"><label> <input type="radio" name="m_item3" value="0">不需要/完全卧床/有专人协助</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item3" value="15">拐杖/手杖/助行器</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item3" value="30">依扶家具行走</label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="疼痛或不舒服选择一项" data-class="h1_4">
+                                    <!-- <h4 class="text-left"></h3> -->
+                                    <!-- <div role="separator" class="van-divider van-divider--hairline van-divider--content-center van-divider_active">疼痛或不舒服</div> -->
+                                    <h4><strong>4.静脉输液/置管/使用药物治疗</strong></h4>
+                                    <div class="morseItems" id="morse4">
+                                        <div class="item"><label> <input type="radio" name="m_item4" value="0">没有</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item4" value="20">有</label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="焦虑或抑郁选择一项" data-class="h1_5">
+
+                                    <h4><strong>5.步态</strong></h4>
+                                    <div class="morseItems" id="morse5">
+                                        <div class="item"><label> <input type="radio" name="m_item5" value="0">正常/卧床/轮椅代步</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item5" value="10">虚弱乏力</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item5" value="20">平衡失调/不平衡</label></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-left checkRadio" tip-msg="焦虑或抑郁选择一项" data-class="h1_5">
+
+                                    <h4><strong>6. 认知状态</strong></h4>
+                                    <div class="morseItems" id="morse6">
+                                        <div class="item"><label> <input type="radio" name="m_item6" value="0">了解自己能力，量力而行</label></div>
+                                        <div class="item"><label> <input type="radio" name="m_item6" value="10">高估自己能力/忘记自己受限制/意识障碍/躁动不安/沟通障碍/睡眠障碍</label></div>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- <tr>
+                  <td>
+                    <button type="button" class="btn btn-default" onclick="submitHealth()">提交</button>
+                  </td>
+                </tr> -->
+
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</html>
+<script type="text/javascript">
+	var  owner= new Object()
+</script> 
+<script src="static/js/controller/Patient/p_followupForm.js"></script>
+<script src="static/js/controller/Patient/p_followupForm202203.js"></script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>
+<script>
+    // 提交健康量表数据
+    function getFormData1() {
+        var m1 = $("#morse1").find("input[type='radio']:checked").val();
+        var m2 = $("#morse2").find("input[type='radio']:checked").val()
+        var m3 = $("#morse3").find("input[type='radio']:checked").val()
+        var m4 = $("#morse4").find("input[type='radio']:checked").val()
+        var m5 = $("#morse5").find("input[type='radio']:checked").val();
+        var m6 = $("#morse6").find("input[type='radio']:checked").val();
+        var data;
+        if (m1 && m2 && m3 && m4 && m5 && m6) {
+            var stateVal = m1 * 1 + m2 * 1 + m3 * 1 + m4 * 1 + m5 * 1 + m6 * 1;
+            console.log(stateVal, "5656665")
+            var morseRes;
+            if (stateVal < 25) {
+                morseRes = "得分为" + stateVal + "分,低危人群（得分<25分）"
+            }
+
+            if (45 >= stateVal && stateVal >= 25) {
+                morseRes = "得分为" + stateVal + "分,中危人群（得分25~45分）"
+            }
+            if (stateVal > 45) {
+                morseRes = "得分为" + stateVal + "分,高危人群（得分>45分）"
+            }
+            data = {
+                "fallRiskAssessment": morseRes
+            };
+        } else {
+            top.layer.msg("请认真勾选Morse跌倒风险评估量表", {
+                icon: 5,
+                anim: 3
+            });
+            return false;
+        }
+        return data;
+
+    }
+</script>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>诊疗记录</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body class="bg-fff">
+    <!-- 头部导航+标题 -->
+    <nav class="p_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" onClick="custom_close()">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+
+                </a>
+                <h3 class="nav_title">诊疗记录</h3>
+            </div>
+        </div>
+    </nav>
+    <!-- 头部导航+标题 -->
+    <div class="container top46">
+        <div class="row">
+            <div class="col-xs-12 p0">
+                <ul class="list-group p_d_diagnosisList" id="p_d_diagnosisList">
+                    <li class="list-group-item p_title" data-id="p_page1" data-title="诊疗记录">诊疗记录<span class="glyphicon glyphicon-menu-right"></span></li>
+                    <li class="list-group-item p_title" data-id="p_page2" data-title="检查记录">检查记录<span class="glyphicon glyphicon-menu-right"></span></li>
+                    <li class="list-group-item p_title" data-id="p_page3" data-title="用药记录">用药记录<span class="glyphicon glyphicon-menu-right"></span></li>
+                    <!-- <li class="list-group-item p_title" data-id="p_page4">样本登记<span class="glyphicon glyphicon-menu-right"></span></li> -->
+                    <!-- <li class="list-group-item p_title" data-id="p_page5">风险筛查<span class="glyphicon glyphicon-menu-right"></span></li> -->
+                    <!-- <li class="list-group-item p_title" data-id="p_page6">基本信息<span class="glyphicon glyphicon-menu-right"></span></li> -->
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="row top10">
+      <div class="col-xs-6" style="margin-top: 5px;">
+        <div class="p_title" data-id="p_page1">
+          <h3>诊疗记录</h3>
+        </div>
+      </div>
+      <div class="col-xs-6" style="margin-top: 5px;">
+        <div class="p_title" data-id="p_page2">
+          <h3>检查记录</h3>
+        </div>
+      </div>
+    </div>
+    <div class="row top10">
+      <div class="col-xs-6" style="margin-top: 5px;">
+        <div class="p_title" data-id="p_page3">
+          <h3>用药记录</h3>
+        </div>
+      </div>
+      <div class="col-xs-6" style="margin-top: 5px;">
+        <div class="p_title" data-id="p_page4">
+          <h3>样本登记</h3>
+        </div>
+      </div>
+    </div>
+    <div class="row top10">
+      <div class="col-xs-6" style="margin-top: 5px;">
+        <div class="p_title" data-id="p_page5">
+          <h3>风险筛查</h3>
+        </div>
+      </div>
+
+    </div> -->
+    </div>
+
+
+</body>
+
+</html>
+<script>
+    var pid;
+
+    $(function() {
+        var token = decodeURI(getUrlParams('token'));
+        sessionStorage.setItem("token", token);
+        var p_realname = decodeURI(getUrlParams('realname'));
+        sessionStorage.setItem("p_realname", p_realname);
+        pid = decodeURI(getUrlParams('pid')).replace(/\"/g, '');
+        $(".p_title").click(function() {
+            var page = $(this).attr("data-id");
+            var pageTitle = $(this).attr("data-title");
+            var data = {
+                "page": page,
+                "pid": pid,
+                "title": pageTitle
+            }; //189 195
+            var json = JSON.stringify(data);
+            //var json=data;
+            var src = 'p_diagnosis.html?pid=' + json;
+            if (page == "p_page5") {
+                src = 'p_riskList.html?pid=' + json;
+            } else if (page == "p_page6") {
+                src = 'patientInformationInfo.html?pid=' + json;
+            } else {
+                src = 'p_diagnosis.html?pid=' + json;
+            }
+            window.open(src, "_self");
+        })
+    })
+
+    function custom_close() {
+        window.location.href = filterXSS(window.location.href.split("/app/")[0]) + '/index.html#home?pid=' + pid + '&realname=' + sessionStorage.getItem("p_realname");
+    }
+</script>

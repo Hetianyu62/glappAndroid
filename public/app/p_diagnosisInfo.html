@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>诊疗记录</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+    
+    <style>
+        .p_nav_tabs {
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+        }
+        
+        .p_nav_tabs>li.active>a,
+        .p_nav_tabs>li.active>a:focus,
+        .p_nav_tabs>li.active>a:hover {
+            background-color: #ffffff !important;
+            color: #000;
+            border: none !important;
+            border-bottom: 3px solid #ee0a24 !important;
+        }
+        
+        .table tbody tr td {
+            line-height: 34px;
+            width: auto;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
+            border: none;
+            padding: 3px 0px !important;
+            vertical-align: middle;
+            text-align: left;
+        }
+        
+        .p_nav_tabs>li>a {
+            /* background-color: #ccc !important; */
+            border-radius: 0px !important;
+            margin-right: 0px !important;
+            /* border: 1px solid #ccc; */
+            /* border-bottom-color: #ccc !important; */
+            font-size: 12px;
+            padding: 10px 11px
+        }
+        
+        #p_title {
+            margin-top: 0px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        #p_page1_v1 span,
+        #p_page1_s1 span {
+            display: inline-block;
+            padding: 10px;
+            width: 33.33%;
+        }
+
+        
+    </style>
+</head>
+
+<body class="bg-fff">
+    <nav class="p_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" onclick="backLeft()">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </a>
+                <h3 class="nav_title" id="nav_title"></h3>
+            </div>
+        </div>
+    </nav>
+    <div class="container top46">
+
+        <form action="" id="">
+            <div class="row">
+                <div class="col-xs-12 p0">
+                    <div class="clearfix">
+                        <ul id="myTab" class="nav nav-tabs p_nav_tabs pull-left ">
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">
+                  当前状况
+                </a>
+                            </li>
+                            <li><a href="#page2" data-toggle="tab">既往史</a></li>
+                            <li><a href="#page3" data-toggle="tab">个人史</a></li>
+                            <li><a href="#page4" data-toggle="tab">诊断</a></li>
+                        </ul>
+                        <input type="hidden" value="#home" id="p_page_href">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="position: fixed;right: 13px;z-index:999999999999999999999999;top:6px;">
+                <div class="col-xs-12">
+                    <button class="btn btn-primary pull-right flag_btn" type="button" onclick="tabsParentSrc()">修改</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 0px;">
+                    <!-- <h3 class="text-center" id="p_title"></h3> -->
+                    <div id="myTabContent" class="tab-content" style="margin-top:10px;">
+                        <div class="tab-pane fade in active" id="home">
+                            <div>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>身高：</td>
+                                            <td id="p_page1_height"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>体重：</td>
+                                            <td id="p_page1_weight"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>BMI：</td>
+                                            <td id="p_page1_bmi"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>健康量表：</td>
+                                            <td id="p_page1_h1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>健康指数得分：</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p><strong>健康效用值（mult8re_rescaled）:</strong> &nbsp;&nbsp;<span id="p_page1_h2_3"></span></p>
+                                                <p><strong>mult8re_SE:</strong>&nbsp;&nbsp;<span id="p_page1_h2_4"></span></p>
+                                                <p><strong>mult8re_2.5_percentile:</strong>&nbsp;&nbsp;<span id="p_page1_h2_0"></span></p>
+                                                <p><strong>mult8re_97.5_percentile:</strong>&nbsp;&nbsp;<span id="p_page1_h2_2"></span></p>
+                                                <p><strong>mult8re_95_percentage_ci_width:</strong>&nbsp;&nbsp;<span id="p_page1_h2_1"></span></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>FRAX骨折风险测评：</td>
+                                            <td id="p_page1_isFrax" style="text-align: center!important;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>风险评估是否纳入了股骨颈骨密度：</td>
+                                            <td id="p_page1_isDensity"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>未来10年髋部骨折概率（%）：</td>
+                                            <td id="p_page1_fractureRate" style="text-align: center!important;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>未来10年主要骨质疏松性骨折概率（%）：</td>
+                                            <td id="p_page1_osteoporticFracture" style="text-align: center!important;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Morse跌倒风险评估:</td>
+                                            <td id="p_page1_isMorse" style="text-align: center!important;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Morse跌倒风险评估结果：</td>
+                                            <td id="p_page1_fallRiskAssessment" style="text-align: center!important;"></td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="page2">
+                            <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">疾病史</div>
+                            <div id="p_page2_history_1"></div>
+                            <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">用药史</div>
+                            <div id="p_page2_history_2"></div>
+                            <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">手术史</div>
+                            <div id="p_page2_history_4"> </div>
+                            <div role="separator" class="van-divider_active  van-divider van-divider--hairline van-divider--content-center">过敏史</div>
+                            <div id="p_page2_history_5"></div>
+                        </div>
+                        <div class="tab-pane fade" id="page3">
+                            <div role="separator" class="van-divider_active  van-divider van-divider--hairline van-divider--content-center">个人史</div>
+                            <div id="p_page3_genetic_0"></div>
+                            <div id="p_page3_genetic_1"></div>
+                            <div id="p_gender">
+                                <div role="separator" class="van-divider_active  van-divider van-divider--hairline van-divider--content-center">月经史</div>
+                                <div id="p_page3_genetic_2"></div>
+                            </div>
+                            <div role="separator" class="van-divider_active  van-divider van-divider--hairline van-divider--content-center">家族史</div>
+                            <div id="p_page3_genetic_3">
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="page4">
+                            <div role="separator" class="van-divider_active  van-divider van-divider--hairline van-divider--content-center">诊断</div>
+                            <div>
+                                
+                                <p style='border-bottom:1px solid #ccc;padding:10px 0px;' id="p_page4_history_2_name"></p>
+                                <!-- <p id="p_page4_history_2_infor"></p> -->
+                                <div id="p_page4_history_2_list"></div>
+                                <div style='border-bottom:1px solid #ccc;padding:10px 0px;'>
+                                    <p id="p_page4_history_3_name"></p>
+                                    <!-- <p id="p_page4_history_3_infor"></p> -->
+                                    <div id="p_page4_history_3__value"></div>
+									<div id="qct" style="margin-left: 15px;">
+										<!-- <tr>
+											<td><strong>QCT骨密度检查</strong></td> &nbsp;&nbsp;&nbsp;&nbsp;
+											<td>检查日期:</td>&nbsp;&nbsp;
+											<td id="qct2i"></td>
+											<td>机器型号:</td>&nbsp;&nbsp;
+											<td id="qct3Otheri"></td>
+										</tr><br />
+										<tr>
+											<td><strong>髋部 (左侧)</strong></td><br />
+											<td>骨密度 (g/cm3)#:</td>&nbsp;&nbsp;
+											<td id="qct5i"></td>&nbsp;&nbsp;
+											<td>T值:</td>&nbsp;&nbsp;
+											<td id="qct6i"></td>&nbsp;&nbsp;
+											<td>Z值:</td>&nbsp;&nbsp;
+											<td id="qct7i"></td><br />
+													
+											<td style="margin-top: 80px;"><strong>髋部 (右侧)</strong></td><br />
+											<td>骨密度 (g/cm3)#:</td>&nbsp;&nbsp;
+											<td id="qct9i"></td>&nbsp;&nbsp;
+											<td>T值:</td>&nbsp;&nbsp;
+											<td id="qct10i"></td>&nbsp;&nbsp;
+											<td>Z值:</td>&nbsp;&nbsp;
+											<td id="qct11i"> </td><br />
+											<td style="margin-top: 80px;"><strong>腰椎（平均值）</strong></td><br />
+											<td>骨密度 (g/cm3)#:</td>&nbsp;&nbsp;
+											<td id="qct13i"></td>&nbsp;&nbsp;
+											<td>T值:</td>&nbsp;&nbsp;
+											<td id="qct14i"></td>&nbsp;&nbsp;
+											<td>Z值:</td>&nbsp;&nbsp;
+											<td id="qct15i"></td>
+										</tr> -->
+									</div>
+                                    <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">此次诊疗的诊断结论
+                                    </div>
+									<div id="GzInFo" style="margin-left: 15px;">
+										<!-- <div id="GzInFo1">
+											<h4 id="h41">123</h4>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+										</div>
+										
+										<div id="GzInFo2">
+											<h4 id="h42">2222</h4>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											
+										</div>
+										
+										<div id="GzInFo3">
+											<h4 id="h43">3333</h4>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+									
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+											<p>name: <span>val</span></p>
+										</div> -->
+									</div>
+									
+                                    <p>此次诊疗的诊断结论：<span id="p_page4_diagnose"></span></p>
+                                    <p>此次诊疗的患者类型：<span id="p_page4_patient_t"></span></p>
+                                </div>
+                                <div style='padding:10px 0px;'>
+                                    <p style="display: inline-block;font-weight: 800;font-size: 14px;">诊疗医生：<span id="p_page4_docName"></span></p>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <p style="display: inline-block;font-weight: 800;font-size: 14px;">诊疗时间：<span id="p_page4_zddate"></span></p>
+                                    <!-- <p style="display: inline-block;">下次诊疗时间：<span id="p_page4_nextDate"></span></p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </form>
+        </div>
+
+
+</body>
+
+</html>
+<script src="static/js/controller/Patient/p_diagnosisInfo.js"></script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>
+<script>
+    window.onload = function() {
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault()
+            }
+        })
+        document.addEventListener('gesturestart', function(event) {
+            event.preventDefault()
+        })
+    }
+</script>

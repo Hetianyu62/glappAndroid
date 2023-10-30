@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>样本登记</title>
+  <!-- 引入公共的css和js文件 -->
+  <script src="../static/js/common/Common.js"></script>
+  <script src="../static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../static/js/plugins/verification/validate.js"></script>
+  <style>
+    .p_nav_tabs {
+      border-bottom: 0px solid #ddd;
+      margin-bottom: 20px;
+    }
+
+    .p_nav_tabs>li.active>a,
+    .p_nav_tabs>li.active>a:focus,
+    .p_nav_tabs>li.active>a:hover {
+      background-color: #337ab7 !important;
+      color: #fff;
+    }
+
+    .p_nav_tabs>li>a {
+      background-color: #ccc !important;
+      border-radius: 0px !important;
+      margin-right: 0px !important;
+      padding: 8px 11px !important;
+    }
+
+    table#p_patientInfo tbody tr td:nth-child(odd) {
+      width: 74px;
+    }
+
+    table#p_sampleInfo tbody tr td:nth-child(even) {
+      width: 50px;
+    }
+
+    table#p_sampleInfo tbody tr td:nth-child(odd) {
+      width: 120px;
+    }
+
+    .table tbody tr td {
+      line-height: 20px;
+
+      word-wrap: break-word;
+      word-break: break-all;
+      white-space: normal;
+    }
+
+    #p_title {
+      margin-top: 0px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body class="bg-fff">
+  <nav class="p_nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" onclick="backLeft()">
+          <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
+        <h3 class="nav_title" id="nav_title">样本登记</h3>
+      </div>
+    </div>
+  </nav>
+  <div class="container top46">
+    <div class="row">
+      <div class="col-xs-12">
+        <h3 class="text-center" id="p_title"></h3>
+        <div class="top10">
+          <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">基本信息</div>
+
+          <table class="table table-bordered" id="p_patientInfo">
+                  <!-- <caption>患者基本信息</caption> -->
+                  <tbody>
+                    <tr>
+                      <td style="width:30%;">姓名</td>
+                      <td style="width:70%;"id="p_realname"></td>
+                    </tr>
+                    <tr>
+                      <td>出生年月</td>
+                      <td id="p_birthday"></td>
+                    </tr>
+                    <!-- <tr>
+                      <td>职业：</td>
+                      <td id="p_occupationVal"></td>
+                    </tr> -->
+                    <tr>
+                        <td>性别</td>
+                        <td id="p_genderVal"></td>
+                      </tr>
+                      <tr>
+                        <td>民族</td>
+                        <td id="p_nationVal"></td>
+                      </tr>
+                       <tr>
+                        <td>文化程度</td>
+                        <td id="p_educationVal"></td>
+                      </tr>
+                      <tr>
+                          <td>手机号</td>
+                          <td id="p_mobile"></td>
+                        </tr>
+                        <tr>
+                          <td>其他联系人姓名</td>
+                          <td id="p_otherContacts"></td>
+                        </tr>
+                      <tr>
+                        <td>其他联系人与患者关系</td>
+                        <td id="p_otherRelationsVal"></td>
+                      </tr>
+                        <tr>
+                          <td>其他联系人手机号</td>
+                          <td id="p_otherCalls"></td>
+                        </tr>
+
+                        <tr>
+                          <td>户籍地</td>
+                          <td id="p_zipText" colspan="3"></td>
+                        </tr>
+                        <tr>
+                          <td>现住址</td>
+                          <td id="p_residence" colspan="5"></td>
+                        </tr>
+                        <tr>
+                          <td>是否特殊患者</td>
+                          <td id="p_specialVal"></td>
+                        </tr>
+                        <tr>
+                          <td>证件类型</td>
+                          <td id="p_idtypeVal"></td>
+                        </tr>
+                        <tr>
+                          <td>证件号</td>
+                          <td id="p_idcard"></td>
+                        </tr>
+
+
+                        <tr>
+                          <!-- <td>当前状态</td>
+                          <td></td> -->
+                          <td>建档日期</td>
+                          <td id="p_create_date"></td>
+                        </tr>
+                        <tr>
+                          <td>建档医生</td>
+                          <td id="p_docName"></td>
+                        </tr>
+                        <tr>
+                          <td>签署知情同意书日期</td>
+                          <td id="p_signDatas"></td>
+                        </tr>
+                  </tbody>
+          </table>
+        </div>
+
+        <div class="clearfix" style="position: fixed;right: 13px;z-index:999999999999999999999999;top:6px;">
+          <input type="hidden" name="dgDate" id="s_dgDate">
+          <div class="pull-right">
+            <button class="btn btn-primary flag_btn" type="button" id="addSample"
+              onclick="tabsParentSrc('1')" style="display: none;">新增</button>
+            <button type="button" class="btn btn-primary flag_btn" style="display: none;" id="updateSample"
+              onclick="tabsParentSrc('2')">修改</button>&nbsp;&nbsp;
+          </div>
+        </div>
+        <div class="" id="p_sampleInfo">
+          <input type="hidden" name="id" id="s_id">
+          <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">样本信息</div>
+
+          <p id="p_sampleIn_none"></p>
+          <table id="sampleInfo" class="table table-bordered" >
+            <tbody class="sampleInfo" style="display: none">
+              <!-- <tr>
+                <td style="width:30%;" >本次诊疗是否保存样本</td>
+                <td style="width:70%;" id="p_s1_check"></td>
+              </tr> -->
+              <tr>
+                <td>样本类型</td>
+                <td id="p_blood"></td>
+              </tr>
+              <tr>
+                <td>样本容量</td>
+                <td id="p_amount"></td>
+              </tr>
+              <tr>
+                <td>冰箱号 </td>
+                <td id="p_container"></td>
+              </tr>
+              <tr>
+                <td>冰箱层号</td>
+                <td id="p_containerLayer"></td>
+              </tr>
+              <tr>
+                <td>冰箱架子号</td>
+                <td id="p_containerFrame"></td>
+              </tr>
+              <tr>
+                <td>存放盒号</td>
+                <td id="p_containerBox"></td>
+              </tr>
+              <tr>
+                <td>盒内样本流水号</td>
+                <td id="p_collectNum"></td>
+              </tr>
+              <tr>
+                <td>样本编号</td>
+                <td id="p_boxId"></td>
+              </tr>
+              <!-- <tr>
+                <td>此次诊疗检验科样本编号</td>
+                <td id="p_residence"></td>
+              </tr> -->
+              <tr>
+                <td>采样日期</td>
+                <td id="p_collectDate"></td>
+              </tr>
+              <tr>
+                <td>采样人签名</td>
+                <td id="p_collector"></td>
+              </tr>
+              <tr>
+                <td>入库日期</td>
+                <td id="p_containDate"></td>
+              </tr>
+              <tr>
+                <td>样本管理员签名</td>
+                <td id="p_manager"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script src="../static/js/controller/sample/sampleInfo.js"></script>

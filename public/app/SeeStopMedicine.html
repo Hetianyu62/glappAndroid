@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>停用药物记录原因</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 引入时间插件 -->
+    <script src="static/js/common/commonBD.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 引入表单检验插件 -->
+    <script src="static/js/plugins/verification/validate.js"></script>
+    <style>
+        .table tbody tr td {
+            border: none;
+        }
+        
+        .table tbody tr td input.form-control {
+            width: auto;
+            display: inline-block;
+        }
+        
+        .table tbody tr td select.form-control {
+            width: auto;
+            display: inline-block;
+        }
+        
+        .table tbody tr td:nth-child(2) {
+            position: relative;
+        }
+        
+        .table tbody tr td input[type='checkbox'] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-fff">
+    <nav class="p_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="javascript:history.back();">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </a>
+                <h3 class="nav_title">药物停用原因</h3>
+            </div>
+        </div>
+    </nav>
+    <div class="container top46">
+        <div class="row">
+            <div class="col-xs-12">
+                <div id="stopUsingForm">
+                    <form action="" id="addFrom">
+                        <table class="table  text-left">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2">
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">医生停用原因</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div>
+                                            <label><input type="checkbox" name="d_0" id="p_d_0" value="1">无</label>
+
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_1" id="p_d_1" value="1">使用同类药物或其它种类药物替代</label>
+                                            <!-- <br><select name="d_1_1" id="p_d_1_1" class="form-control" disabled="disabled"></select> -->
+
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_2" id="p_d_2" value="1" class="p_d_2">药物不良反应</label>
+                                            <div class="p_d_2_box" style="display:none;">
+                                                <div>
+                                                    <label>药物不良反应描述:</label>
+                                                    <span id="p_d_2_1"></span>
+                                                    <!-- <textarea name="d_2_1" id="p_d_2_1" class="form-control"  tip-msg="请填写药物不良反应描述"></textarea> -->
+                                                </div>
+                                                <div>
+                                                    <label>药物不良反应时间: <span id="p_d_2_2"></span></label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_3" id="p_d_3" value="1">与其它治疗或药物有冲突</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_14" id="p_d_14" value="1">药物假日</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_4" id="d_4" value="1">其他原因</label>
+                                            <span id="p_d_4_z"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">患者停用原因</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div>
+                                            <label><input type="checkbox" name="d_01" id="p_d_01" value="1">无</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_5" id="p_d_5" value="1">担心药品说明书提及的不良反应</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_6" id="p_d_6" value="1">经济负担</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_7" id="p_d_7" value="1">不了解药物的疗程</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_8" id="p_d_8" value="1">道听途说</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_9" id="p_d_9" value="1">换用保健品</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_10" id="p_d_10" value="1">基础疾病较多，总体应用药物种类繁多</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_11" id="p_d_11" value="1">忘记服用</label>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="d_12" id="p_d_12" value="1">其他原因</label>
+                                            <span id="p_d_12_z"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">停用时间</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <p id="p_d_13"></p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    var userJson,
+        pId = "0";
+    $(function() {
+        $("input[type='radio'][name='discard']").change(function() {
+            if ($(this).val() == 0) {
+                $(this).parent().parent().parent().nextAll().hide();
+                $(this).parent().parent().parent().nextAll().find('input[type="checkbox"]').removeProp("checked");
+                $(this).parent().parent().parent().nextAll().find('input[type="text"]').val();
+                $(this).parent().parent().parent().nextAll().find('select').val("");
+                initMecicineWhy("#p_d_2", '.p_d_2_box');
+            } else {
+                $(this).parent().parent().parent().nextAll().show();
+                initMecicineWhy("#p_d_2", '.p_d_2_box');
+            }
+        })
+        var dataName = decodeURI(getUrlParams("pid")).replace(/\'/g, '"');
+        if (dataName != "") {
+            userJson = JSON.parse(dataName);
+            console.log(userJson);
+            initRoleForm(userJson.status);
+            pId = userJson.id;
+        }
+        var form = new CybVerification.FirstVisitForm("addFrom");
+        typeChange(".m_type");
+        initDate($("#p_d_13"));
+        initDate($("#p_d_2_2"));
+        // 初始化药物不良反应原因
+        initMecicineWhy("#p_d_2", '.p_d_2_box');
+    });
+    // 时间插件初始化
+    function initDate(el) {
+        el.datetimepicker({
+            container: "#addFrom",
+            language: "zh-CN",
+            use24hours: false,
+            minView: "month",
+            format: "yyyy-mm-dd",
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            endDate: new Date(),
+            pickerPosition: "top-left" //控件显示位置
+        })
+    }
+    // form  表单数据回调
+    function getFormData() {
+        var arr, data, json;
+        var form = new CybVerification.FirstVisitForm("addFrom");
+        var state = form.submit();
+        if (state) {
+            data = $("#addFrom").serializeObject();
+            arr = {
+                "discard": $("input[name='discard']:checked").val() ? $("input[name='discard']:checked").val() : "",
+                "d_1": $("input[name='d_1']:checked").val() ? $("#d_1_1").val() : "0",
+                "d_2": $("input[name='d_2']:checked").val() ? $("input[name='d_2']:checked").val() : "0",
+                "d_3": $("input[name='d_3']:checked").val() ? $("input[name='d_3']:checked").val() : "0",
+                "d_2_1": $("#p_d_2_1").val(),
+                "d_2_2": $("#p_d_2_2").val(),
+                "d_4": $("input[name='d_4']:checked").val() ? $("input[name='d_4_1']").val() : "0",
+                "d_5": $("input[name='d_5']:checked").val() ? $("input[name='d_5']:checked").val() : "0",
+                "d_6": $("input[name='d_6']:checked").val() ? $("input[name='d_6']:checked").val() : "0",
+                "d_7": $("input[name='d_7']:checked").val() ? $("input[name='d_7']:checked").val() : "0",
+                "d_8": $("input[name='d_8']:checked").val() ? $("input[name='d_8']:checked").val() : "0",
+                "d_9": $("input[name='d_9']:checked").val() ? $("input[name='d_9']:checked").val() : "0",
+                "d_10": $("input[name='d_10']:checked").val() ? $("input[name='d_10']:checked").val() : "0",
+                "d_11": $("input[name='d_11']:checked").val() ? $("input[name='d_11']:checked").val() : "0",
+                "d_12": $("input[name='d_12']:checked").val() ? $("input[name='d_12_1']").val() : "0",
+                "d_13": $("input[name='d_13']").val()
+            }
+
+            //arr=$.extend(data,json);
+        } else {
+            arr = "";
+        }
+        return arr;
+    }
+
+    // 修改界面初始化
+    function initRoleForm(data) {
+        for (var key in data) {
+            $("input[type='checkbox'][name='" + key + "'][value='" + data[key] + "']").attr("checked", "checked");
+            $("#p_" + key).text(data[key]);
+        }
+        $.each($("input[type=checkbox]"), function() {
+            if ($(this).is(":checked")) {
+                $(this).parent().parent().show();
+            } else {
+                $(this).parent().parent().hide();
+            }
+        });
+        if ($("input[name='d_1']:checked").val() == 1) {
+            $("#p_d_1_1").show();
+        } else {
+            $("#p_d_1_1").hide();
+        }
+        initMecicineWhy("#p_d_2", '.p_d_2_box');
+
+        $("#addPatientFrom").publicAjax({
+            url: globalUrl + "drug/drugCategory",
+            type: "post",
+            data: {
+                "type": 3,
+                "cateName": decodeURI(userJson.cateName)
+            },
+            dataType: "json",
+            successFn: function(result) {
+                if (result.code == "0") {
+                    $("#p_d_1_1").empty();
+                    $("#p_d_1_1").append("<option value=''>请选择</option>");
+                    var dataArr = result.data.listAll;
+                    for (var i = 0; i < dataArr.length; i++) {
+                        var op = $("<option value='" + dataArr[i].id + "'>" + dataArr[i].name + "</option>");
+                        $("#p_d_1_1").append(op);
+                    }
+                    $("#p_d_1_1").find("option[value='" + data.d_1_1 + "']").attr("selected", true);
+
+                } else {
+                    top.layer.alert(data.msg);
+                }
+            }
+        });
+    }
+
+    // 药物规格联动
+    function typeChange(el) {
+        $(el).change(function() {
+            var val = $(this).val();
+            $(el).find("option[value='" + val + "']").attr("selected", "selected");
+        })
+    }
+    // 初始化药物不良反应
+    function initMecicineWhy(el, childEl) {
+        $(el).change(function() {
+            if ($(this).is(":checked")) {
+                $(childEl).show();
+                $(childEl).find("textarea,input").attr("check", "required");
+            } else {
+                $(childEl).hide();
+                $(childEl).find("textarea,input").removeAttr("check");
+            }
+        });
+
+        $.each($(el), function() {
+            if ($(this).is(":checked")) {
+                $(childEl).show();
+                $(childEl).find("textarea,input").attr("check", "required");
+            } else {
+                $(childEl).hide();
+                $(childEl).find("textarea,input").removeAttr("check");
+            }
+        })
+    }
+</script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>
+
+</html>

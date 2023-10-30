@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>一分钟风险测试</title>
+  <!-- 引入公共的css和js文件 -->
+  <script src="../static/js/common/Common.js"></script>
+  <script src="../static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+  <!-- 引入表单检验插件 -->
+  <script src="../static/js/plugins/verification/validate.js"></script>
+  <style>
+    .table>tbody>tr>td {
+      text-overflow: ellipsis !important;
+      -moz-text-overflow: ellipsis !important;
+      overflow: hidden;
+      white-space: pre-wrap;
+      padding: 6px !important;
+    }
+  </style>
+</head>
+
+<body class="bg-fff">
+  <nav class="p_nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" onclick="backLeft()">
+          <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
+        <h3 class="nav_title">一分钟风险测试</h3>
+      </div>
+    </div>
+  </nav>
+  <div class="container top46">
+    <div class="row">
+      <div class="col-xs-12">
+        <div id="addLayer" style="padding: 20px;">
+          <form id="addFrom">
+            <div class="row">
+              <input type="hidden" id="p_pid" name="pid" />
+              <h4 class="text-center" style="font-weight: 700;">骨质疏松症风险一分钟评估</h4>
+              <p class="text-center">国际骨质疏松基金会（IOF）设计了一套“骨质疏松症风险一分钟评估”，可供大家自我测试。</p>
+              <!--  <h3 class="text-center">您的风险因子有些是无法调整的-这些也就是您无法改变的风险因子</h3>
+                <p  class="text-center">这些风险因子是您与生俱来，无法改变。然而，您必须警觉您有这些无法改变的风险因子，这是很重要的，这样您才会想要采取行动来减少骨流失。</p>
+              -->
+              <table class="table table-bordered text-left">
+                <tbody id="p_CheckBoxs">
+
+                </tbody>
+              </table>
+            </div>
+            <p>
+              <font color="red">注：这个测验的目的是为提高您对骨质疏松症风险因子的觉知，本测验没有经过完整的科学验证。</font>
+            </p>
+            <div class="btn-submit-group">
+              <button class="btn btn-success" type="button" onclick="submitUpdate('page1','home')">立即提交</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+<script>
+  var userJson, pId = "0";
+  var json = [{
+      name: "父母曾被诊断有骨松或曾在轻微跌倒后骨折？（备注：轻微跌倒指自站立或更低的位置摔倒）"
+    },
+    {
+      name: "父母中至少一人有驼背？"
+    },
+    {
+      name: "实际年龄超过40岁（包括40岁）？"
+    },
+    {
+      name: "成年后是否曾经因为轻微跌倒而造成骨折？"
+    },
+    {
+      name: "是否经常摔倒(去年超过一次)，或者因为身体较虚弱而担心摔倒？"
+    },
+    {
+      name: "四十岁以后，您是否身高变矮超过3公分？"
+    },
+    {
+      name: "是否体重过轻？(BMI值<19Kg/m2)"
+    },
+    {
+      name: "是否曾服用糖皮质激素(例如可的松、强的松、地塞米松等)连续超过3个月？备注：糖皮质激素通常用于治疗哮喘、类风湿性关节炎以及某些炎症性疾病)"
+    },
+    {
+      name: "是否曾被诊断为类风湿性关节炎？"
+    },
+    {
+      name: "是否曾被诊断为甲状腺功能亢进、甲状旁腺功能亢进、1型糖尿病、营养不良、或胃肠道疾病（如克隆氏等炎症性肠病、乳糜泄、脂肪泻等）？"
+    },
+    {
+      name: "45岁及以上女性回答：是否在45岁以前便已停经？"
+    },
+    {
+      name: "除了怀孕、绝经或切除子宫后，您是否曾连续停经超过12个月（包括12个月）？"
+    },
+    {
+      name: "您是否在50岁之前切除卵巢且没有进行雌/孕激素替代治疗？"
+    },
+    {
+      name: "您是否曾经出现过阳萎、性欲缺乏或其它雄激素水平下降相关症状？"
+    },
+    {
+      name: "您是否每天饮用超过相当于两单位的酒？（备注：“1单位的酒”的简单估算标准）"
+    },
+    {
+      name: "是否吸烟，或曾经吸烟？"
+    },
+    {
+      name: "每天体育活动少于30分钟？（包括做家务、园艺、走路、跑步等）"
+    },
+    {
+      name: "您是否不食用乳制品（如牛奶、酸奶、奶酪等）且未补充钙片？"
+    },
+    {
+      name: "每天在户外（部分身体暴露在阳光下）的时间少于10分钟，且未补充维生素D？"
+    }
+  ];
+  $(function () {
+    var dataName = decodeURI(getUrlParams("pid")).replace(/\'/g, '"');
+    if (dataName != "") {
+      userJson = JSON.parse(dataName);
+      initRoleForm(userJson);
+      pId = userJson.pid;
+    }
+
+    var form = new CybVerification.Form("addFrom");
+    //initCheckBoxs("#p_CheckBoxs", json,userJson.gender);
+    ajaxCommon("examine/examineCheckListPage", {
+      "pid": pId
+    }, initCheckBoxs, "#p_CheckBoxs");
+
+  });
+  // 提交
+  function submitUpdate() {
+    var form = new CybVerification.FirstVisitForm("addFrom"); 
+    var state=form.submit();
+    if(state){
+    var data = getFormData();
+    var json = {
+      pid: userJson.pid,
+      ckId: ""
+    };
+    $.extend(data, json);
+    ajaxCommon("examine/optExamineOne", data, oneCallback, "", "")}
+  }
+
+  function oneCallback(el, data) {
+    riskJson.r1 = data;
+    sessionStorage.setItem('r1',JSON.stringify(data));
+    var json = JSON.stringify({
+      "pid": userJson.pid
+    })
+    var src = "../p_riskForm.html?pid=" + json;
+    window.open(src, "_self");
+  }
+  // form  表单数据回调
+  function getFormData() {
+    var arr = "";
+    var codeIndex;
+    $("#p_CheckBoxs input[type='radio']:checked").each(function () {
+      if ($(this).val() > 0) {
+        arr += $(this).val() + ",";
+      }
+    });
+    return {
+      "examine1Value": arr
+    };
+  }
+  // 修改界面初始化
+  function initRoleForm(data) {
+    for (var key in data) {
+      $("#p" + key).val(data[key]);
+      $("#p" + key)
+        .find("option[value='" + data[key] + "']")
+        .attr("selected", true);
+    }
+  }
+
+  function initCheckBoxs(el, data, type) {
+    var str1 = "";
+    for (var i = 0; i < data.length; i++) {
+      str1 +=
+        "<tr>" +
+        "<td>" +
+        data[i].sort +
+        "、" +
+        data[i].itemName +
+        "</td><td style='width:120px;'><label><input type='radio' name='rick" + data[i].sort + "' class='p_rick_" +
+        data[i].sort + "' value='" + data[i].sort + "'/>是</label><label><input type='radio' name='rick" + data[i].sort +
+        "' value='0' class='p_rick_" + data[i].sort + "' checked='checked'/>否</label></td></tr>";
+    }
+    $(el).append(str1);
+    // if(type==1){ // 1 男 （11,12,13） 2女 （14）
+    //  $("#p_CheckBoxs").find("input[name=rick11]").prop("disabled",true);
+    //  $("#p_CheckBoxs").find("input[name=rick12]").prop("disabled",true);
+    //  $("#p_CheckBoxs").find("input[name=rick13]").prop("disabled",true);
+    //  $("#p_CheckBoxs").find("input[name=rick11]").parent().parent().parent().hide();
+    //  $("#p_CheckBoxs").find("input[name=rick12]").parent().parent().parent().hide();
+    //  $("#p_CheckBoxs").find("input[name=rick13]").parent().parent().parent().hide();
+    // }
+    // if(type==2){ // 1 男 （11,12,13） 2女 （14）
+    //  $("#p_CheckBoxs").find("input[name=rick14]").prop("disabled",true);
+    //  $("#p_CheckBoxs").find("input[name=rick14]").parent().parent().parent().hide();
+    // }
+    $("#p_CheckBoxs").find("input[value=17]").parent().parent().prev().append(
+      "<img src='../static/images/risktest1.png' style='width:100%;height:100px;' alt=一分钟测试 title='一分钟测试'/>")
+    //initCheckbox(userJson.charCode);
+  }
+  // 获取勾选权限
+  function getAllChecked() {
+    var arr = "";
+    $("#p_CheckBoxs input[type='radio']:checked").each(function () {
+      arr += $(this).val() + ",";
+    });
+    arr = arr.substring(0, arr.length - 1);
+    return {
+      "examine1Value": arr
+    };
+  }
+
+  function initCheckbox(charCode) {
+    var checkArr = getAllCheckBox();
+    for (var i = 0; i < checkArr.length; i++) {
+      codeIndex = charCode.charAt(checkArr[i] - 1);
+      if (codeIndex == "1") {
+        $("input[name='rick" + checkArr[i] + "'][value='" + checkArr[i] + "']").prop("checked", "checked");
+        //$("#p_rick_"+checkArr[i]).prop("checked","checked");
+      } else {
+        $("input[name='rick" + checkArr[i] + "'][value='0']").prop("checked", "checked");
+        //$("input[name='rick"+checkArr[i]+"']").removeAttr("checked");
+      }
+    }
+  }
+  // 获取所有的checkBox
+  function getAllCheckBox() {
+    var arr = [];
+    $("#p_CheckBoxs input[type='radio']").each(function () {
+      arr.push($(this).val());
+    });
+    return arr;
+  }
+  // 公共ajax
+  function ajaxCommon(url, data, callback, el, id) {
+    $("#addPatientFrom").publicAjax({
+      url: globalUrl + url,
+      type: "post",
+      data: data,
+      dataType: "json",
+      successFn: function (data) {
+        if (data.code == "0") {
+          if (id) {
+            parent.layer.close(id);
+          }
+          if (data.data) {
+            callback(el, data.data);
+          } else {
+            callback(el, data);
+          }
+
+        } else {
+          parent.layer.alert(data.msg);
+        }
+      }
+    });
+  }
+  function backLeft() {
+    var json = JSON.stringify({
+      "pid": userJson.pid
+    })
+    var src = "../p_riskForm.html?pid=" + json;
+    window.open(src, "_self");
+  }
+</script>
+
+</html>

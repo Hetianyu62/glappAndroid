@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>样本登记</title>
+  <!-- 引入公共的css和js文件 -->
+  <script src="../static/js/common/Common.js"></script>
+  <script src="../static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../static/js/common/commonBD.js"></script>
+  <script src="../static/js/plugins/verification/validate.js"></script>
+  <style>
+    .p_nav_tabs {
+      border-bottom: 0px solid #ddd;
+    }
+
+    .p_nav_tabs>li.active>a,
+    .p_nav_tabs>li.active>a:focus,
+    .p_nav_tabs>li.active>a:hover {
+      background-color: #ffffff !important;
+      color: #000;
+    }
+
+    .p_nav_tabs>li>a {
+      background-color: #ccc !important;
+      border-radius: 0px !important;
+      margin-right: 0px !important;
+      border: 1px solid #ccc;
+      border-bottom-color: #ccc !important;
+    }
+
+    .table tbody tr td {
+      line-height: 34px;
+      width: auto;
+      word-wrap: break-word;
+      word-break: break-all;
+      white-space: normal;
+      border:none;
+    }
+
+    .table tbody tr td input.form-control {
+      display: inline-block;
+      width: auto;
+    }
+
+    .table tbody tr td input[type='number'] {
+      display: inline-block;
+      width: 100px;
+    }
+
+    .table tbody tr td select.form-control {
+      display: inline-block;
+      width: 100px;
+    }
+
+    .table tbody tr td .form-group {
+      margin-bottom: 0px;
+    }
+
+    .table tbody tr td label {
+      margin-top: 0px;
+    }
+
+    #p_genetic_2 .table tbody tr td label {
+      width: 120px;
+    }
+
+    #p_title {
+      margin-top: 0px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .btn-submit-group {
+      /* position: fixed;
+          left: 0px;
+          right: 0;
+          bottom: 0;
+          height:60px;
+          line-height:60px;
+          padding: 0 15px;
+          background-color: #fff;
+          text-align: center;
+          box-shadow: 0 -1px 2px 0 rgba(0,0,0,.05);
+          width: 100%;*/
+      text-align: center;
+    }
+
+    .btn-submit-group .btn {
+      display: inline-block;
+      padding: 6px 18px;
+      background-color: #009688;
+      color: #fff;
+      white-space: nowrap;
+      text-align: center;
+      font-size: 14px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .s_label_120 {
+      width:98px;
+    }
+  </style>
+</head>
+
+<body class="bg-fff">
+  <nav class="p_nav">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" onclick="backLeft()">
+          <span class="glyphicon glyphicon-menu-left"></span>
+        </a>
+        <h3 class="nav_title" id="nav_title">样本登记</h3>
+      </div>
+    </div>
+  </nav>
+  <div class="container top46">
+    <div class="row">
+      <div class="col-xs-12" style="margin-top: 0px;">
+        <h3 class="text-center" id="p_title"></h3>
+        <div role="separator" class="van-divider van-divider--hairline van-divider--content-center">样本登记</div>
+        <div id="myTabContent" class="tab-content" style="margin-top:10px;">
+          <div class="tab-pane fade in active" id="home">
+            <div id="">
+              <form action="" id="p_sampleForm">
+                <table class="table  text-left">
+                  <tbody id="addSampleFrom" class="sampleDataTable">
+                    <tr>
+                      <td style="width:160px">本次诊疗是否登记：</td>
+                      <td>
+                        <select name="isCheck" id="p_isCheck" class="form-control p_check_null" check="required"
+                          tip-msg="请选择本次是否保存诊疗样本">
+                          <option value="">请选择</option>
+                          <option value="1">是</option>
+                          <option value="0">否</option>
+                        </select>
+                        <!-- <input type="checkbox" name="s1_check" value="1" id="p_s1_check"class="p_check_null" checked>无 -->
+                      </td>
+                    </tr>
+                    <tr class="samplesList" id="" style="display:none;">
+
+                      <td colspan="2">
+                        <button class="btn btn-danger btn-sm text-center jaihao" type="button" onclick="addYb('#addSampleFrom' , this)"><span class="glyphicon glyphicon-plus"></span></button>
+                        <button class="btn btn-danger btn-sm text-center jianhao" type="button" onclick="delSpoMedicine(this)"><span class="glyphicon glyphicon-minus"></span></button>
+
+                        <input type="text" style="display: none" name="id" alias="id" id="d_id">
+                        <div tip-msg="请选择样本类型" data-class="s_00" check="radio" class="p_requiredRadio">
+                          <div class="s_00">
+                            <div style="text-align:center;font-size: 16px">第1个样本信息</div>
+                            <label class="s_label_120">样本类型：</label>
+                            <label><input type="radio" name="bloods" class="c-tyle" alias="blood" value="血清">血清</label>
+                            <label><input type="radio" name="bloods" class="c-tyle" alias="blood"  value="血浆">血浆</label>
+                            <label><input type="radio" name="bloods" class="c-tyle" alias="blood"  value="全血">全血</label>
+                            <label><input type="radio" name="bloods" class="c-tyle" alias="blood"  value="白细胞">白细胞</label>
+                            <label><input type="radio" name="bloods" class="c-tyle" alias="blood"  value="尿液">尿液</label>
+                            <label><input type="radio" name="bloods" class="c-tyle" alias="blood"  value="其他">其他</label>
+                            <input type="text" class="form-control" name="blood_z" id="s_blood_z" class="c-tyle" alias="bloodZ"
+                              style="display: none;width: 100%;" tip-msg="请认真填写其他样本类型">
+                          </div>
+                        </div>
+                        <div tip-msg="请选择样本容量" data-class="s_01" check="radio" class="p_requiredRadio">
+                          <div class="s_01">
+                            <label class="s_label_120">样本容量：</label>
+                            <label><input type="radio" name="amounts" class="a-tyle" alias="amount" value="&lt; = 1ml">&lt; = 1ml</label>
+                            <label><input type="radio" name="amounts" class="a-tyle" alias="amount" value="&gt; 1 ml 且 &lt; = 5 ml">&gt; 1 ml 且 &lt; = 5 ml</label>
+                            <label><input type="radio" name="amounts" class="a-tyle" alias="amount" value="&gt;5 ml">&gt;5 ml</label>
+                          </div>
+                        </div>
+                        <div class="">
+                          <label class="s_label_120">冰箱号：</label>
+                          <select name="container"  alias="container"  id="s_container" ids="s_container" class="form-control " tip-msg="请选择冰箱号" check="required"
+                                  onchange="f1('','',this,)"></select>
+                        </div>
+                        <div class="">
+                          <label class="s_label_120">冰箱层号：</label>
+                          <select name="containerLayer"   alias="containerLayer"  id="s_containerLayer"  ids="s_containerLayer" tip-msg="请选择冰箱层号"  check="required" onchange="f2(this)" class="form-control"></select>
+                        </div>
+                        <div>
+                          <label class="s_label_120">冰箱架子号：</label>
+                          <select name="containerFrame"  alias="containerFrame"   id="s_containerFrame" ids="s_containerFrame" tip-msg="请选择冰箱架子号" check="required" onchange="f3(this)" class="form-control"></select>
+                        </div>
+                        <div>
+                          <label class="s_label_120">存放盒号：</label>
+                          <select name="containerBox"     alias="containerBox" id="s_containerBox"  ids="s_containerBox" tip-msg="请选择放盒号" check="required" onchange="f4(this)" class="form-control">
+                          </select>
+                        </div>
+                        <div class="">
+                          <label class="s_label_120">盒内样本流水号：</label>
+                          <input name="collectNum"    alias="collectNum"  id="s_collectNum"  ids="s_collectNum"  check="required" type="text" tip-msg="请填写盒内样本流水号"  onblur="checkd9('s_collectNum',this,'')" class="form-control"/>
+                        </div>
+                        <div>
+                          <label class="s_label_120">样本编号：</label>
+                          <input name="boxId" id="s_boxId" alias="boxId"    ids="s_boxId" type="text" tip-msg="样本编号" check="required" class="form-control" readonly="readonly"/>
+                        </div>
+                        <div class="form-inline">
+                          <div class="form-group">
+                            <label class="s_label_120">采样日期：</label>
+                            <div class="input-group date p_birthday">
+                              <input type="text" name="collectDate" alias="collectDate"  tip-msg="请填写采样日期" check="required" id="p_collectDate" ids="p_collectDate" class="form-control p_collectDate" data-date-format="yyyy-mm-dd" readonly="readonly">
+                              <span class="input-group-addon" style="line-height:21px!important;">
+                                                          <i class="glyphicon glyphicon-th"></i>
+                                                        </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-inline">
+                          <div class="form-group">
+                            <label class="s_label_120">采样人签名：</label>
+                            <input name="collector" alias="collector" type="text" id="s_collector" tip-msg="请填写采样人签名" class="form-control" check="required"/>
+                          </div>
+                        </div>
+                        <div class="form-inline">
+                          <div class="form-group">
+                            <label class="s_label_120">入库日期：</label>
+                            <div class="input-group date" >
+                              <input type="text" name="containDate" alias="containDate" tip-msg="请填写入库日期" check="required" id="s_containDate" ids="s_containDate" class="form-control s_containDate" data-date-format="yyyy-mm-dd" readonly="readonly">
+                              <span class="input-group-addon" style="line-height:21px!important;">
+                                                                <i class="glyphicon glyphicon-th"></i>
+                                                              </span>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="s_label_120">样本管理员签名：</label>
+                            <input type="text" name="manager" alias="manager" id="s_manager" class="form-control" check="required" tip-msg="请填写样本管理员签名" />
+                          </div>
+
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+            <div class="btn-submit-group">
+              <button class="btn btn-success" type="button" onclick="submitUpdate()">立即提交</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script src="../static/js/controller/sample/sampleForm.js"></script>

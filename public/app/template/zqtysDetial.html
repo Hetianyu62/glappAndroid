@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../static/js/common/Common.js"></script>
+  <script src="../static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+   var tag = getUrlParams('tag');
+  // localStorage.setItem("uuid",tag)
+   $(function () {
+     //alert('初始化加载...');
+     $.ajax({
+       url: globalUrl + 'patient/selectImgPath',
+       type: 'post',
+       data: { "sessionId": localStorage.getItem("token"),"uuid":tag },
+       dataType: 'json',
+       success: function(data) {
+       //  for (let i = 0; i < data.data.length; i++) {
+           let content;
+           let datas = data.data;
+           console.log(datas)
+           if(datas.length<2){
+             content = '<div style="float: left ; width: 50%;">'+
+                     ' <img id="img1" style="width: 50%;" src= '+data.data[0]+"?sessionId="+ localStorage.getItem("token") +' alt="">'+
+                     /*' <img id="img1" style="width: 50%;" src= "http://192.168.216.131:8080/wjwgl/zqtys/20210419/1618836920764_561.jpg" alt="">'+*/
+                     ' </div>'
+           }else{
+             content = '<div style="float: left ; width: 50%;">'+
+                     ' <img id="img1" style="width: 50%;" src= '+data.data[0]+"?sessionId="+ localStorage.getItem("token") +' alt="">'+
+                     ' </div>' +
+                     '<div style="float: left ;  width: 50%;">' +
+                     '<img id="img2"  style="width: 50%;" src= '+data.data[1]+"?sessionId="+ localStorage.getItem("token") +' alt="">' +
+                     '</div>'
+           }
+
+     //    }
+         $("#content").html(content)
+       },
+       error:function () {
+        alert(45);
+       }
+     });
+   })
+
+  </script>
+</head>
+<body>
+  <div id = "content">
+     <div style="float: left ; width: 50%;">
+       <img  style="width: 50%;"  alt="">
+     </div>
+   <!-- <div style="float: left ;  width: 50%;">
+      <img style="width: 50%;" src="https://img1.baidu.com/it/u=121148621,1437695918&fm=26&fmt=auto&gp=0.jpg" alt="">
+    </div>-->
+  </div>
+</body>
+</html>

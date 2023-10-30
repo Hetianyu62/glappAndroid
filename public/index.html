@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Cache" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+	<link rel="icon" href="<%= BASE_URL %>favicon.ico"> 
+    <title>骨力医生版</title>
+</head>
+
+<body style="">
+    <noscript>
+    <strong>We're sorry but opdoctor doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app"></div> 
+    <!-- 开启 safe-area-inset-bottom  -->
+    <van-number-keyboard safe-area-inset-bottom />
+    <!-- built files will be auto injected -->
+</body>
+
+</html>
+<script src="./jsencrypt.min.js" type="text/javascript"></script>
+<script src="./app/tool/resutil.js" type="text/javascript"></script>
+<script>
+    
+    window.onload = function() {
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault()
+            }
+        })
+        document.addEventListener('gesturestart', function(event) {
+            event.preventDefault()
+        }) 
+    }
+</script>

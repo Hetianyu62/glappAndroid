@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>诊疗记录-药物记录</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script src="static/js/common/commonCss.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonJS.js" type="text/javascript" charset="utf-8"></script>
+    <script src="static/js/common/commonBD.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="static/js/plugins/verification/validate.js"></script>
+    <style>
+        .p_nav_tabs {
+            border-bottom: 0px solid #ddd;
+        }
+        
+        .p_nav_tabs>li.active>a,
+        .p_nav_tabs>li.active>a:focus,
+        .p_nav_tabs>li.active>a:hover {
+            background-color: #ffffff !important;
+            color: #000;
+        }
+        
+        .p_nav_tabs>li>a {
+            background-color: #ccc !important;
+            border-radius: 0px !important;
+            margin-right: 0px !important;
+            border: 1px solid #ccc;
+            border-bottom-color: #ccc !important;
+        }
+        
+        .table tbody tr td {
+            line-height: 34px;
+            width: auto;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
+        }
+        
+        .table tbody tr td input.form-control {
+            display: inline-block;
+            width: auto;
+        }
+        
+        .table tbody tr td input[type='number'] {
+            display: inline-block;
+            width: 100px;
+        }
+        
+        .table tbody tr td select.form-control {
+            display: inline-block;
+            width: auto;
+        }
+        
+        .table tbody tr td .form-group {
+            margin-bottom: 0px;
+        }
+        
+        .table tbody tr td label {
+            margin-top: 0px;
+        }
+        
+        #p_genetic_2 .table tbody tr td label {
+            width: 120px;
+        }
+        
+        #p_title {
+            margin-top: 0px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .btn-submit-group {
+            text-align: center;
+        }
+        
+        .btn-submit-group .btn {
+            display: inline-block;
+            padding: 6px 18px;
+            background-color: #009688;
+            color: #fff;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 14px;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        
+        .table tbody tr td div.form-inline {
+            padding: 0px 0px 5px 0px;
+        }
+        
+        .table tbody tr td div.form-inline div.form-group,
+        .table tbody tr td div.form-inline div.form-group label {
+            padding: 0px 5px 0px 0px;
+        }
+        
+        #p_lastTime_tb {
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .table tbody tr td {
+            line-height: 34px;
+            width: auto;
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
+            border: none;
+            padding: 3px 0px!important;
+        }
+        
+        #p_page7_tb2 td {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body class="bg-fff">
+    <nav class="p_nav">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" onclick="backLeft()">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                </a>
+                <h3 class="nav_title" id="nav_title">用药记录</h3>
+            </div>
+        </div>
+    </nav>
+    <div class="container top46">
+        <div class="row">
+            <div class="col-md-12" style="margin-top: 0px;">
+                <h3 class="text-center" id="p_title"></h3>
+                <div class="" id="page7">
+                    <div>
+                        <div id="p_lastTime_tb">
+                            <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">上次用药</div>
+                            <table class="table table-bordered text-center" id="p_page7_tb2">
+                                <thead>
+                                    <tr>
+                                        <th>药品名称</th>
+                                        <th>单次用量</th>
+                                        <th>使用频率</th>
+                                        <th>给药方式</th>
+                                        <th>预计疗程</th>
+                                        <th>操作/状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <p><span id="m_note"></span></p>
+                            <p><span id="m_preDoc"></span> &nbsp;&nbsp;&nbsp;&nbsp;<span id="m_preDate"></span></p>
+                        </div>
+                        <div>
+                            <form id="m_page1_Form">
+                                <div role="separator" class="van-divider_active van-divider van-divider--hairline van-divider--content-center">本次用药</div>
+
+                                <table class="table  text-left" id="m_page1_tb1">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <!-- <button class="btn btn-primary btn-sm pull-right" type="button"
+                          onclick="addSpoMedicine('#m_page1_tb1','1')"><span
+                            class="glyphicon glyphicon-plus"></span></button> -->
+                                                <div class="btn-add-group">
+                                                    <button class="btn btn-primary" type="button" id="m_submit" data-type='1' onclick="addSpoMedicine('#m_page1_tb1','1')">新增药物</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table text-left">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 60px;"><span class="must">*</span>开药医生</td>
+                                            <td><input type="text" class="form-control" name="docName" id="p_docName" check="required"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="must">*</span>开药日期</td>
+                                            <td>
+                                                <div>
+                                                    <div class="input-group date ">
+                                                        <input type="text" name="dateTime" tip-msg="请填写开药日期" check="required" id="p_dateTime" class="form-control p_dateTime" data-date-format="yyyy-mm-dd" readonly="readonly" style="width:100%">
+                                                        <span class="input-group-addon" style="line-height:22px!important;">
+                              <i class="glyphicon glyphicon-th"></i>
+                            </span>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">备注
+                                                <p style="margin-top:5px;text-align: left;color: red;font-size: 12px" >注意：如果患者本次就诊没有开具用药方案，请填写患者就诊前服用的药物；
+                                        如果患者服用的药物本医院没有，请将患者所用药物的信息在备注信息里详细说明。</p>
+                                            </div>
+                                            <div class="panel-body">
+                                                <textarea id="p_note" name="note" id="p_exam_5" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="btn-submit-group">
+                        <button class="btn btn-success" type="button" id="m_submit" data-type='1' onclick="submitUpdate()">立即提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<table class="table table-bordered text-left" id="p_list" style="display:none;">
+    <tbody id="m_form">
+        <tr class="p_h2_d2_list" id="m_page1_tb_list_">
+            <!-- <td style="width:34px;" class="text-center"><button class="btn btn-danger btn-sm text-center" type="button"
+          onclick="delSpoMedicine(this)"><span class="glyphicon glyphicon-remove"></span></button></td> -->
+            <td colspan="2">
+                <button class="btn btn-danger btn-sm text-center p_del_btn" type="button" onclick="delSpoMedicine(this)"><span class="glyphicon glyphicon-remove"></span></button>
+                <form class="p_c_form">
+                    <div class="form-inline">
+                        <div class="form-group"><label><span class="must">*</span>药品类别</label>
+                            <select name="category" id="m_category" class="form-control" check="required" tip-msg="请输入药品类别" onchange="f1('','',this)">
+                <option value="">请选择</option>
+                <option value="雌激素类">雌激素类</option>
+                <option value="钙剂">钙剂</option>
+                <option value="降钙素类">降钙素类</option>
+                <option value="甲状旁腺激素">甲状旁腺激素</option>
+                <option value="双膦酸盐类">双膦酸盐类</option>
+                <option value="锶盐">锶盐</option>
+                <option value="维生素D、活性维生素D及其类似物">维生素D、活性维生素D及其类似物</option>
+                <option value="维生素K类">维生素K类</option>
+                <option value="选择性雌激素受体调节剂">选择性雌激素受体调节剂</option>
+                <option value="中药">中药</option>
+              </select></div>
+                        <div class="form-group"><label><span class="must">*</span>通用名</label>
+                            <select name="chemical" id="m_chemical" check="required" tip-msg="请输入通用名" class="form-control" onchange="f2('',this)">
+                <option value="">请选择</option>
+              </select></div>
+                        <div class="form-group"><label><span class="must">*</span>商品名称</label>
+                            <select name="name" id="m_name" class="form-control" check="required" tip-msg="请输入商品名称">
+                <option value="">请选择</option>
+              </select></div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group"><label><span class="must">*</span>单次用量</label>
+                            <input type="number" min="0" class="form-control" name="dose" id="m_dose" check="required check1" tip-msg="请输入单次用量" />
+                            <select name="doseUnit" id="m_doseUnit" class="form-control" check="required" tip-msg="请选择单次用量单位">
+                <option value="">请选择</option>
+                <option value="g">g</option>
+                <option value="mg">mg</option>
+                <option value="ug">ug</option>
+                <option value="ml">ml</option>
+                <option value="IU">IU</option>
+                <option value="片（粒）">片（粒）</option>
+              </select>
+                        </div>
+                        <div class="form-group"><label><span class="must">*</span>使用频率</label>
+                            <select name="frequency" id="m_frequency" class="form-control" check="required" tip-msg="请选择使用频率">
+                <option value="">请选择</option>
+                <option value="1次/日">1次/日</option>
+                <option value="2次/日">2次/日</option>
+                <option value="3次/日">3次/日</option>
+                <option value="4次/日">4次/日</option>
+                <option value="6次/日">6次/日</option>
+                <option value="每早1次">每早1次</option>
+                <option value="每晚1次">每晚1次</option>
+                <option value="隔日1次">隔日1次</option>
+                <option value="1次/3日">1次/3日</option>
+                <option value="1次/周">1次/周</option>
+                <option value="2次/周">2次/周</option>
+                <option value="3次/周">3次/周</option>
+                <option value="1次/2周">1次/2周</option>
+                <option value="1次/3周">1次/3周</option>
+                <option value="1次/月">1次/月</option>
+                <option value="1次/3月">1次/3月</option>
+                <option value="1次/半年">1次/半年</option>
+                <option value="1次/年">1次/年</option>
+                <option value="1次/立即">立即</option>
+              </select>
+                        </div>
+                        <div class="form-group"><label><span class="must">*</span>给药方式</label>
+                            <select name="method" id="m_method" onchange="selectThis(this)" class="form-control" check="required" tip-msg="请选择给药方式">
+                <option value="">请选择</option>
+                <option value="口服">口服</option>
+                <option value="口服（饭前）">口服（饭前）</option>
+                <option value="口服（饭中）">口服（饭中）</option>
+                <option value="口服（饭后）">口服（饭后）</option>
+                <option value="鼻喷">鼻喷</option>
+                <option value="静脉滴注">静脉滴注</option>
+                <option value="静脉推注">静脉推注</option>
+                <option value="皮下注射">皮下注射</option>
+                <option value="肌肉注射">肌肉注射</option>
+                <option value="外敷">外敷</option>
+                <option value="外用">外用</option>
+                <option value="其他">其他</option>
+              </select>
+                            <input type="text" style="display: none;" name="m_method_other" id="m_method_other" placeholder="其他给药方式" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group"><label><span class="must">*</span>预计疗程</label>
+                            <select name="course" id="m_course" class="form-control" check="required" tip-msg="请选择预计疗程">
+                <option value="">请选择</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="999">999</option>
+              </select>
+                            <!-- <input type="number"  min="0" class="form-control" name="course" id="m_course" check="required check0" tip-msg="请输入预计疗程"/> -->
+                            <select class="form-control" name="courseUnit" id="m_courseUnit" check="required" tip-msg="请选择预计疗程单位">
+                <option value="">请选择</option>
+                <option value="月">月</option>
+                <option value="年">年</option>
+              </select>
+                        </div>
+                    </div>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</html>
+<script src="static/js/controller/Patient/p_medicineForm.js"></script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>

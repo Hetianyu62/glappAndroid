@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>风险筛查记录</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="static/js/common/Common.js"></script>
+    <script
+      src="static/js/common/commonCss.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="static/js/common/commonJS.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>   
+  </head>
+  <body class="bg-ccc">
+    <nav class="p_nav">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" onclick="backLeft()">
+            <span class="glyphicon glyphicon-menu-left"></span>
+          </a>
+          <h3 class="nav_title">风险筛查记录</h3>
+        </div>
+      </div>
+    </nav>
+    <div class="container top46">
+      <div class="row">
+        <div class="col-xs-12 p0">
+          <ul class="list-group p_d_diagnosisList" id="p_examineTimes">
+          </ul>
+          <div class="clearfix text-center p_btn">
+            <button
+            type="button"
+            class="btn btn-danger btn-round"
+            style="width:40%;"
+            id="delRiskScreen"
+            onclick="delRiskScreen1()"
+          >
+            删除
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary btn-round"
+            style="width:40%;"
+            id="addRiskScreen"
+            onclick="addRiskScreen1()"
+          >
+            新增
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
+<script src="static/js/controller/p_riskList.js"></script>
+<script src="static/js/plugins/xback.js"></script>
+<script src="static/js/common/back.js"></script>
+
+

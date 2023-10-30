@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>超声骨测量（QUS）</title>
+    <!-- 引入公共的css和js文件 -->
+    <script src="../static/js/common/Common.js"></script>
+    <script
+      src="../static/js/common/commonCss.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script
+      src="../static/js/common/commonJS.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <!-- 引入表单检验插件 -->
+    <script src="../static/js/plugins/verification/validate.js"></script>
+  </head>
+  <body class="bg-fff">
+    <nav class="p_nav">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" onclick="backLeft()">
+            <span class="glyphicon glyphicon-menu-left"></span>
+          </a>
+          <h3 class="nav_title">超声骨测量（QUS）</h3>
+        </div>
+      </div>
+    </nav>
+    <div class="container top46">
+    <div id="addLayer">
+      <form id="addFrom">
+        <div class="row" id="p_CheckBoxs">
+        <input type="hidden" id="role_id" name="id" />
+        <div class="col-xs-12 top10">
+          <table class="table table-bordered">
+            <tbody>
+              <tr class="examine2Check check" check="radio" tip-msg="请选择测量部位" data-class="p_examine2Check_00" >
+                <td>测量部位</td>
+                <td class="p_examine2Check_00"><label class="radio-inline"><input type="radio" name="examine2Check" id="p_examine2Check_1" value="1">Ulna</label></td>
+                <td class="p_examine2Check_00"><label class="radio-inline"><input type="radio" name="examine2Check" id="p_examine2Check_2" value="2">手</label></td>
+                <td class="p_examine2Check_00"><label class="radio-inline"><input type="radio" name="examine2Check" id="p_examine2Check_3" value="3">足</label></td>
+              </tr>
+              <tr class="examine2Region check" check="radio" tip-msg="请选择检查部位" data-class="p_examine2Region_00">
+                <td>检查部位</td>
+                <td class="p_examine2Region_00"><label class="radio-inline"><input type="radio" name="examine2Region" id="p_examine2Region_1" value="1">双侧</label></td>
+                <td class="p_examine2Region_00"><label class="radio-inline"><input type="radio" name="examine2Region" id="p_examine2Region_2" value="2">左侧</label></td>
+                <td class="p_examine2Region_00"><label class="radio-inline"><input type="radio" name="examine2Region" id="p_examine2Region_3" value="3">右侧</label></td>
+              </tr>
+              <tr>
+                <td>Region</td>
+                <td>SOS（m/sec）</td>
+                <td>T-score</td>
+                <td>Z-score</td>
+              </tr>
+              <tr class=""  check="inputLeast" tip-msg="左侧至少填写一项" data-class="p_examine2_00">
+                <td>左侧</td>
+                <td><input onblur="check5(this)" type="number"  min="0" name="examine2ValueL1" id="p_examine2_value_l1" class="form-control p_examine2Region_2 p_examine2_value_l1 check5"></td>
+                <td><input onblur="check4(this)" type="number"  name="examine2ValueL2" id="p_examine2_value_l2" class="form-control p_examine2Region_2 p_examine2_value_l2 check4"></td>
+                <td><input onblur="check4(this)" type="number"  name="examine2ValueL3" id="p_examine2_value_l3" class="form-control p_examine2Region_2 p_examine2_value_l3 check4"></td>
+              </tr>
+              <tr class=""  check="inputLeast" tip-msg="右侧至少填写一项" data-class="p_examine2_01">
+                <td>右侧</td>
+                <td><input onblur="check5(this)" type="number"  min="0" name="examine2ValueR1" id="p_examine2_value_r1" class="form-control p_examine2Region_3 p_examine2_value_r1 check5"></td>
+                <td><input onblur="check4(this)" type="number"  name="examine2ValueR2" id="p_examine2_value_r2" class="form-control p_examine2Region_3 p_examine2_value_r2 check4"></td>
+                <td><input onblur="check4(this)" type="number"  name="examine2ValueR3" id="p_examine2_value_r3" class="form-control p_examine2Region_3 p_examine2_value_r3 check4"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div> 
+      </div>
+      <div class="btn-submit-group">
+        <button class="btn btn-success" type="button" onclick="submitUpdate('page1','home')">立即提交</button>
+      </div>
+    </form>
+    </div>
+  </div>
+  </body>
+  <script>
+    var userJson,
+      pId = "0";
+   $(function() {
+      var dataName = decodeURI(getUrlParams("pid")).replace(/\'/g, '"');
+      if (dataName != "") {
+        userJson = JSON.parse(dataName);
+        initRoleForm(userJson);
+        pId = userJson.id;
+      }
+
+      
+      initRegion('.examine2Region');
+    });
+
+    // 提交
+  function submitUpdate() {
+    var form = new CybVerification.FirstVisitForm("addFrom"); 
+    var state=form.submit();
+    if(state){
+      var data = getFormData();
+    json = { pid: userJson.pid,ckId:"" };
+      $.extend(data, json);
+      qusData=$.extend(data, json);
+      ajaxCommon("examine/optExamineTwo",data,QusCallback,"","")
+    }
+   
+  }
+
+  function QusCallback(el, data) {
+    sessionStorage.setItem('r2',JSON.stringify(data));
+    var json = JSON.stringify({
+      "pid": userJson.pid
+    })
+    var src = "../p_riskForm.html?pid=" + json;
+    window.open(src, "_self");
+  }
+  function backLeft(el, data) {
+    var json = JSON.stringify({
+      "pid": userJson.pid
+    })
+    var src = "../p_riskForm.html?pid=" + json;
+    window.open(src, "_self");
+  }
+    // form  表单数据回调
+
+    function getFormData() {
+      var arr;
+      var form = new CybVerification.FirstVisitForm("addFrom");
+      var state = form.submit();
+      if (state) { // 
+        arr = $("#addFrom").serializeObject();
+      } else {
+        arr = "";
+      }
+      return arr;
+    }
+
+    // 修改界面初始化
+    function initRoleForm(data) {
+      $("#addFrom .examine2Check").find("input[value='"+data.examine2_check+"']").prop("checked",true);
+      $("#addFrom .examine2Region").find("input[value='"+data.examine2_region+"']").prop("checked",true);
+      regionChange("#addFrom");
+      for (var key in data) {
+        $("#p_" + key).val(data[key]);
+        $("#role_" + key)
+          .find("option[value='" + data[key] + "']")
+          .attr("selected", true);
+      } 
+     
+
+    }
+    // 检测部位 双侧 || 左侧 右侧 切换 事件
+    function regionChange(el){
+      $(el).find('input[name=examine2Region]').change(function(e){
+        var this$ = $(this);
+        if(!this$.is(":checked")) return false;
+        if (this$.val() == '1') {
+          $(".p_examine2Region_2").prop("disabled",false);
+          $(".p_examine2Region_3").prop("disabled",false);
+         // $(".p_required").addClass("check");
+          $(".p_examine2Region_2").val("");
+          $(".p_examine2Region_3").val("");
+          $("#p_examine2_value_l2,#p_examine2_value_r2").attr("check","required");
+}
+        if (this$.val() == '2') {
+            var id=$(this).attr("id");
+            $("."+id).prop("disabled",false);
+            $(".p_examine2Region_3").prop("disabled",true);
+            //$("."+id).parent().parent().addClass("check");
+            $(".p_examine2Region_3").parent().parent().removeClass("check");
+            $(".p_examine2Region_3").val("");
+            $("#p_examine2_value_l2").attr("check","required");
+            $("#p_examine2_value_r2").removeAttr("check");
+        }
+
+        if (this$.val() == '3') {
+            var id=$(this).attr("id");
+            $("."+id).prop("disabled",false);
+            $(".p_examine2Region_2").prop("disabled",true);
+           // $("."+id).parent().parent().addClass("check");
+            $(".p_examine2Region_2").parent().parent().removeClass("check");
+            $(".p_examine2Region_2").val("");
+            $("#p_examine2_value_r2").attr("check","required");
+            $("#p_examine2_value_l2").removeAttr("check");
+        }
+      })
+    }
+    
+//  初始化 双侧 || 左侧 右侧 切换 事件
+function initRegion(el){
+  var val=$(el).find('input[name=examine2Region]:checked').val();
+  if (val == '1') {
+          $(".p_examine2Region_2").prop("disabled",false);
+          $(".p_examine2Region_3").prop("disabled",false);
+          $(".p_examine2Region_2").val("");
+          $(".p_examine2Region_3").val("");
+          $(".p_required").addClass("check");
+}
+        if (val == '2') {
+            var id=$(this).attr("id");
+            $("."+id).prop("disabled",false);
+            $(".p_examine2Region_3").prop("disabled",true);
+            $(".p_examine2Region_3").val("");
+            $(".p_examine2Region_2").parent().parent().addClass("check");
+            $(".p_examine2Region_3").parent().parent().removeClass("check");
+        }
+
+        if (val == '3') {
+            var id=$(this).attr("id");
+            $("."+id).prop("disabled",false);
+            $(".p_examine2Region_2").prop("disabled",true);
+            $(".p_examine2Region_2").val("");
+            $(".p_examine2Region_3").parent().parent().addClass("check");
+            $(".p_examine2Region_2").parent().parent().removeClass("check");
+        }
+}
+
+// 允许录入一位小数可为负数、正数以及0
+var reg_check4=/^[\-\+]?\d+(\.\d)?$/; //允许录入一位小数 可为正数 负数 以及0
+function check4(th){
+  var val=$(th).val();
+  var id=$(th).attr("id");
+  if(!reg_check4.test(val)){
+    top.layer.msg("允许录入一位小数可为负数、正数以及0", { icon: 5, anim: 3 });
+   //$("#"+id).focus();
+   $("#"+id).val("");
+    return false;
+  }else{
+    return true;
+  }
+}
+// 正整数，不允许录入负数或0或小数
+var reg_check5=/^[1-9]\d*$/; //正整数，不允许录入负数或0或小数
+function check5(th){
+  var val=$(th).val();
+  var id=$(th).attr("id");
+  if(val!=0){
+  if(!reg_check5.test(val)){
+    top.layer.msg("正整数，不允许录入负数或0或小数", { icon: 5, anim: 3 });
+    //$("#"+id).focus();
+    $("#"+id).val("");
+    return false;
+  }else{
+    return true;
+  }
+}else{
+  top.layer.msg("正整数，不允许录入负数或0或小数", { icon: 5, anim: 3 });
+  return false;
+  }
+}
+ </script>
+</html>
